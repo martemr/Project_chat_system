@@ -1,0 +1,13 @@
+Thread manager
+	-> Ouvrir une discussion. Une discussion = un thread.
+
+
+Network manager
+	-> Se connecter au réseau
+	-> Communiquer aux autres son arrivée
+
+Database manager
+	-> modification pseudo
+	-> Chercher les autres utilisateurs
+	-> historique ?
+

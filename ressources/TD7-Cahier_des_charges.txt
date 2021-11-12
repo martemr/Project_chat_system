@@ -1,0 +1,6 @@
+-> Connexion inscription 
+  |-> Ouvrir une session de clavardage, parler et fermer
+  |-> Deployer le systeme
+  
+  
+  
