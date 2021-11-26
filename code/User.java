@@ -1,10 +1,9 @@
 package code;
 
-public enum Status {
-    CONNECTED, ABSENT, OCCUPIED
-}
-
 public class User {
+    public enum Status {
+        CONNECTED, ABSENT, OCCUPIED
+    }
 
     //Attributs
     public String pseudo;
@@ -13,12 +12,14 @@ public class User {
 
     //Constructeur 
     public User(String pseudo){
-        this.pseudo=pseudo;
-        this.id=QQCHONSAITPASQUOI.GETNEWID(); //TODO 
-        this.status=CONNECTED;
+        this.pseudo="default_pseudo";
+       // this.id=QQCHONSAITPASQUOI.GETNEWID(); //TODO 
+        //this.status=CONNECTED;
     }
 
     //Méthodes
-    protected change_pseudo();
+    protected void change_pseudo(String new_pseudo){
+        this.pseudo=new_pseudo;
+    }
   
 }
