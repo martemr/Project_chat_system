@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,14 +35,17 @@ public class GUI implements ActionListener {
         return panel;
     }
 
-    public static void main(String[] args) 
-    {
+    private static void createAndShowGUI() {
         JFrame frame = new JFrame("M&M's Chat System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1500, 1500);
         Container c = frame.getContentPane();
         c.setBackground(Color.magenta);
-        frame.setVisible(true);
+        frame.setVisible(true);}
+
+    public static void main(String[] args) 
+    {
+        
     }
 
     
