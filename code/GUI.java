@@ -3,9 +3,15 @@ package code;
  * SwingApplication.java is a 1.4 example that requires
  * no other files.
  */
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import java.awt.Container;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 public class GUI implements ActionListener {
     public static void main(String[] args) 
@@ -13,20 +19,21 @@ public class GUI implements ActionListener {
         JFrame frame = new JFrame("M&M's Chat System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1500, 1500);
+        Container c = frame.getContentPane();
+        c.setBackground(Color.magenta);
         frame.setVisible(true);
-        frame.setBackground(Color.MAGENTA);
 
         JPanel panel = new JPanel();
         frame.add(panel);
-        panel.setBounds(0,0,600,600);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,300,600,600));
         panel.setBackground(Color.lightGray);
-        panel.setOpaque(true);
+        panel.setOpaque(false);
 
         JButton btn1 = new JButton("Bouton 1");
-        btn1.setBounds(500,500,80,30);  
+        btn1.setBorder(BorderFactory.createEmptyBorder(0,0,600,600));
         //Spécifier la couleur d'arrière-plan du bouton
         btn1.setBackground(Color.WHITE); 
-        panel.add(btn1); 
+        panel.add(btn1);
     }
 
     
@@ -73,9 +80,9 @@ public class GUI implements ActionListener {
     }
     */
 
-    private int numClicks = 0;
-    private static String labelPrefix = "Welcome on M&M's chat system ";
-    final JLabel label = new JLabel(labelPrefix + "0    ");
+   // private int numClicks = 0;
+   // private static String labelPrefix = "Welcome on M&M's chat system ";
+    //final JLabel label = new JLabel(labelPrefix + "0    ");
     
     // Modify the event handler code depending on which button is pressed. 
     // If the 1st button is pressed, increase the numClicks value by 1, else 
@@ -84,13 +91,13 @@ public class GUI implements ActionListener {
  
         // Using getActionCommand() method is a bit of a hack, but for the 
         // sake of this exercise, it serves its purpose. 
-        if (e.getActionCommand().equals("I'm a Swing button!")){ 
+       /* if (e.getActionCommand().equals("I'm a Swing button!")){ 
             numClicks++; 
         } 
         else{ 
             numClicks += 1000; 
         } 
-        label.setText(labelPrefix + numClicks); 
+        label.setText(labelPrefix + numClicks); */
     } 
 /*
     /**
