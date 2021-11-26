@@ -1,3 +1,4 @@
+package code;
 /*
  * SwingApplication.java is a 1.4 example that requires
  * no other files.
@@ -7,7 +8,16 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GUI implements ActionListener {
-    private static String labelPrefix = "Welcome on M&M's chat system ";
+    public static void main(String[] args) 
+    {
+        JFrame frame = new JFrame("M&M's Chat System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1500, 1500);
+        frame.setVisible(true);
+    }
+
+
+    /*private static String labelPrefix = "Welcome on M&M's chat system ";
     
     private int numClicks = 0;
     final JLabel label = new JLabel(labelPrefix + "0    ");
@@ -24,14 +34,14 @@ public class GUI implements ActionListener {
         button2.setMnemonic(KeyEvent.VK_L); 
         button2.addActionListener(this); 
         label.setLabelFor(button2); 
-        */
+    
 
         
         /*
          * An easy way to put space between a top-level container
          * and its contents is to put the contents in a JPanel
          * that has an "empty" border.
-         */
+
         JPanel pane = new JPanel(new GridLayout(0, 1));
         pane.add(button);
         //Add 2nd button to the JPanel 
@@ -43,11 +53,15 @@ public class GUI implements ActionListener {
                 10, //bottom
                 30) //right
                 );
-        */
+        
         return pane;
     }
+    */
 
-     
+    private int numClicks = 0;
+    private static String labelPrefix = "Welcome on M&M's chat system ";
+    final JLabel label = new JLabel(labelPrefix + "0    ");
+    
     // Modify the event handler code depending on which button is pressed. 
     // If the 1st button is pressed, increase the numClicks value by 1, else 
     // increase the value by 1000. 
@@ -63,12 +77,12 @@ public class GUI implements ActionListener {
         } 
         label.setText(labelPrefix + numClicks); 
     } 
-
+/*
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
-     */
+     
     private static void createAndShowGUI() {
         
         //Make sure we have nice window decorations.
@@ -95,5 +109,5 @@ public class GUI implements ActionListener {
                 createAndShowGUI();
             }
         });
-    }
+    }*/
 }
