@@ -9,23 +9,19 @@ import javax.swing.JButton;
 import javax.swing.BorderFactory;
 import java.awt.Container;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
 public class GUI implements ActionListener {
-    public static void main(String[] args) 
-    {
-        JFrame frame = new JFrame("M&M's Chat System");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1500, 1500);
-        Container c = frame.getContentPane();
-        c.setBackground(Color.magenta);
-        frame.setVisible(true);
 
+    public Component createComponents() {
         JPanel panel = new JPanel();
-        frame.add(panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,300,600,600));
+        panel.setPreferredSize(new Dimension(600, 1000));;
+        panel.setBounds(600,600,1000,600);
+        //panel.setBorder(BorderFactory.createEmptyBorder(-5,0,10000,1400)); //top left bottom right
         panel.setBackground(Color.lightGray);
         panel.setOpaque(false);
 
@@ -34,6 +30,18 @@ public class GUI implements ActionListener {
         //Spécifier la couleur d'arrière-plan du bouton
         btn1.setBackground(Color.WHITE); 
         panel.add(btn1);
+
+        return panel;
+    }
+
+    public static void main(String[] args) 
+    {
+        JFrame frame = new JFrame("M&M's Chat System");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1500, 1500);
+        Container c = frame.getContentPane();
+        c.setBackground(Color.magenta);
+        frame.setVisible(true);
     }
 
     
