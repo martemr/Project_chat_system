@@ -14,18 +14,19 @@ public class GUI implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1500, 1500);
         frame.setVisible(true);
-        frame.setBackground(Color.blue);
+        frame.setBackground(Color.MAGENTA);
 
-        //JPanel panel = new JPanel();
-        //frame.add(panel);
-        //panel.setBounds(100,100,100,100);
-        //panel.setBackground(Color.lightGray);
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        panel.setBounds(0,0,600,600);
+        panel.setBackground(Color.lightGray);
+        panel.setOpaque(true);
 
-        //JButton btn1 = new JButton("Bouton 1");
-        //btn1.setBounds(0,0,80,30);  
-        ////Spécifier la couleur d'arrière-plan du bouton
-        //btn1.setBackground(Color.WHITE); 
-        //panel.add(btn1); 
+        JButton btn1 = new JButton("Bouton 1");
+        btn1.setBounds(500,500,80,30);  
+        //Spécifier la couleur d'arrière-plan du bouton
+        btn1.setBackground(Color.WHITE); 
+        panel.add(btn1); 
     }
 
     
