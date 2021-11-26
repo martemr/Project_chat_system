@@ -18,6 +18,9 @@ public class User {
     }
 
     //Méthodes
+    /** Function for changing pseudo
+     * @param new_pseudo new pseudo to be set
+     */
     protected void change_pseudo(String new_pseudo){
         this.pseudo=new_pseudo;
     }
