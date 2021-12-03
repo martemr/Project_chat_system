@@ -1,31 +1,10 @@
 package project_chat_system;
 
-/*
- * SwingApplication.java is a 1.4 example that requires
- * no other files.
- */
-/*
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.BorderFactory;
-import java.awt.Container;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-*/
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class GUI implements ActionListener {
-
-    // Push de test
-
-
 
     JPanel mainPanel, usersPanel, messagePanel;
     JTextField msgCapture, pseudoCapture;
