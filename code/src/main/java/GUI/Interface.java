@@ -3,8 +3,12 @@ package GUI;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Database.DatabaseManager;
+
 public class Interface implements ActionListener {
 
+    // Elements interface
+    JFrame interfaceFrame;
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
     JTextArea displayMsg;                 // Zone de texte
@@ -24,15 +28,15 @@ public class Interface implements ActionListener {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    public Interface() {
+    public Interface(DatabaseManager db) {
 
         // Créer le(s) panneau(x)
         createPannels();
 
         // Create and set up the window.
         JFrame.setDefaultLookAndFeelDecorated(true);
-        JFrame interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
-        interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
+        interfaceFrame.setDefaultCloseOperation(closeApplication(db)); // TODO : Set the close action on the cross bouton
         interfaceFrame.setSize(800, 600);
         interfaceFrame.setLayout(null);
 
@@ -80,11 +84,6 @@ public class Interface implements ActionListener {
         interfaceFrame.setVisible(true);
     }
 
-    // Main fonction (appelée en premier lors de l'exécution)
-    public static void main(String[] args) {
-        new Interface();
-    }
-
     // Zone de gestion des actions 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
@@ -97,4 +96,12 @@ public class Interface implements ActionListener {
             user.pseudo= nouveauPseudo;
         }
     }
+
+    public int closeApplication(DatabaseManager db) {
+        db.closeConnection();
+        interfaceFrame.dispose();
+        return 0;
+    }
+
+
 }
