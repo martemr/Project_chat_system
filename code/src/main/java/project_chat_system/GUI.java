@@ -6,40 +6,30 @@ import javax.swing.*;
 
 public class GUI implements ActionListener {
 
-    JPanel mainPanel, usersPanel, messagePanel;
-    JTextField msgCapture, pseudoCapture;
-    JTextArea displayMsg;
-    JButton sendButton;
-    JLabel pseudoLabel, messageLabel;
+    JPanel mainPanel;                     // Panneau principal qui supportera les composants
+    JTextField msgCapture, pseudoCapture; // Champs de texte
+    JTextArea displayMsg;                 // Zone de texte
+    JButton sendButton;                   // Boutons 
+    JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
 
     ActionListener sendAction;
 
     public void createPannels(){
-        // Create the phase selection and display panels.
-        //usersPanel = new JPanel();
-        //messagePanel = new JPanel();
-
-        // Create the main panel to contain the two sub panels.
+        // Create the main panel
+        //  There is only one panel at this step
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        //usersPanel.setBackground(Color.magenta);
-        //usersPanel.setBounds(100, 100, 100, 100);
-
-        // Add the select and display panels to the main panel.
-        //mainPanel.add(usersPanel);
-        //mainPanel.add(messagePanel);
     }
 
     public GUI() {
+
+        // Créer le(s) panneau(x)
         createPannels();
 
-        // Make sure we have nice window decorations.
-        JFrame.setDefaultLookAndFeelDecorated(true);
-
         // Create and set up the window.
-        JFrame interfaceFrame = new JFrame("M&M's Chat System");
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
         interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         interfaceFrame.setSize(800, 600);
         interfaceFrame.setLayout(null);
@@ -52,7 +42,7 @@ public class GUI implements ActionListener {
         pseudoCapture=new JTextField();
         pseudoCapture.setBounds(100, 0, 500,30);  
         pseudoCapture.addActionListener(this); // capture le retour chariot
-        interfaceFrame.add(pseudoCapture);
+        interfaceFrame.add(pseudoCapture); // lie la capture à la fenetre
         
         // Message fields
         messageLabel = new JLabel("Message :");
@@ -66,7 +56,7 @@ public class GUI implements ActionListener {
         
         sendButton=new JButton("Send");
         sendButton.setBounds(600, 30, 100, 30);
-        sendButton.addActionListener(this); 
+        sendButton.addActionListener(this); // Capture le clic sur le bouton
         interfaceFrame.add(sendButton);
 
         // Message display
@@ -79,13 +69,15 @@ public class GUI implements ActionListener {
         interfaceFrame.setVisible(true);
     }
 
+    // Main fonction (appelée en premier lors de l'exécution)
     public static void main(String[] args) {
         new GUI();
     }
 
+    // Zone de gestion des actions 
     public void actionPerformed(ActionEvent e) {
-        String texteSaisi=msgCapture.getText();
-        displayMsg.setText(texteSaisi);
+        String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
+        displayMsg.setText(texteSaisi); // L'affiche 
     }
 
 }
