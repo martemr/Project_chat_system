@@ -12,7 +12,7 @@ public class User {
 
     //Constructeur 
     public User(String pseudo){
-        this.pseudo="default_pseudo";
+        this.pseudo=pseudo;
        // this.id=QQCHONSAITPASQUOI.GETNEWID(); //TODO 
         //this.status=CONNECTED;
     }

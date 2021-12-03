@@ -11,6 +11,7 @@ public class GUI implements ActionListener {
     JTextArea displayMsg;                 // Zone de texte
     JButton sendButton;                   // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
+    User user ;
 
     ActionListener sendAction;
 
@@ -33,13 +34,16 @@ public class GUI implements ActionListener {
         interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         interfaceFrame.setSize(800, 600);
         interfaceFrame.setLayout(null);
+
+        //Create user
+        user = new User("titi");
         
         // Pseudo field
         pseudoLabel = new JLabel("Pseudo :");
         pseudoLabel.setBounds(0, 0, 100, 30);  
         interfaceFrame.add(pseudoLabel);
 
-        pseudoCapture=new JTextField();
+        pseudoCapture=new JTextField(user.pseudo);
         pseudoCapture.setBounds(100, 0, 500,30);  
         pseudoCapture.addActionListener(this); // capture le retour chariot
         interfaceFrame.add(pseudoCapture); // lie la capture à la fenetre
@@ -77,13 +81,9 @@ public class GUI implements ActionListener {
     // Zone de gestion des actions 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
-        if (source==msgCapture) {
+        if (source==msgCapture || source==sendButton) {
             String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
-            displayMsg.setText(texteSaisi); // L'affiche 
+            displayMsg.setText(user.pseudo+texteSaisi); // L'affiche 
         }
-        else if (source==sendButton){
-            System.out.println("On a appuyé sur le send button");
-        }
-    }
 
 }
