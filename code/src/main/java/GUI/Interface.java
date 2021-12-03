@@ -68,7 +68,7 @@ public class Interface implements ActionListener {
         interfaceFrame.add(sendMessageButton);
 
         // Message display
-        displayMsg =new JTextArea();
+        displayMsg =new JTextArea("CONVERSATION \n \n");
         interfaceFrame.add(displayMsg);
         displayMsg.setBounds(0, 60, 500,300);
         displayMsg.setEditable(false); // Bloque l'édition de la zone de texte        
@@ -87,7 +87,7 @@ public class Interface implements ActionListener {
         Object source = evt.getSource();
         if (source==msgCapture || source==sendMessageButton) {
             String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
-            displayMsg.setText(user.pseudo+" : "+ texteSaisi); // L'affiche 
+            displayMsg.append(user.pseudo+" : "+ texteSaisi+"\n"); // L'affiche 
         } 
         else if (source==pseudoCapture || source==changePseudoButton) {
             String nouveauPseudo=pseudoCapture.getText();
