@@ -56,7 +56,7 @@ public class GUI implements ActionListener {
         
         sendButton=new JButton("Send");
         sendButton.setBounds(600, 30, 100, 30);
-        sendButton.addActionListener(this); // Capture le clic sur le bouton
+        sendButton.addActionListener(this); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
         interfaceFrame.add(sendButton);
 
         // Message display
@@ -75,9 +75,15 @@ public class GUI implements ActionListener {
     }
 
     // Zone de gestion des actions 
-    public void actionPerformed(ActionEvent e) {
-        String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
-        displayMsg.setText(texteSaisi); // L'affiche 
+    public void actionPerformed(ActionEvent evt) {
+        Object source = evt.getSource();
+        if (source==msgCapture) {
+            String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
+            displayMsg.setText(texteSaisi); // L'affiche 
+        }
+        else if (source==sendButton){
+            System.out.println("On a appuyé sur le send button");
+        }
     }
 
 }
