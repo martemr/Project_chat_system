@@ -11,6 +11,8 @@ public class Interface implements ActionListener {
     JButton sendMessageButton, changePseudoButton;                   // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
     User user ;
+    JScrollPane scroll;
+
 
     ActionListener sendAction;
 
@@ -69,9 +71,10 @@ public class Interface implements ActionListener {
 
         // Message display
         displayMsg =new JTextArea("CONVERSATION \n \n");
-        interfaceFrame.add(displayMsg);
-        displayMsg.setBounds(0, 60, 500,300);
-        displayMsg.setEditable(false); // Bloque l'édition de la zone de texte        
+        displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
+        scroll = new JScrollPane(displayMsg);  
+        scroll.setBounds(0,60,500,300);   
+        interfaceFrame.add(scroll);
 
         // Display the window.
         interfaceFrame.setVisible(true);
