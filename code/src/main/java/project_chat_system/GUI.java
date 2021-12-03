@@ -9,7 +9,7 @@ public class GUI implements ActionListener {
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
     JTextArea displayMsg;                 // Zone de texte
-    JButton sendButton;                   // Boutons 
+    JButton sendMessageButton, changePseudoButton;                   // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
     User user ;
 
@@ -47,6 +47,11 @@ public class GUI implements ActionListener {
         pseudoCapture.setBounds(100, 0, 500,30);  
         pseudoCapture.addActionListener(this); // capture le retour chariot
         interfaceFrame.add(pseudoCapture); // lie la capture à la fenetre
+
+        changePseudoButton=new JButton("Change Pseudo");
+        changePseudoButton.setBounds(600, 0, 100,30);
+        changePseudoButton.addActionListener(this);
+        interfaceFrame.add(changePseudoButton);
         
         // Message fields
         messageLabel = new JLabel("Message :");
@@ -58,10 +63,10 @@ public class GUI implements ActionListener {
         msgCapture.addActionListener(this); // capture le retour chariot
         interfaceFrame.add(msgCapture);
         
-        sendButton=new JButton("Send");
-        sendButton.setBounds(600, 30, 100, 30);
-        sendButton.addActionListener(this); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
-        interfaceFrame.add(sendButton);
+        sendMessageButton=new JButton("Send");
+        sendMessageButton.setBounds(600, 30, 100, 30);
+        sendMessageButton.addActionListener(this); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
+        interfaceFrame.add(sendMessageButton);
 
         // Message display
         displayMsg =new JTextArea();
@@ -81,9 +86,13 @@ public class GUI implements ActionListener {
     // Zone de gestion des actions 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
-        if (source==msgCapture || source==sendButton) {
+        if (source==msgCapture || source==sendMessageButton) {
             String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
-            displayMsg.setText(user.pseudo+texteSaisi); // L'affiche 
+            displayMsg.setText(user.pseudo+" : "+ texteSaisi); // L'affiche 
+        } 
+        else if (source==pseudoCapture || source==changePseudoButton) {
+            String nouveauPseudo=pseudoCapture.getText();
+            user.pseudo= nouveauPseudo;
         }
-
+    }
 }
