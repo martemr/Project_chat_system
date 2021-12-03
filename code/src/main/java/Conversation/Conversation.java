@@ -1,4 +1,6 @@
-package project_chat_system;
+package Conversation;
+
+import GUI.User;
 
 public class Conversation extends Thread {
     
@@ -11,7 +13,7 @@ public class Conversation extends Thread {
     }
 
     public void send_message(String msg_txt) {
-        Message msg = new Message(me, other, msg_txt);
+        //TODO Message msg = new Message(me, other, msg_txt);
 
 
     }

@@ -1,4 +1,4 @@
-package project_chat_system;
+package GUI;
 
 public class User {
     public enum Status {

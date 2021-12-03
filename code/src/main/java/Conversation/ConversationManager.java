@@ -1,4 +1,6 @@
-package project_chat_system;
+package Conversation;
+
+import GUI.User;
 
 public class ConversationManager {
     

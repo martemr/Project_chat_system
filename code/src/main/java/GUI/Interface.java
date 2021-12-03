@@ -1,10 +1,9 @@
-package project_chat_system;
+package GUI;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GUI implements ActionListener {
+public class Interface implements ActionListener {
 
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
@@ -23,7 +22,7 @@ public class GUI implements ActionListener {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    public GUI() {
+    public Interface() {
 
         // Créer le(s) panneau(x)
         createPannels();
@@ -80,7 +79,7 @@ public class GUI implements ActionListener {
 
     // Main fonction (appelée en premier lors de l'exécution)
     public static void main(String[] args) {
-        new GUI();
+        new Interface();
     }
 
     // Zone de gestion des actions 

@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Interface",
+            "request": "launch",
+            "mainClass": "GUI.Interface",
+            "projectName": "code"
+        },
+        {
+            "type": "java",
+            "name": "Launch GUI",
+            "request": "launch",
+            "mainClass": "project_chat_system.GUI",
+            "projectName": "code"
+        },
+        {
+            "type": "java",
             "name": "Launch GUI",
             "request": "launch",
             "mainClass": "code.GUI",

@@ -1,6 +1,7 @@
-package project_chat_system;
+package Conversation;
 
 import java.time.*;
+import GUI.User;
 
 public class Message {
     public User from; // User écrivant le message
