@@ -70,9 +70,6 @@ public class Interface implements ActionListener {
         messageLabel.setBounds(0, 30, 100,30);
         interfaceFrame.add(messageLabel);
 
-        ts=new Timestamp(System.currentTimeMillis());  
-        date=new Date(ts.getTime());
-
         msgCapture=new JTextField();
         msgCapture.setBounds(100, 30, 500,30);  
         msgCapture.addActionListener(this); // capture le retour chariot
@@ -99,6 +96,8 @@ public class Interface implements ActionListener {
         Object source = evt.getSource();
         if (source==msgCapture || source==sendMessageButton) {
             String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
+            ts=new Timestamp(System.currentTimeMillis());  
+            date=new Date(ts.getTime());
             displayMsg.append(date + "   "+user.pseudo+" : "+ texteSaisi+"\n"); // L'affiche 
         } 
         else if (source==pseudoCapture || source==changePseudoButton) {
