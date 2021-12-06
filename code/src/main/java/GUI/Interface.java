@@ -3,6 +3,10 @@ package GUI;
 import java.awt.event.*;
 import javax.swing.*;
 
+import java.sql.Timestamp;    
+import java.util.Date;  
+
+
 import Database.DatabaseManager;
 
 public class Interface implements ActionListener {
@@ -19,6 +23,9 @@ public class Interface implements ActionListener {
 
 
     ActionListener sendAction;
+
+    Timestamp ts;
+    Date date;
 
     public void createPannels(){
         // Create the main panel
@@ -63,6 +70,9 @@ public class Interface implements ActionListener {
         messageLabel.setBounds(0, 30, 100,30);
         interfaceFrame.add(messageLabel);
 
+        Timestamp ts=new Timestamp(System.currentTimeMillis());  
+        Date date=new Date(ts.getTime());
+
         msgCapture=new JTextField();
         msgCapture.setBounds(100, 30, 500,30);  
         msgCapture.addActionListener(this); // capture le retour chariot
@@ -89,7 +99,7 @@ public class Interface implements ActionListener {
         Object source = evt.getSource();
         if (source==msgCapture || source==sendMessageButton) {
             String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
-            displayMsg.append(user.pseudo+" : "+ texteSaisi+"\n"); // L'affiche 
+            displayMsg.append(date + "   "+user.pseudo+" : "+ texteSaisi+"\n"); // L'affiche 
         } 
         else if (source==pseudoCapture || source==changePseudoButton) {
             String nouveauPseudo=pseudoCapture.getText();
