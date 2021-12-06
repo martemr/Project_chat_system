@@ -8,8 +8,6 @@ import java.awt.*;
 import java.sql.Timestamp;    
 import java.util.Date;  
 
-
-import Database.DatabaseManager;
 import Conversation.Message;
 
 public class Interface implements ActionListener {
@@ -60,7 +58,7 @@ public class Interface implements ActionListener {
         GridBagConstraints c = new GridBagConstraints();
         if (shouldFill) {
             //natural height, maximum width
-            c.fill = GridBagConstraints.BOTH;
+          //  c.fill = GridBagConstraints.BOTH;
             }
 
         //Create user
@@ -72,7 +70,7 @@ public class Interface implements ActionListener {
         if (shouldWeightX) {
             c.weightx = 0.5;
             }
-            c.fill = GridBagConstraints.BOTH;
+         //   c.fill = GridBagConstraints.BOTH;
             c.gridx = 0;
             c.gridy = 0;
             c.anchor=GridBagConstraints.FIRST_LINE_START;
@@ -81,7 +79,7 @@ public class Interface implements ActionListener {
         pseudoCapture=new JTextField(user.pseudo);
         //pseudoCapture.setBounds(100, 0, 500,30);  
         pseudoCapture.addActionListener(this); // capture le retour chariot
-        c.fill = GridBagConstraints.BOTH;
+      //  c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 1;
 	    c.gridy = 0;
@@ -91,7 +89,7 @@ public class Interface implements ActionListener {
         changePseudoButton=new JButton("Change Pseudo");
         changePseudoButton.setBounds(600, 0, 100,30);
         changePseudoButton.addActionListener(this);
-        c.fill = GridBagConstraints.BOTH;
+      //  c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 2;
 	    c.gridy = 0;
@@ -101,7 +99,7 @@ public class Interface implements ActionListener {
         // Message fields
         messageLabel = new JLabel("Message :");
        // messageLabel.setBounds(0, 30, 100,30);
-       c.fill = GridBagConstraints.BOTH;
+      // c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 0;
 	    c.gridy = 2;
@@ -111,7 +109,7 @@ public class Interface implements ActionListener {
         msgCapture=new JTextField();
        // msgCapture.setBounds(100, 30, 500,30);  
         msgCapture.addActionListener(this); // capture le retour chariot
-        c.fill = GridBagConstraints.BOTH;
+       // c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 1;
 	    c.gridy = 2;
@@ -121,7 +119,7 @@ public class Interface implements ActionListener {
         sendMessageButton=new JButton("Send");
        // sendMessageButton.setBounds(600, 30, 100, 30);
         sendMessageButton.addActionListener(this); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
-        c.fill = GridBagConstraints.BOTH;
+       // c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 2;
 	    c.gridy = 2;
@@ -132,7 +130,7 @@ public class Interface implements ActionListener {
         displayMsg =new JTextArea("CONVERSATION \n \n");
         displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
         scroll = new JScrollPane(displayMsg); 
-        c.fill = GridBagConstraints.BOTH;
+        //c.fill = GridBagConstraints.BOTH;
 	    c.ipady = 40;      //make this component tall
 	    c.weightx = 0.0;
 	    c.gridwidth = 3;
