@@ -1,47 +1,47 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import java.sql.*;
 /**
  * @author sqlitetutorial.net
  */
 public class DatabaseManager{
     
-    Connection conn;
+    public void testdb(){
+        try{  
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306","default",""); 
 
-    /**
-    * Connect to a sample database
-    */
-    public void connect() {
-        conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:database.db"; // TODO : donner le bon dossier où stocker la base de données
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-            
-            System.out.println("Connection to SQLite has been established.");
-            
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+            Statement stmt=con.createStatement();  
+            ResultSet rs=stmt.executeQuery("use chatDB");  
+            while(rs.next())  
+            System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+            //rs=stmt.executeQuery("select pseudo from pseudoTable");  
+            //while(rs.next())  
+            System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+            con.close();  
+        }catch(Exception e){
+            System.out.println(e);
+        }  
+    }   
 
+
+    //Connection conn;    
+    
+    
     /**
      * Connect to a sample database
      *
      * @param fileName the database file name
      */
-    public void createNewDatabase(String fileName) {
+    /*public void createNewDatabase(String fileName) {
 
-        String url = "jdbc:sqlite:C:/sqlite/db/" + fileName;
+        String url = "jdbc:sqlite:code/main/java/db/" + fileName;
 
-        try (Connection conn = DriverManager.getConnection(url)) {
+        try {
+            conn = DriverManager.getConnection(url);
             if (conn != null) {
-                //DatabaseMetaData meta = conn.getMetaData(); //TODO
-                //System.out.println("The driver name is " + meta.getDriverName());
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("The driver name is " + meta.getDriverName());
                 System.out.println("A new database has been created.");
             }
 
@@ -59,5 +59,5 @@ public class DatabaseManager{
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
-    }
-}
+    }   */         
+} 
