@@ -3,6 +3,8 @@ package Conversation;
 import java.time.*;
 import GUI.User;
 
+import java.util.Date;  
+
 public class Message {
     public User from; // User écrivant le message
     public User to;   // User recevant le message
@@ -10,7 +12,7 @@ public class Message {
     protected LocalDateTime timestamp; // Horodage
 
     // Constructeur message
-    Message(User from, User to, String msg){
+    public Message(User from, User to, String msg, Date date){
         this.from=from; this.to=to; this.msg=msg; this.timestamp = LocalDateTime.now();
     }
 }
