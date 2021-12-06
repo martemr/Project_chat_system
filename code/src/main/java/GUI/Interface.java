@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
@@ -30,9 +29,14 @@ public class Interface implements ActionListener {
 
     Timestamp ts;
     Date date;
-
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
+    final static boolean RIGHT_TO_LEFT = false;
+
+    public static void addComponentsToPane(Container pane) {
+        if (RIGHT_TO_LEFT) {
+            pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        }}
 
     public void createPannels(){
         // Create the main panel
@@ -51,13 +55,13 @@ public class Interface implements ActionListener {
         JFrame.setDefaultLookAndFeelDecorated(true);
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
         interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       /interfaceFrame.setSize(800, 600);
+        interfaceFrame.setSize(800, 600);
         interfaceFrame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         if (shouldFill) {
-        //natural height, maximum width
-        c.fill = GridBagConstraints.BOTH;
-        }
+            //natural height, maximum width
+            c.fill = GridBagConstraints.BOTH;
+            }
 
         //Create user
         user = new User("titi");
@@ -139,6 +143,7 @@ public class Interface implements ActionListener {
         interfaceFrame.add(scroll, c);
 
         // Display the window.
+        addComponentsToPane(interfaceFrame.getContentPane());
         interfaceFrame.setVisible(true);
     }
 
