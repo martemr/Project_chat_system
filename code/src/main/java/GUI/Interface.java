@@ -51,7 +51,7 @@ public class Interface implements ActionListener {
         JFrame.setDefaultLookAndFeelDecorated(true);
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
         interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       // interfaceFrame.setSize(800, 600);
+       /interfaceFrame.setSize(800, 600);
         interfaceFrame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         if (shouldFill) {
