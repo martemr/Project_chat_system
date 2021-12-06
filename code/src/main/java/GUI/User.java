@@ -14,7 +14,7 @@ public class User {
     public User(String pseudo){
         this.pseudo=pseudo;
        // this.id=QQCHONSAITPASQUOI.GETNEWID(); //TODO 
-        //this.status=CONNECTED;
+        this.status=Status.CONNECTED;
     }
 
     //Méthodes
