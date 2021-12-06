@@ -35,6 +35,11 @@ public class Interface implements ActionListener {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
+    public int closeApplication(DatabaseManager db) {
+        db.closeConnection();
+        return 0;
+    }
+
     public Interface(DatabaseManager db) {
 
         // Créer le(s) panneau(x)
@@ -43,7 +48,7 @@ public class Interface implements ActionListener {
         // Create and set up the window.
         JFrame.setDefaultLookAndFeelDecorated(true);
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
-        interfaceFrame.setDefaultCloseOperation(closeApplication(db)); // TODO : Set the close action on the cross bouton
+        interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         interfaceFrame.setSize(800, 600);
         interfaceFrame.setLayout(null);
 
@@ -105,12 +110,5 @@ public class Interface implements ActionListener {
             user.pseudo= nouveauPseudo;
         }
     }
-
-    public int closeApplication(DatabaseManager db) {
-        db.closeConnection();
-        interfaceFrame.dispose();
-        return 0;
-    }
-
 
 }
