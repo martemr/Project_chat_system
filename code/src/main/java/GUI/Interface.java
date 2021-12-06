@@ -70,8 +70,8 @@ public class Interface implements ActionListener {
         messageLabel.setBounds(0, 30, 100,30);
         interfaceFrame.add(messageLabel);
 
-        Timestamp ts=new Timestamp(System.currentTimeMillis());  
-        Date date=new Date(ts.getTime());
+        ts=new Timestamp(System.currentTimeMillis());  
+        date=new Date(ts.getTime());
 
         msgCapture=new JTextField();
         msgCapture.setBounds(100, 30, 500,30);  
