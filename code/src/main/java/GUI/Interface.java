@@ -144,6 +144,7 @@ public class Interface implements ActionListener {
 
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
+        interfaceFrame.pack();
         interfaceFrame.setVisible(true);
     }
 
