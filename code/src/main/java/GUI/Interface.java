@@ -71,6 +71,7 @@ public class Interface implements ActionListener {
             c.fill = GridBagConstraints.BOTH;
             c.gridx = 0;
             c.gridy = 0;
+            c.anchor=GridBagConstraints.FIRST_LINE_START;
         interfaceFrame.add(pseudoLabel, c);
 
         pseudoCapture=new JTextField(user.pseudo);
@@ -80,15 +81,17 @@ public class Interface implements ActionListener {
 	    c.weightx = 0.5;
 	    c.gridx = 1;
 	    c.gridy = 0;
+        c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(pseudoCapture, c); // lie la capture à la fenetre
 
         changePseudoButton=new JButton("Change Pseudo");
-        //changePseudoButton.setBounds(600, 0, 100,30);
+        changePseudoButton.setBounds(600, 0, 100,30);
         changePseudoButton.addActionListener(this);
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 2;
 	    c.gridy = 0;
+        c.anchor=GridBagConstraints.FIRST_LINE_END;
         interfaceFrame.add(changePseudoButton,c);
         
         // Message fields
@@ -98,6 +101,7 @@ public class Interface implements ActionListener {
 	    c.weightx = 0.5;
 	    c.gridx = 0;
 	    c.gridy = 2;
+        c.anchor=GridBagConstraints.LAST_LINE_START;
         interfaceFrame.add(messageLabel, c);
 
         msgCapture=new JTextField();
@@ -107,6 +111,7 @@ public class Interface implements ActionListener {
 	    c.weightx = 0.5;
 	    c.gridx = 1;
 	    c.gridy = 2;
+        c.anchor=GridBagConstraints.PAGE_END;
         interfaceFrame.add(msgCapture, c);
         
         sendMessageButton=new JButton("Send");
@@ -116,6 +121,7 @@ public class Interface implements ActionListener {
 	    c.weightx = 0.5;
 	    c.gridx = 2;
 	    c.gridy = 2;
+        c.anchor=GridBagConstraints.FIRST_LINE_END;
         interfaceFrame.add(sendMessageButton, c);
 
         // Message display
@@ -128,6 +134,7 @@ public class Interface implements ActionListener {
 	    c.gridwidth = 3;
 	    c.gridx = 0;
 	    c.gridy = 1; 
+        c.anchor=GridBagConstraints.CENTER;
        // scroll.setBounds(0,60,500,300);   
         interfaceFrame.add(scroll, c);
 
