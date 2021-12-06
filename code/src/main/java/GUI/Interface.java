@@ -37,11 +37,6 @@ public class Interface implements ActionListener {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    public int closeApplication(DatabaseManager db) {
-        db.closeConnection();
-        return 0;
-    }
-
     public Interface(DatabaseManager db) {
 
         // Créer le(s) panneau(x)
@@ -74,16 +69,16 @@ public class Interface implements ActionListener {
         
         // Message fields
         messageLabel = new JLabel("Message :");
-        messageLabel.setBounds(0, 30, 100,30);
+       // messageLabel.setBounds(0, 30, 100,30);
         interfaceFrame.add(messageLabel, BorderLayout.PAGE_END);
 
         msgCapture=new JTextField();
-        msgCapture.setBounds(100, 30, 500,30);  
+       // msgCapture.setBounds(100, 30, 500,30);  
         msgCapture.addActionListener(this); // capture le retour chariot
         interfaceFrame.add(msgCapture, BorderLayout.PAGE_END);
         
         sendMessageButton=new JButton("Send");
-        sendMessageButton.setBounds(600, 30, 100, 30);
+       // sendMessageButton.setBounds(600, 30, 100, 30);
         sendMessageButton.addActionListener(this); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
         interfaceFrame.add(sendMessageButton, BorderLayout.PAGE_END);
 
@@ -91,7 +86,7 @@ public class Interface implements ActionListener {
         displayMsg =new JTextArea("CONVERSATION \n \n");
         displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
         scroll = new JScrollPane(displayMsg);  
-        scroll.setBounds(0,60,500,300);   
+       // scroll.setBounds(0,60,500,300);   
         interfaceFrame.add(scroll, BorderLayout.CENTER);
 
         // Display the window.
