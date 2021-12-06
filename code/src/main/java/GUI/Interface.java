@@ -46,7 +46,7 @@ public class Interface implements ActionListener {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     }
 
-    public Interface(DatabaseManager db) {
+    public Interface() {
 
         // Créer le(s) panneau(x)
         createPannels();
