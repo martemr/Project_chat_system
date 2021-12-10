@@ -2,35 +2,45 @@ package Network;
 
 import java.io.*;
 import java.net.*;
+import Conversation.Message;
+
 /** Le processus client se connecte à l'adresse fournie dans la commande
  *   d'appel en premier argument et utilise le port distant 8080.
  */
 public class Client {
    static final int port = 8080;
 
-   public static void main(String[] args) throws Exception {
-        Socket socket = new Socket(args[0], port);
-        System.out.println("SOCKET = " + socket);
+    Socket outputSocket;
+	OutputStream outputStream;
+	ObjectOutputStream objectOutputStream;
+	Message toSend;
+	public boolean active = false;
 
-        BufferedReader buf = new BufferedReader(
-                               new InputStreamReader(socket.getInputStream())
-                               );
+    Client(Socket socket) throws IOException{
+		outputSocket = socket;
+		outputStream = outputSocket.getOutputStream();
+		objectOutputStream = new ObjectOutputStream(outputStream);
+		active = true;
+	}
 
-        PrintWriter print = new PrintWriter(
-                             new BufferedWriter(
-                                new OutputStreamWriter(socket.getOutputStream())),
-                             true);
-
-        String str = "bonjour";
-        for (int i = 0; i < 10; i++) {
-           print.println(str);          // envoi d'un message
-           str = buf.readLine();      // lecture de l'écho
+        void close() throws IOException{
+            if(active){
+                objectOutputStream.close();
+                outputStream.close();
+                outputSocket.close();
+            }
+            active = false;
         }
-        
-        System.out.println("END");     // message de terminaison
-        print.println("END") ;
-        buf.close();
-        print.close();
-        socket.close();
+    
+        synchronized void sendMessageObject(Message obj){
+            if(active){
+                try{
+                    objectOutputStream.writeObject(obj);
+                    objectOutputStream.flush();
+                }catch(IOException e){
+                    active =  false;
+                    e.printStackTrace();
+                }
+            }
+        }
    }
-}

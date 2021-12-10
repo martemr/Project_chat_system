@@ -2,45 +2,64 @@ package Network;
 
 import java.io.*;
 import java.net.*;
+import Conversation.Message;
 
 public class Serveur implements Runnable {
    static final int port = 8080;
    int clientNumber = 0;
 
-   public void run() {
-      System.out.println("Hello, I am ");
-      }
+   Socket inputSocket;
+	InputStream inputStream;
+	ObjectInputStream objectInputStream;
 
-   public static void main(String[] args) throws Exception {
-        ServerSocket s = new ServerSocket(port);
-        Socket soc = s.accept();
+	volatile public boolean active = false;
 
-        Thread t1;
-        t1 = new Thread ("Thread #1");
-        t1.start();
+	Serveur (Socket socket) {
+		this.inputSocket = socket;
+		active = true;
+	}
+
+	public void close(){
+		try{
+			this.close(false);
+		}catch(Exception e){}
+	}
+
+	public void close(boolean force) throws IOException{
+		System.out.println("Stopping receiver.");
+		
+		if(force && active){
+			System.out.println("Closing streams..");
+			objectInputStream.close();
+			inputStream.close();
+			inputSocket.close();
+		}
+		this.active = false;
+	}
+	
+	public void run(){
 
 
-        // Un BufferedReader permet de lire par ligne.
-        BufferedReader buf = new BufferedReader(
-                               new InputStreamReader(soc.getInputStream())
-                              );
+		try{
+			inputStream = inputSocket.getInputStream();
+			objectInputStream = new ObjectInputStream(inputStream);
 
-        // Un PrintWriter possède toutes les opérations print classiques.
-        // En mode auto-flush, le tampon est vidé (flush) à l'appel de println.
-        PrintWriter print = new PrintWriter(
-                             new BufferedWriter(
-                                new OutputStreamWriter(soc.getOutputStream())), 
-                             true);
 
-        while (true) {
-           String str = buf.readLine();          // lecture du message
-           if (str.equals("END")) break;
-           System.out.println("ECHO = " + str);   // trace locale
-           print.println(str);                     // renvoi d'un écho
-        }
-        buf.close();
-        print.close();
-        soc.close();
-        s.close();
+			while(active){
+
+				Message object = (Message) objectInputStream.readObject();
+	       		object.start();
+
+			}	
+
+			System.out.println("Closing streams..");
+			objectInputStream.close();
+			inputStream.close();
+			inputSocket.close();		
+			
+
+		}catch(Exception e){
+       		e.printStackTrace();
+       	}
    }
 }
