@@ -1,8 +1,13 @@
 # Projet de Chat System
 
-## Notes
-Penser à lancer la base de donnée lors de l'utilisation (base de donnée locale, stockée sur la machine de Martin)
+## Début de séance de travail
+Lancer la base de donnée lors de l'utilisation (base de donnée locale, stockée sur la machine de Martin)
 **sudo systemctl start mysql**
+
+## Fin de séance de travail
+Areter le serveur de la base de donnée 
+**sudo systemctl stop mysql**
+
 
 ## TODO:
 ### General :
