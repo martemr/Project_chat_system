@@ -9,15 +9,18 @@ public class DatabaseManager{
     public void testdb(){
         try{  
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306","default",""); 
+            
+            // Connection à la base de donnée (id:root, pw:root)
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root"); 
 
             Statement stmt=con.createStatement();  
-            ResultSet rs=stmt.executeQuery("use chatDB");  
+            //ResultSet rs=stmt.executeQuery("use mysql");
+            ResultSet rs=stmt.executeQuery("select user from mysql.user");
             while(rs.next())  
-            System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+            System.out.println(rs.getString(1));  
             //rs=stmt.executeQuery("select pseudo from pseudoTable");  
             //while(rs.next())  
-            System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+            //System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
             con.close();  
         }catch(Exception e){
             System.out.println(e);
