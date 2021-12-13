@@ -35,34 +35,30 @@ public class User {
         // Check if this user is new
         // The user already exists
         try(FileReader fileReader = new FileReader(userDataPath)) {
-            int readErr = fileReader.read(readBuf, 0, 1); // Lit la ligne 0
+            int readErr = fileReader.read(readBuf, 0, 11); // Lit la ligne 0
 
-            //if (readErr != 0) {
-            //    fileReader.close();
-            //    throw new FileNotFoundException();
-            //} else {
-                this.id = Integer.valueOf(String.copyValueOf(readBuf));
-                System.out.println("The UUID already existing is " + this.id);
-                fileReader.close();
-            //}
-        // First connection of the user
-        } catch (FileNotFoundException e) {
-            // Create the file user data
-            userData = new File(userDataPath); 
-            
-            // Write the content in file 
-            try(FileWriter fileWriter = new FileWriter(userDataPath)) {
-                UUID uid = UUID.randomUUID(); // Give a random uid
-                this.id = (int) uid.getLeastSignificantBits();
-                String fileContent = Integer.toString(this.id);
-                System.out.println("The new UUID is " + fileContent);
-                this.id = Integer.valueOf(fileContent);
-                fileWriter.write(fileContent);
-                fileWriter.close();
-            } catch (IOException e1) {
-                System.out.println(e1);
+            this.id = Integer.valueOf(String.copyValueOf(readBuf));
+            System.out.println("The UUID already existing is " + this.id);
+            if (this.id==0){ // New user
+
+            } else { // User already existing
+                try(FileWriter fileWriter = new FileWriter(userDataPath)) {
+                    UUID uid = UUID.randomUUID(); // Give a random uid
+                    this.id = (int) uid.getLeastSignificantBits();
+                    String fileContent = Integer.toString(this.id);
+                    System.out.println("The new UUID is " + fileContent);
+
+                    this.id = Integer.valueOf(fileContent);
+                    fileWriter.write(fileContent);
+                    fileWriter.close();
+                } catch (IOException e1) {
+                    System.out.println(e1);
+                }
             }
 
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
         } catch (IOException e) {
             System.out.println(e);
         }

@@ -15,5 +15,8 @@ S'organiser avec le TODO du README ou sur le Jira ?? (discuter de comment faire)
 ### Database :
 Migrer la base de données dans le projet pour la garder à jour avec Git ?
 Faire des requetes sur la base de donnée
+Connecter la base de donnée de l'insa (attention penser au VPN)
+
+Resoudre problème uid
 ### Network :
 
