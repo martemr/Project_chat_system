@@ -27,6 +27,10 @@ public class DatabaseManager{
     }
 }  
 
+//TODO : public void afficher_table()
+
+
+
     public void update(String requete){// format general d'un update de la table
         try {
             Statement stmt = con.createStatement();
@@ -48,8 +52,8 @@ public class DatabaseManager{
 
     public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
 
-    public void change_pseudo(String pseudo, String new_pseudo){//change le pseudo (appel à exist_pseudo)
-        String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+pseudo+"'";
+    public void change_pseudo(User user, String new_pseudo){//change le pseudo (appel à exist_pseudo)
+        String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
         update(requete);
     } 
 
@@ -96,10 +100,12 @@ public class DatabaseManager{
     public void change_status_co(User user){//place le statut à l'état connecté
         String requete = "update pseudoTab set status='"+Integer.toString(1)+"' where id='"+Integer.toString(user.id)+"'";
         update(requete);
+        user.status=User.Status.CONNECTED;
     }
     public void change_status_deco(User user){//place le statut à l'état déconnecté
         String requete = "update pseudoTab set status='"+Integer.toString(0)+"' where id='"+Integer.toString(user.id)+"'";
         update(requete);
+        user.status=User.Status.ABSENT;
     }
 
     public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
@@ -140,4 +146,11 @@ public class DatabaseManager{
     }
 
        */         
+
+       User nul = new User("Martin", 60, User.Status.ABSENT);
+public void testdb(){
+    change_pseudo(nul, "Nullos");
+}
+
+
 } 
