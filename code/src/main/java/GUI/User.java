@@ -16,11 +16,16 @@ public class User {
     public int id;
     public Status status;
 
-    private String userDataPath = "../../udata";
-    private String readBuf = new String();
+    private String userDataPath = "./udata";
+    String init="00000000000";
+    private char[] readBuf=init.toCharArray();
     private File userData;
     
     //Constructeur 
+    public User(String pseudo, int id, Status status){
+        this.pseudo = pseudo; this.id=id; this.status=status;
+    }
+
     public User(String pseudo){
         this.pseudo=pseudo;
 
@@ -30,12 +35,16 @@ public class User {
         // Check if this user is new
         // The user already exists
         try(FileReader fileReader = new FileReader(userDataPath)) {
-            int ch = fileReader.read();
-            while(ch != -1) {
-                readBuf+=ch;
-            }
-            this.id = Integer.valueOf(readBuf);
-            fileReader.close();
+            int readErr = fileReader.read(readBuf, 0, 1); // Lit la ligne 0
+
+            //if (readErr != 0) {
+            //    fileReader.close();
+            //    throw new FileNotFoundException();
+            //} else {
+                this.id = Integer.valueOf(String.copyValueOf(readBuf));
+                System.out.println("The UUID already existing is " + this.id);
+                fileReader.close();
+            //}
         // First connection of the user
         } catch (FileNotFoundException e) {
             // Create the file user data
@@ -43,7 +52,10 @@ public class User {
             
             // Write the content in file 
             try(FileWriter fileWriter = new FileWriter(userDataPath)) {
-                String fileContent = UUID.randomUUID().toString();
+                UUID uid = UUID.randomUUID(); // Give a random uid
+                this.id = (int) uid.getLeastSignificantBits();
+                String fileContent = Integer.toString(this.id);
+                System.out.println("The new UUID is " + fileContent);
                 this.id = Integer.valueOf(fileContent);
                 fileWriter.write(fileContent);
                 fileWriter.close();
