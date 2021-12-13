@@ -1,6 +1,9 @@
 package Database;
 
 import java.sql.*;
+import java.util.List;
+import java.util.Vector;
+
 import GUI.User;
 /**
  * @author sqlitetutorial.net
@@ -24,7 +27,7 @@ public class DatabaseManager{
     }
 }  
 
-    public void update(String requete){
+    public void update(String requete){// format general d'un update de la table
         try {
             Statement stmt = con.createStatement();
             int nbMaj = stmt.executeUpdate(requete);
@@ -32,7 +35,8 @@ public class DatabaseManager{
              e.printStackTrace();
          }
     }
-    public void query(String requete){
+
+    public void query(String requete){ //format general d'une query (pas toujours utilisable car on a besoin de la valeur de resultats)
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
@@ -73,7 +77,21 @@ public class DatabaseManager{
          }
     } 
 
-    public void connected(){} //renvoie la liste des users connectés
+    public List<Integer> connected(){ //renvoie la liste des users connectés
+        String requete = "select pseudo from pseudoTab where status='"+Integer.toString(1)+"'";
+        List<Integer> vec = new Vector<>();
+        try {
+            Statement stmt = con.createStatement();
+            resultats = stmt.executeQuery(requete);
+            while(resultats.next()){
+                vec.add(resultats.getInt(0));
+            }
+            return vec;
+        }catch (SQLException e) {
+            arret("Anomalie lors de l'execution de la requête");
+            return vec;
+         }
+    } 
 
     public void change_status_co(User user){//place le statut à l'état connecté
         String requete = "update pseudoTab set status='"+Integer.toString(1)+"' where id='"+Integer.toString(user.id)+"'";
@@ -121,14 +139,5 @@ public class DatabaseManager{
         }
     }
 
-    public void closeConnection(){ // TODO : get connection
-        try {
-                if (this.conn != null) {
-                    this.conn.close();
-                    System.out.println("Connection to SQLite has been close.");
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-    }   */         
+       */         
 } 
