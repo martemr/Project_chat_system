@@ -72,7 +72,13 @@ public class DatabaseManager{
 
     public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
 
-    con.close();    
+    public void closeConnection(){
+        try{
+            con.close();
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }    
 
 
 
