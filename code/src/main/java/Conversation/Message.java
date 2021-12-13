@@ -7,7 +7,7 @@ import java.lang.Thread;
 
 import java.util.Date;  
 
-public abstract class Message extends Thread implements Serializable{
+public class Message extends Thread implements Serializable{
     public User from; // User écrivant le message
     public User to;   // User recevant le message
     protected String msg; // Texte du message
@@ -17,6 +17,4 @@ public abstract class Message extends Thread implements Serializable{
     public Message(User from, User to, String msg, Date date){
         this.from=from; this.to=to; this.msg=msg; this.timestamp = LocalDateTime.now();
     }
-
-	abstract public void run();
 }
