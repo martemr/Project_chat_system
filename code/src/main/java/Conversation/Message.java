@@ -17,4 +17,9 @@ public class Message extends Thread implements Serializable{
     public Message(User from, User to, String msg, Date date){
         this.from=from; this.to=to; this.msg=msg; this.timestamp = LocalDateTime.now();
     }
+
+    @Override
+    public String toString(){
+        return msg;
+    }
 }

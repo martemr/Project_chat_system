@@ -29,11 +29,11 @@ public class ClientTCP implements Runnable {
 				/* Request a connection to the given User  */
 				System.out.println("connecting to port " + port + " and host " + host);
 				chatSocket = new Socket(host, port);
-				/* Initialization the output channel */
+				/* Initialization of the output channel */
 				this.output = new PrintWriter(chatSocket.getOutputStream());
 
 				/* Send the message...*/
-				output.println(message + ":" + user.pseudo + ":" + Integer.toString(port));
+				output.println(message.toString() + ":" + user.pseudo + ":" + Integer.toString(port));
 				output.flush();
 				/* Close the socket */
 				chatSocket.close();
