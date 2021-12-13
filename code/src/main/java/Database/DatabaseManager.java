@@ -51,12 +51,26 @@ public class DatabaseManager{
 
     public int get_id(User user){ //retourne l'id associé à un pseudo
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
-        query(requete);
+        try {
+            Statement stmt = con.createStatement();
+            resultats = stmt.executeQuery(requete);
+            return resultats.getInt(0);
+        }catch (SQLException e) {
+            arret("Anomalie lors de l'execution de la requête");
+            return 0;
+         }
     } 
 
     public String get_pseudo(User user){//retourne le pseudo associé à un id
         String requete = "select pseudo from pseudoTab where id='"+Integer.toString(user.id)+"'";
-        query(requete);
+        try {
+            Statement stmt = con.createStatement();
+            resultats = stmt.executeQuery(requete);
+            return resultats.getString(0);
+        }catch (SQLException e) {
+            arret("Anomalie lors de l'execution de la requête");
+            return "";
+         }
     } 
 
     public void connected(){} //renvoie la liste des users connectés
