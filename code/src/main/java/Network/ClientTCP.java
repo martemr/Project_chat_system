@@ -17,7 +17,6 @@ public class ClientTCP implements Runnable {
     private User user;
 
 
-
 	public ClientTCP(String host, Message message) throws IOException {
 		this.host = host;
 		this.message = message;
