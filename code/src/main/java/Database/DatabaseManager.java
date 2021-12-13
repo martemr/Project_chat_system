@@ -10,6 +10,11 @@ public class DatabaseManager{
     Connection con;
     ResultSet resultats = null;
 
+    private static void arret(String message) {
+        System.err.println(message);
+        System.exit(99);
+     }
+
     public DatabaseManager(){
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -40,17 +45,17 @@ public class DatabaseManager{
     public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
 
     public void change_pseudo(String pseudo, String new_pseudo){//change le pseudo (appel à exist_pseudo)
-        String requete = "update pseudoTab set pseudo='"+new_pseudo"+"' where pseudo='+pseudo+"'";
+        String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+pseudo+"'";
         update(requete);
     } 
 
-    public int get_id(String pseudo){ //retourne l'id associé à un pseudo
-        String requete = "select id from pseudoTab where pseudo='"+pseudo+"'";
+    public int get_id(User user){ //retourne l'id associé à un pseudo
+        String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         query(requete);
     } 
 
-    public String get_pseudo(int id){//retourne le pseudo associé à un id
-        String requete = "select pseudo from pseudoTab where id='"+Integer.toString(id)+"'";
+    public String get_pseudo(User user){//retourne le pseudo associé à un id
+        String requete = "select pseudo from pseudoTab where id='"+Integer.toString(user.id)+"'";
         query(requete);
     } 
 
