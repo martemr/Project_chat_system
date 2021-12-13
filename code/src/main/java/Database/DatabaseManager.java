@@ -8,12 +8,17 @@ public class DatabaseManager{
     
     public void testdb(){
         try{  
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver"); // On utilise le JDBC
             
-            // Connection à la base de donnée (id:root, pw:root)
+            // Connection à la base de donnée (id:root, pw:root) TODO: changer avec la base de donnée de l'insa
             Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root"); 
 
-            Statement stmt=con.createStatement();  
+            Statement stmt=con.createStatement(); 
+            // Requests : "use chatDB"
+            // Requests : "select * from pseudoTab;"
+            // Requests : "insert into pseudoTab (pseudo, id) values ('Martin', 60);"
+
+
             //ResultSet rs=stmt.executeQuery("use mysql");
             ResultSet rs=stmt.executeQuery("select user from mysql.user");
             while(rs.next())  
@@ -38,7 +43,7 @@ public class DatabaseManager{
 
     public void connected(){} //renvoie la liste des users connectés
 
-    public void change_status(int id)){}//change le statut (connecté ou pas) de chaque id
+    public void change_status(int id){}//change le statut (connecté ou pas) de chaque id
 
 
     //Connection conn;    
