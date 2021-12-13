@@ -26,6 +26,19 @@ public class DatabaseManager{
             System.out.println(e);
         }  
     }   
+    public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
+
+    public void change_pseudo(String pseudo){} //change le pseudo (appel à exist_pseudo)
+
+    public int get_id(String pseudo){ return (0);} //retourne l'id associé à un pseudo
+
+    public String get_pseudo(int id){return "v";} //retourne le pseudo associé à un id
+
+    public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
+
+    public void connected(){} //renvoie la liste des users connectés
+
+    public void change_status(int id)){}//change le statut (connecté ou pas) de chaque id
 
 
     //Connection conn;    
