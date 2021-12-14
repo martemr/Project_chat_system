@@ -168,12 +168,13 @@ public class DatabaseManager{
     
       
     User existe = new User("Martin", 60, User.Status.ABSENT);
-    User inconnu = new User("bb", 89, User.Status.OCCUPIED)
+    User inconnu = new User("bb", 89, User.Status.OCCUPIED);
     public void testdb(){
         afficher_pseudoTab();
-        get_id(existe);
-        get_id(inconnu);
-        afficher_pseudoTab();
+        int x=get_id(existe);
+        int y=get_id(inconnu);
+        System.out.println(Integer.toString(x));
+        System.out.println(Integer.toString(y));
     }
 
 } 
