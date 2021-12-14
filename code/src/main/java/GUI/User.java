@@ -54,8 +54,7 @@ public class User {
 
             // Creating a new id if not already gave
             if (this.id==0){
-                UUID uid = UUID.randomUUID(); // Give a random uid
-                this.id = (int) uid.getLeastSignificantBits();
+                this.id = this.hashCode(); // Le uid est défini avec le hash de la classe
                 FileWriter fileWriter = new FileWriter(userData);
                 fileWriter.write("uid:"+Integer.toString(this.id));
                 fileWriter.close();
