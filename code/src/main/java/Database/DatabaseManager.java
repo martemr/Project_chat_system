@@ -171,10 +171,8 @@ public class DatabaseManager{
     User inconnu = new User("bb", 89, User.Status.OCCUPIED);
     public void testdb(){
         afficher_pseudoTab();
-        int x=get_id(existe);
-        int y=get_id(inconnu);
-        System.out.println(Integer.toString(x));
-        System.out.println(Integer.toString(y));
+        System.out.println(get_id(existe));
+        System.out.println(get_id(inconnu));
     }
 
 } 
