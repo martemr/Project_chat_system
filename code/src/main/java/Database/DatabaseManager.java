@@ -105,15 +105,15 @@ public class DatabaseManager{
     } 
 
     /** Retourne l'id associé à un pseudo */
-    public int get_id(User user){
+    public String get_id(User user){
         ResultSet id;
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         id=query(requete);
         try{
-            return id.getInt(1);
+            return id.getString(0);
         }catch (SQLException e) {
             handleError(e, "Erreur get_id");
-            return 0;
+            return "0";
         }  
     } 
 /*
