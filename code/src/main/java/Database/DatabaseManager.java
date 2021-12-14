@@ -27,8 +27,10 @@ public class DatabaseManager{
     }
 }  
 
-//TODO : public void afficher_table()
-
+public void afficher_table(){
+    String requete = "select * from pseudoTab";
+    query(requete);
+}
 
 
     public void update(String requete){// format general d'un update de la table
@@ -149,7 +151,9 @@ public class DatabaseManager{
 
        User nul = new User("Martin", 60, User.Status.ABSENT);
 public void testdb(){
+    afficher_table();
     change_pseudo(nul, "Nullos");
+    afficher_table();
 }
 
 
