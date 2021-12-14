@@ -123,19 +123,26 @@ public class DatabaseManager{
             return -1;
         }  
     } 
-/*
-    public String get_pseudo(User user){//retourne le pseudo associé à un id
+
+    /*retourne le pseudo associé à un id*/
+    public String get_pseudo(User user){
+        ResultSet pseudo;
         String requete = "select pseudo from pseudoTab where id='"+Integer.toString(user.id)+"'";
-        try {
-            Statement stmt = con.createStatement();
-            resultats = stmt.executeQuery(requete);
-            return resultats.getString(0);
+        pseudo=query(requete);
+        try{
+            pseudo.next(); // Saute la ligne de titre
+            return pseudo.getString(1);
         }catch (SQLException e) {
-            //handleError("Anomalie lors de l'execution de la requête get_pseudo");
+            if (e.getSQLState().equals("S1000")){
+                handleError(e, "L'utilisateur n'est pas dans la base de données");
+            } else {
+                handleError(e, "Erreur get_id");
+            }
             return "";
-         }
+        }
     } 
 
+/*
     public List<Integer> connected(){ //renvoie la liste des users connectés
         String requete = "select pseudo from pseudoTab where status='"+Integer.toString(1)+"'";
         List<Integer> vec = new Vector<>();
@@ -150,19 +157,21 @@ public class DatabaseManager{
             //handleError("Anomalie lors de l'execution de la requête connected");
             return vec;
          }
-    } 
+    } */
 
     public void change_status_co(User user){//place le statut à l'état connecté
         String requete = "update pseudoTab set status='"+Integer.toString(1)+"' where id='"+Integer.toString(user.id)+"'";
         update(requete);
         user.status=User.Status.CONNECTED;
     }
+
+    
     public void change_status_deco(User user){//place le statut à l'état déconnecté
         String requete = "update pseudoTab set status='"+Integer.toString(0)+"' where id='"+Integer.toString(user.id)+"'";
         update(requete);
         user.status=User.Status.ABSENT;
     }
-
+/*
     public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
 */
     public void closeConnection(){
@@ -178,8 +187,10 @@ public class DatabaseManager{
     User inconnu = new User("bb", 89, User.Status.OCCUPIED);
     public void testdb(){
         afficher_pseudoTab();
-        System.out.printf("%d",get_id(existe));
-        //System.out.printf("%d",get_id(inconnu));
+        change_status_co(existe);
+        afficher_pseudoTab();
+        change_status_deco(existe);
+        afficher_pseudoTab();
     }
 
 } 
