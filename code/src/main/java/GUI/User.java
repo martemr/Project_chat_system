@@ -4,7 +4,6 @@ import java.io.*;
 import java.lang.String;
 import java.util.UUID;
 
-
 public class User {
 
     public enum Status {
@@ -15,10 +14,6 @@ public class User {
     public String pseudo;
     public int id;
     public Status status;
-
-    private String userDataPath = "./udata";
-    String init="00000000000";
-    private char[] readBuf=init.toCharArray();
     private File userData;
     
     //Constructeur 
@@ -32,37 +27,44 @@ public class User {
         // Automatically connected
         this.status=Status.CONNECTED;
 
-        // Check if this user is new
-        // The user already exists
-        try(FileReader fileReader = new FileReader(userDataPath)) {
-            int readErr = fileReader.read(readBuf, 0, 11); // Lit la ligne 0
+        this.id=0;
 
-            this.id = Integer.valueOf(String.copyValueOf(readBuf));
-            System.out.println("The UUID already existing is " + this.id);
-            if (this.id==0){ // New user
+        try {
 
-            } else { // User already existing
-                try(FileWriter fileWriter = new FileWriter(userDataPath)) {
-                    UUID uid = UUID.randomUUID(); // Give a random uid
-                    this.id = (int) uid.getLeastSignificantBits();
-                    String fileContent = Integer.toString(this.id);
-                    System.out.println("The new UUID is " + fileContent);
-
-                    this.id = Integer.valueOf(fileContent);
-                    fileWriter.write(fileContent);
-                    fileWriter.close();
-                } catch (IOException e1) {
-                    System.out.println(e1);
-                }
+            // Creating or getting the .userdata file
+            String localDir = System.getProperty("user.dir");
+            userData = new File(localDir + "/code/.userdata");
+            if (!userData.exists()) {
+                userData.createNewFile();
+                System.out.println("[User] file code/.userdata not exists, creating one...");
             }
 
-            fileReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
+            // Check of the existence of an uid and reading 
+            BufferedReader reader = new BufferedReader(new FileReader(userData));
+            String line = reader.readLine();
+            while (line != null) {
+                if (line.startsWith("uid:")){
+                    String uidString = line.substring(4, 15);
+                    this.id = Integer.valueOf(uidString);
+                    System.out.println("[User] id successfully get ");
+                }
+                line = reader.readLine(); // read next line 
+            }
+            reader.close();
+
+            // Creating a new id if not already gave
+            if (this.id==0){
+                UUID uid = UUID.randomUUID(); // Give a random uid
+                this.id = (int) uid.getLeastSignificantBits();
+                FileWriter fileWriter = new FileWriter(userData);
+                fileWriter.write("uid:"+Integer.toString(this.id));
+                fileWriter.close();
+                System.out.println("[User] id created");
+            }
+            
         } catch (IOException e) {
             System.out.println(e);
         }
-
     }
 
     //Méthodes
