@@ -8,6 +8,10 @@ Lancer la base de donnée lors de l'utilisation (base de donnée locale, stocké
 Areter le serveur de la base de donnée 
 **sudo systemctl stop mysql**
 
+## Codes d'erreur
+0 : Pas d'erreur
+1 : 
+2 : Erreur dans la base de données
 
 ## TODO:
 ### General :

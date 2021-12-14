@@ -5,6 +5,17 @@ import java.util.List;
 import java.util.Vector;
 
 import GUI.User;
+
+/* 
+TODO :
+- Corriger indentation
+- Commenter toutes les procedures non utilisés
+- Faire une fonction style 'requete.toString()' pour afficher les resultats des requètes
+- Tester toutes les procédures 1 par 1
+- Mettre une ligne de commentaire avant chaque fonction qui l'explique
+
+*/
+
 /**
  * @author sqlitetutorial.net
  */
@@ -13,44 +24,55 @@ public class DatabaseManager{
     Connection con;
     ResultSet resultats = null;
 
-    private static void arret(String message) {
+    private static void handleError(SQLException exc, String message) {
         System.err.println(message);
-        System.exit(99);
-     }
+        System.err.println("");
+        System.exit(2);
+    }
+    private static void handleError(SQLException exc) {
+        //exc.printStackTrace();
+        System.err.println("SQL Error " + exc.getSQLState() + " : " + exc.getMessage());
+        System.exit(2);
+    }
 
     public DatabaseManager(){
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
         con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root");  
+        System.out.println("Connection à la base de données établie");
     }catch(Exception e){
         System.out.println(e);
     }
 }  
 
-    public void update(String requete){// format general d'un update de la table
-        try {
-            Statement stmt = con.createStatement();
-            int nbMaj = stmt.executeUpdate(requete);
-         } catch (SQLException e) {
-             e.printStackTrace();
-             arret("Anomalie lors de la mise à jour de la table");
-         }
+public int update(String requete){// format general d'un update de la table
+    int nbMaj =0;
+    try {
+        Statement stmt = con.createStatement();
+        nbMaj = stmt.executeUpdate(requete);
+    } catch (SQLException e) {
+        handleError(e);
     }
+    return nbMaj;
+}
 
-    public void query(String requete){ //format general d'une query (pas toujours utilisable car on a besoin de la valeur de resultats)
-        try {
-            Statement stmt = con.createStatement();
-            resultats = stmt.executeQuery(requete);
-        }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête");
-         }
+public ResultSet query(String requete){ //format general d'une query (pas toujours utilisable car on a besoin de la valeur de resultats)
+    try {
+        Statement stmt = con.createStatement();
+        resultats = stmt.executeQuery(requete);
+    }catch (SQLException e) {
+        handleError(e);
     }
+    return resultats;
+}
 
-    public void afficher_table(){
-        String requete = "select * from pseudoTab";
-        query(requete);
-    }
-        
+public void afficher_table(){
+    String requete = "use chatDB";
+    update(requete);
+    requete = "select * from pseudoTab";
+    query(requete);
+}
+    
 
     public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
 
@@ -59,14 +81,15 @@ public class DatabaseManager{
         update(requete);
     } 
 
-    public int get_id(User user){ //retourne l'id associé à un pseudo
+    /** Retourne l'id associé à un pseudo */
+    public int get_id(User user){ 
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
             return resultats.getInt(0);
         }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête get_id");
+            //handleError("Anomalie lors de l'execution de la requête get_id");
             return 0;
          }
     } 
@@ -78,7 +101,7 @@ public class DatabaseManager{
             resultats = stmt.executeQuery(requete);
             return resultats.getString(0);
         }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête get_pseudo");
+            //handleError("Anomalie lors de l'execution de la requête get_pseudo");
             return "";
          }
     } 
@@ -94,7 +117,7 @@ public class DatabaseManager{
             }
             return vec;
         }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête connected");
+            //handleError("Anomalie lors de l'execution de la requête connected");
             return vec;
          }
     } 
@@ -119,35 +142,7 @@ public class DatabaseManager{
             System.out.println(e);
         }
     }    
-
-
-
-    //Connection conn;    
     
-    
-    /**
-     * Connect to a sample database
-     *
-     * @param fileName the database file name
-     */
-    /*public void createNewDatabase(String fileName) {
-
-        String url = "jdbc:sqlite:code/main/java/db/" + fileName;
-
-        try {
-            conn = DriverManager.getConnection(url);
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-       */         
       
     User nul = new User("Martin", 60, User.Status.ABSENT);
     public void testdb(){
