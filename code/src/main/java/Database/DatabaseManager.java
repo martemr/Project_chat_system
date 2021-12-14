@@ -37,9 +37,9 @@ public class DatabaseManager{
     public DatabaseManager(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root");  
+            con=DriverManager.getConnection("jdbc:mysql://srv-bdens.insa-toulouse.fr:3306","tp_servlet_007","EiJ0eoVo");  
             System.out.println("[Database] Connection established");
-            String requete = "use chatDB";
+            String requete = "use tp_servlet_007";
             execute(requete);
         }catch(Exception e){
             System.out.println(e);
@@ -112,10 +112,15 @@ public class DatabaseManager{
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         id=query(requete);
         try{
-            return id.getInt(0);
+            id.next(); // Saute la ligne de titre
+            return id.getInt(1);
         }catch (SQLException e) {
-            handleError(e, "Erreur get_id");
-            return 0;
+            if (e.getSQLState().equals("S1000")){
+                handleError(e, "L'utilisateur n'est pas dans la base de données");
+            } else {
+                handleError(e, "Erreur get_id");
+            }
+            return -1;
         }  
     } 
 /*
@@ -174,7 +179,7 @@ public class DatabaseManager{
     public void testdb(){
         afficher_pseudoTab();
         System.out.printf("%d",get_id(existe));
-        System.out.printf("%d",get_id(inconnu));
+        //System.out.printf("%d",get_id(inconnu));
     }
 
 } 
