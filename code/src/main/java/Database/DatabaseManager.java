@@ -83,9 +83,14 @@ public class DatabaseManager{
         String requete = "select * from pseudoTab";
         table=query(requete);
         try{
+            System.out.println("[Database] Table pseudoTab :");
+            System.out.println("-----------------------------");
+            System.out.println("|  Pseudo  |  id   | status |");
+            System.out.println("-----------------------------");
             while (table.next()){
-                System.out.println(table.getString(1)+"   "+table.getInt(2)+"   "+table.getInt(3));
+                System.out.printf("| %-8s | %-5d |    %d   |\n", table.getString(1), table.getInt(2), table.getInt(3));
             }
+            System.out.println("-----------------------------");
         }catch (SQLException e) {
             handleError(e);
         }
