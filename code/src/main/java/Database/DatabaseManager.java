@@ -23,8 +23,8 @@ public class DatabaseManager{
     ResultSet resultats = null;
 
     private static void handleError(SQLException exc, String message) {
+        System.err.println("SQL Error " + exc.getSQLState() + " : " + exc.getMessage());
         System.err.println(message);
-        System.err.println("");
         System.exit(2);
     }
 
@@ -97,7 +97,9 @@ public class DatabaseManager{
     }
 
 
-   /* public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données */
+   /* public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
+   
+   public void add_user(User user){};*/
 
     public void change_pseudo(User user, String new_pseudo){//change le pseudo (appel à exist_pseudo)
         String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
@@ -105,15 +107,15 @@ public class DatabaseManager{
     } 
 
     /** Retourne l'id associé à un pseudo */
-    public String get_id(User user){
+    public int get_id(User user){
         ResultSet id;
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         id=query(requete);
         try{
-            return id.getString(0);
+            return id.getInt(0);
         }catch (SQLException e) {
             handleError(e, "Erreur get_id");
-            return "0";
+            return 0;
         }  
     } 
 /*
@@ -171,8 +173,8 @@ public class DatabaseManager{
     User inconnu = new User("bb", 89, User.Status.OCCUPIED);
     public void testdb(){
         afficher_pseudoTab();
-        System.out.println(get_id(existe));
-        System.out.println(get_id(inconnu));
+        System.out.printf("%d",get_id(existe));
+        System.out.printf("%d",get_id(inconnu));
     }
 
 } 
