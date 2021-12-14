@@ -110,11 +110,11 @@ public class DatabaseManager{
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
-            return resultats.getInt(0);
+            return resultats.getInt(1);
         }catch (SQLException e) {
-            //handleError("Anomalie lors de l'execution de la requête get_id");
+            handleError(e,"Anomalie lors de l'execution de la requête get_id");
             return 0;
-         }
+        }
     } 
 /*
     public String get_pseudo(User user){//retourne le pseudo associé à un id
