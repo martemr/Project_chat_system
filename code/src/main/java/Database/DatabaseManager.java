@@ -8,8 +8,6 @@ import GUI.User;
 
 /* 
 TODO :
-- Corriger indentation
-- Commenter toutes les procedures non utilisés
 - Faire une fonction style 'requete.toString()' pour afficher les resultats des requètes
 - Tester toutes les procédures 1 par 1
 - Mettre une ligne de commentaire avant chaque fonction qui l'explique
@@ -29,6 +27,7 @@ public class DatabaseManager{
         System.err.println("");
         System.exit(2);
     }
+
     private static void handleError(SQLException exc) {
         //exc.printStackTrace();
         System.err.println("SQL Error " + exc.getSQLState() + " : " + exc.getMessage());
@@ -37,52 +36,71 @@ public class DatabaseManager{
 
     public DatabaseManager(){
         try{
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root");  
-        System.out.println("Connection à la base de données établie");
-    }catch(Exception e){
-        System.out.println(e);
-    }
-}  
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root");  
+            System.out.println("Connection à la base de données établie");
+            String requete = "use chatDB";
+            execute(requete);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }  
 
-public int update(String requete){// format general d'un update de la table
-    int nbMaj =0;
-    try {
-        Statement stmt = con.createStatement();
-        nbMaj = stmt.executeUpdate(requete);
-    } catch (SQLException e) {
-        handleError(e);
+    public int update(String requete){// format general d'un update de la table
+        int nbMaj =0;
+        try {
+            Statement stmt = con.createStatement();
+            nbMaj = stmt.executeUpdate(requete);
+        } catch (SQLException e) {
+            handleError(e);
+        }
+        return nbMaj;
     }
-    return nbMaj;
-}
 
-public ResultSet query(String requete){ //format general d'une query (pas toujours utilisable car on a besoin de la valeur de resultats)
-    try {
+    public ResultSet query(String requete){ //format general d'une query (pas toujours utilisable car on a besoin de la valeur de resultats)
+        try {
+            Statement stmt = con.createStatement();
+            resultats = stmt.executeQuery(requete);
+        }catch (SQLException e) {
+            handleError(e);
+        }
+        return resultats;
+    }
+
+    public Boolean execute(String requete){ //format general d'une execution
+    Boolean res = true;
+        try {
         Statement stmt = con.createStatement();
-        resultats = stmt.executeQuery(requete);
+        res = stmt.execute(requete);
     }catch (SQLException e) {
         handleError(e);
     }
-    return resultats;
+    return res;
 }
 
-public void afficher_table(){
-    String requete = "use chatDB";
-    update(requete);
-    requete = "select * from pseudoTab";
-    query(requete);
-}
-    
+    public void afficher_pseudoTab(){
+        ResultSet table;
+        String requete = "select * from pseudoTab";
+        table=query(requete);
+        try{
+            while (table.next()){
+                System.out.println(table.getString(1)+"   "+table.getInt(2)+"   "+table.getInt(3)+ "\n");
+            }
+        }catch (SQLException e) {
+            handleError(e);
+        }
+    }
 
-    public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
+
+   /* public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
 
     public void change_pseudo(User user, String new_pseudo){//change le pseudo (appel à exist_pseudo)
         String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
         update(requete);
-    } 
+    } */
 
     /** Retourne l'id associé à un pseudo */
-    public int get_id(User user){ 
+   /* public int get_id(User user){ 
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         try {
             Statement stmt = con.createStatement();
@@ -134,7 +152,7 @@ public void afficher_table(){
     }
 
     public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
-
+*/
     public void closeConnection(){
         try{
             con.close();
@@ -146,7 +164,7 @@ public void afficher_table(){
       
     User nul = new User("Martin", 60, User.Status.ABSENT);
     public void testdb(){
-        afficher_table();
+        afficher_pseudoTab();
     }
-    
+
 } 
