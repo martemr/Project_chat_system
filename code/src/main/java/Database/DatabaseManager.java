@@ -38,7 +38,7 @@ public class DatabaseManager{
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             con=DriverManager.getConnection("jdbc:mysql://localhost:3306","root","root");  
-            System.out.println("Connection à la base de données établie");
+            System.out.println("[Database] Connection established");
             String requete = "use chatDB";
             execute(requete);
         }catch(Exception e){
@@ -84,7 +84,7 @@ public class DatabaseManager{
         table=query(requete);
         try{
             while (table.next()){
-                System.out.println(table.getString(1)+"   "+table.getInt(2)+"   "+table.getInt(3)+ "\n");
+                System.out.println(table.getString(1)+"   "+table.getInt(2)+"   "+table.getInt(3));
             }
         }catch (SQLException e) {
             handleError(e);
