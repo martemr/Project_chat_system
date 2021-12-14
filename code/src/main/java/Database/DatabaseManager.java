@@ -97,12 +97,12 @@ public class DatabaseManager{
     }
 
 
-   /* public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données 
+   /* public Boolean exist_pseudo(String pseudo){return false;} //verifie si le pseudo est deja dans la base de données */
 
     public void change_pseudo(User user, String new_pseudo){//change le pseudo (appel à exist_pseudo)
         String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
         update(requete);
-    } */
+    } 
 
     /** Retourne l'id associé à un pseudo */
    /* public int get_id(User user){ 
@@ -169,6 +169,8 @@ public class DatabaseManager{
       
     User nul = new User("Martin", 60, User.Status.ABSENT);
     public void testdb(){
+        afficher_pseudoTab();
+        change_pseudo(nul, "nullos");
         afficher_pseudoTab();
     }
 
