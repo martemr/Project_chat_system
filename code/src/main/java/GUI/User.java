@@ -2,7 +2,6 @@ package GUI;
 
 import java.io.*;
 import java.lang.String;
-import java.util.UUID;
 
 public class User {
 
@@ -44,7 +43,7 @@ public class User {
             String line = reader.readLine();
             while (line != null) {
                 if (line.startsWith("uid:")){
-                    String uidString = line.substring(4, 15);
+                    String uidString = line.substring(4, 14);
                     this.id = Integer.valueOf(uidString);
                     System.out.println("[User] id successfully get ");
                 }
