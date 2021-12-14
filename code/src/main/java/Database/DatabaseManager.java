@@ -27,18 +27,13 @@ public class DatabaseManager{
     }
 }  
 
-public void afficher_table(){
-    String requete = "select * from pseudoTab";
-    query(requete);
-}
-
-
     public void update(String requete){// format general d'un update de la table
         try {
             Statement stmt = con.createStatement();
             int nbMaj = stmt.executeUpdate(requete);
          } catch (SQLException e) {
              e.printStackTrace();
+             arret("Anomalie lors de la mise à jour de la table");
          }
     }
 
@@ -49,6 +44,11 @@ public void afficher_table(){
         }catch (SQLException e) {
             arret("Anomalie lors de l'execution de la requête");
          }
+    }
+
+    public void afficher_table(){
+        String requete = "select * from pseudoTab";
+        query(requete);
     }
         
 
@@ -66,7 +66,7 @@ public void afficher_table(){
             resultats = stmt.executeQuery(requete);
             return resultats.getInt(0);
         }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête");
+            arret("Anomalie lors de l'execution de la requête get_id");
             return 0;
          }
     } 
@@ -78,7 +78,7 @@ public void afficher_table(){
             resultats = stmt.executeQuery(requete);
             return resultats.getString(0);
         }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête");
+            arret("Anomalie lors de l'execution de la requête get_pseudo");
             return "";
          }
     } 
@@ -94,7 +94,7 @@ public void afficher_table(){
             }
             return vec;
         }catch (SQLException e) {
-            arret("Anomalie lors de l'execution de la requête");
+            arret("Anomalie lors de l'execution de la requête connected");
             return vec;
          }
     } 
@@ -148,13 +148,10 @@ public void afficher_table(){
     }
 
        */         
-
-       User nul = new User("Martin", 60, User.Status.ABSENT);
-public void testdb(){
-    afficher_table();
-    change_pseudo(nul, "Nullos");
-    afficher_table();
-}
-
-
+      
+    User nul = new User("Martin", 60, User.Status.ABSENT);
+    public void testdb(){
+        afficher_table();
+    }
+    
 } 
