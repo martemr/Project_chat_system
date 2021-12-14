@@ -105,7 +105,7 @@ public class DatabaseManager{
     } 
 
     /** Retourne l'id associé à un pseudo */
-   /* public int get_id(User user){ 
+    public int get_id(User user){ 
         String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
         try {
             Statement stmt = con.createStatement();
@@ -116,7 +116,7 @@ public class DatabaseManager{
             return 0;
          }
     } 
-
+/*
     public String get_pseudo(User user){//retourne le pseudo associé à un id
         String requete = "select pseudo from pseudoTab where id='"+Integer.toString(user.id)+"'";
         try {
@@ -167,10 +167,12 @@ public class DatabaseManager{
     }    
     
       
-    User nul = new User("Martin", 60, User.Status.ABSENT);
+    User existe = new User("Martin", 60, User.Status.ABSENT);
+    User inconnu = new User("bb", 89, User.Status.OCCUPIED)
     public void testdb(){
         afficher_pseudoTab();
-        change_pseudo(nul, "nullos");
+        get_id(existe);
+        get_id(inconnu);
         afficher_pseudoTab();
     }
 
