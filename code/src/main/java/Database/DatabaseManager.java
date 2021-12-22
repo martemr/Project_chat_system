@@ -154,7 +154,6 @@ public class DatabaseManager{
         username=query(requete);
         try{
             username.next(); // Saute la ligne de titre
-            System.out.println(username.getString(1));
             return username.getString(1).equals(pseudo);
         }catch (SQLException e) {
             if (e.getSQLState().equals("S1000")){
@@ -190,12 +189,16 @@ public class DatabaseManager{
      * @param user
      * @param new_pseudo
      */
-    public void change_pseudo(User user, String new_pseudo){//change le pseudo (appel à exist_pseudo)
-        String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
-        update(requete);
+    public void change_pseudo(User user, String new_pseudo){
+        if (exist_pseudo(new_pseudo)){
+            System.out.println("Ce pseudo est déjà utilisé");
+        } else {
+            String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
+            update(requete);
+            System.out.println("Pseudo modifié");
+        }
     } 
 
-    
 
     /**
      * Retourne l'id associé à un pseudo
@@ -301,6 +304,7 @@ public class DatabaseManager{
     User inconnu = new User("bb", 89, User.Status.OCCUPIED);
     public void testdb(){
         afficher_pseudoTab();
+        change_pseudo(inconnu, "Marie");
         
     }
 
