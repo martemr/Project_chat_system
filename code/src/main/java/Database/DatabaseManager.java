@@ -120,7 +120,7 @@ public class DatabaseManager{
 
 
 
-//REQUETES 
+//REQUETES SUR PSEUDOTAB
 
 /**
  * Permet d'afficher la table pour verifier nos autres requetes
@@ -186,8 +186,6 @@ public class DatabaseManager{
             update(requete);
         }
     };
-
-    //TODO : remove user
 
 
     /**
@@ -271,25 +269,33 @@ public class DatabaseManager{
 
 
     /**
-     * Changer le status de l'utilisateur pour le connecter
+     * Reconnexion d'un utilisateur : remet status connecté et met un nouveau pseudo
      * @param user
      */
-    public void change_status_co(User user){
+    public void reconnexion(User user){
         String requete = "update pseudoTab set status='"+Integer.toString(1)+"' where id='"+Integer.toString(user.id)+"'";
         update(requete);
         user.status=User.Status.CONNECTED;
+        change_pseudo(user, user.pseudo);
     }
 
     /**
-     * Changer le status de l'utilisateur pour le déconnecter
+     * Deconnexion d'un utilisateur : status déconnecté et suppression du pseudo
      * @param user
      */
-    public void change_status_deco(User user){//place le statut à l'état déconnecté
+    public void deconnexion(User user){
         String requete = "update pseudoTab set status='"+Integer.toString(0)+"' where id='"+Integer.toString(user.id)+"'";
         update(requete);
         user.status=User.Status.ABSENT;
+        change_pseudo(user, "");
     }
 
+
+
+
+
+
+    //REQUETES SUR MSGTABLE
     
     //TODO : public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
 
@@ -309,10 +315,11 @@ public class DatabaseManager{
 
     User existe = new User("Martin", 60, User.Status.ABSENT);
     User inconnu = new User("bb", 89, User.Status.OCCUPIED);
+    User jsp = new User("null", 33, User.Status.CONNECTED);
     public void testdb(){
         afficher_pseudoTab();
-        change_status_co(inconnu);
-        connected();
+        add_user(jsp);
+        afficher_pseudoTab();
     }
 
 } 
