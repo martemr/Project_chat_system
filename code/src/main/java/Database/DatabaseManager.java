@@ -187,6 +187,8 @@ public class DatabaseManager{
         }
     };
 
+    //TODO : remove user
+
 
     /**
      * Permet de changer le pseudo d'un utilisateur
@@ -249,22 +251,23 @@ public class DatabaseManager{
         }
     } 
 
-/* TODO :
-    public List<Integer> connected(){ //renvoie la liste des users connectés
-        String requete = "select pseudo from pseudoTab where status='"+Integer.toString(1)+"'";
-        List<Integer> vec = new Vector<>();
+
+    /**
+     * Retourne la liste des utilisateurs connectés
+     * @return
+     */
+    public void connected(){
+        String requete = "select pseudo from pseudoTab where status='"+1+"'";
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
             while(resultats.next()){
-                vec.add(resultats.getInt(0));
+                System.out.println(resultats.getString(1));
             }
-            return vec;
         }catch (SQLException e) {
-            //handleError("Anomalie lors de l'execution de la requête connected");
-            return vec;
+            handleError(e, "Anomalie lors de l'execution de la requête connected");         
          }
-    } */
+    }
 
 
     /**
@@ -308,8 +311,8 @@ public class DatabaseManager{
     User inconnu = new User("bb", 89, User.Status.OCCUPIED);
     public void testdb(){
         afficher_pseudoTab();
-        change_pseudo(inconnu, "Marie");
-        
+        change_status_co(inconnu);
+        connected();
     }
 
 } 
