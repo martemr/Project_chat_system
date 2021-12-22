@@ -171,16 +171,20 @@ public class DatabaseManager{
      * @param user
      */
     public void add_user(User user){
-        int status;
-        if (user.status==User.Status.CONNECTED) {
-            status=1;
-        } else if (user.status==User.Status.ABSENT){
-            status=0;
+        if (exist_pseudo(user.pseudo)) {
+            System.out.println("Ce pseudo est déjà utilisé");
         } else {
-            status=2;
+            int status;
+            if (user.status==User.Status.CONNECTED) {
+                status=1;
+            } else if (user.status==User.Status.ABSENT){
+                status=0;
+            } else {
+                status=2;
+            }
+            String requete = "insert into pseudoTab values ('"+user.pseudo+"', '"+user.id+"', '"+status+"')";
+            update(requete);
         }
-        String requete = "insert into pseudoTab values ('"+user.pseudo+"', '"+user.id+"', '"+status+"')";
-        update(requete);
     };
 
 
