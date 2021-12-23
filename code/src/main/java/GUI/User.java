@@ -1,7 +1,6 @@
 package GUI;
 
 import java.io.*;
-import java.lang.String;
 
 public class User {
 
@@ -16,34 +15,42 @@ public class User {
     private File userData;
     
     //Constructeur 
+    @Deprecated
     public User(String pseudo, int id, Status status){
         this.pseudo = pseudo; this.id=id; this.status=status;
     }
 
+    /** Constructor for User
+     *  @param pseudo default name for the pseudo 
+     *  @return User where
+     *      Pseudo = pseudo
+     *      Status = CONNECTED
+     *      id = existing id or new id created (an id is already existing if the program has already been executed on the machine)
+     *  @throws IOException
+     */
     public User(String pseudo){
         this.pseudo=pseudo;
 
         // Automatically connected
         this.status=Status.CONNECTED;
 
+        // Creating or getting the id
         this.id=0;
-
         try {
-
-            // Creating or getting the .userdata file
+            // Creating or getting the .userdata file (situated in Project_chat_system/code/.userdata)
             String localDir = System.getProperty("user.dir");
             userData = new File(localDir + "/code/.userdata");
-            if (!userData.exists()) {
-                userData.createNewFile();
+            if (!userData.exists()) { 
+                if (!userData.createNewFile()) throw new FileNotFoundException();
                 System.out.println("[User] file code/.userdata not exists, creating one...");
             }
 
-            // Check of the existence of an uid and reading 
+            // Read the existing uid  
             BufferedReader reader = new BufferedReader(new FileReader(userData));
             String line = reader.readLine();
             while (line != null) {
                 if (line.startsWith("uid:")){
-                    String uidString = line.substring(4, 14);
+                    String uidString = line.substring(4, 14); // id is 14 characters long
                     this.id = Integer.valueOf(uidString);
                     System.out.println("[User] id successfully get ");
                 }
@@ -65,7 +72,6 @@ public class User {
         }
     }
 
-    //Méthodes
     /** Function for changing pseudo
      * @param new_pseudo new pseudo to be set
      */
