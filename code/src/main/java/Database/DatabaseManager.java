@@ -161,8 +161,32 @@ public class DatabaseManager{
             } else {
                 handleError(e, "Erreur exist_pseudo");
             }
-            return true;
+            return false;
         }  
+    }
+
+
+
+    /**
+     * Verifie l'existence d'un id dans la base de données
+     * @param id
+     * @return
+     */
+    public Boolean exist_id(int id){
+        ResultSet num;
+        String requete = "select id from pseudoTab where id='"+id+"'";
+        num=query(requete);
+        try{
+            num.next();
+            return true;
+        }catch (SQLException e) {
+            if (e.getSQLState().equals("S1000")){
+                return false;
+            } else {
+                handleError(e, "Erreur exist_id");
+            }
+            return false;
+        }
     }
    
 
@@ -196,12 +220,54 @@ public class DatabaseManager{
     public void change_pseudo(User user, String new_pseudo){
         if (exist_pseudo(new_pseudo)){
             System.out.println("Ce pseudo est déjà utilisé");
+        } else if(new_pseudo=="") {
+            System.out.println("Veuillez entrer un pseudo");
         } else {
             String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
             update(requete);
             System.out.println("Pseudo modifié");
         }
     } 
+
+    /**
+     * Reconnexion d'un utilisateur : remet status connecté et met un nouveau pseudo
+     * @param user
+     */
+    public void reconnexion(User user){
+        String requete = "update pseudoTab set status='"+Integer.toString(1)+"' where id='"+Integer.toString(user.id)+"'";
+        update(requete);
+        user.status=User.Status.CONNECTED;
+        change_pseudo(user, user.pseudo);
+    }
+
+
+
+    /**
+     * Fonction utilisée lors de l'appui sur le bouton du pseudo
+     * Lors de la connexion, vérifie si l'utilisateur est déjà dans la base de données (via id) et agit en fonction
+     * @param user
+     */
+    public void connexion(User user){
+        if (exist_id(user.id)){
+            reconnexion(user);
+        }else{
+            add_user(user);
+        }
+    }
+
+
+       /**
+     * Deconnexion d'un utilisateur : status déconnecté et suppression du pseudo
+     * @param user
+     */
+    public void deconnexion(User user){
+        String requete = "update pseudoTab set status='"+Integer.toString(0)+"' where id='"+Integer.toString(user.id)+"'";
+        update(requete);
+        user.status=User.Status.ABSENT;
+        change_pseudo(user, "");
+    }
+
+
 
 
     /**
@@ -254,7 +320,7 @@ public class DatabaseManager{
      * Retourne la liste des utilisateurs connectés
      * @return
      */
-    public void connected(){
+    public void connected_users(){
         String requete = "select pseudo from pseudoTab where status='"+1+"'";
         try {
             Statement stmt = con.createStatement();
@@ -263,32 +329,10 @@ public class DatabaseManager{
                 System.out.println(resultats.getString(1));
             }
         }catch (SQLException e) {
-            handleError(e, "Anomalie lors de l'execution de la requête connected");         
+            handleError(e, "Anomalie lors de l'execution de la requête connected_users");         
          }
     }
 
-
-    /**
-     * Reconnexion d'un utilisateur : remet status connecté et met un nouveau pseudo
-     * @param user
-     */
-    public void reconnexion(User user){
-        String requete = "update pseudoTab set status='"+Integer.toString(1)+"' where id='"+Integer.toString(user.id)+"'";
-        update(requete);
-        user.status=User.Status.CONNECTED;
-        change_pseudo(user, user.pseudo);
-    }
-
-    /**
-     * Deconnexion d'un utilisateur : status déconnecté et suppression du pseudo
-     * @param user
-     */
-    public void deconnexion(User user){
-        String requete = "update pseudoTab set status='"+Integer.toString(0)+"' where id='"+Integer.toString(user.id)+"'";
-        update(requete);
-        user.status=User.Status.ABSENT;
-        change_pseudo(user, "");
-    }
 
 
 
@@ -309,6 +353,9 @@ public class DatabaseManager{
         }
     }    
     
+    
+
+
     
 
     //TESTS
