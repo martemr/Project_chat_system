@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-import java.sql.Timestamp;    
 import java.util.Date;  
 
 
@@ -18,17 +17,15 @@ public class Interface implements ActionListener {
     JFrame interfaceFrame;
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
-    JTextArea displayMsg;                 // Zone de texte
+    static JTextArea displayMsg;                 // Zone de texte
     JButton sendMessageButton, changePseudoButton;                   // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
-    User user ;
+    static User user ;
     JScrollPane scroll;
 
 
     ActionListener sendAction;
 
-    Timestamp ts;
-    Date date;
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
@@ -152,17 +149,29 @@ public class Interface implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
         if (source==msgCapture || source==sendMessageButton) {
-            String texteSaisi=msgCapture.getText(); // Capure le texte lors de l'évènement 
-            ts=new Timestamp(System.currentTimeMillis());  
-            date=new Date(ts.getTime());
-            Message message = new Message(user, user,texteSaisi, date);
-            //TODO : ajouter message à la base de données pour pas qu'il disparaisse
-            displayMsg.append(date + "   "+user.pseudo+" : "+ texteSaisi+"\n"); // L'affiche 
+            // Capture text
+            String texteSaisi=msgCapture.getText();
+            // Create message and stamp it
+            Message message = new Message(user, user, texteSaisi);
+            // Print message
+            printMessage(message);
         } 
         else if (source==pseudoCapture || source==changePseudoButton) {
             String nouveauPseudo=pseudoCapture.getText();
             user.pseudo= nouveauPseudo;
         }
+    }
+
+    /* Affiche le message sur l'interface  **/
+    public static void printMessage(Message msg){
+        displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
+    }
+
+    // TODO : Remove this, use for test
+    public static void printMessage(String msgTxt){
+        //TODO : ajouter message à la base de données pour pas qu'il disparaisse
+        Message message = new Message(user, user, msgTxt);
+        printMessage(message);
     }
 
 }
