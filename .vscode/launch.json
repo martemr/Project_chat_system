@@ -8,6 +8,20 @@
             "type": "java",
             "name": "Launch Main",
             "request": "launch",
+            "mainClass": "Main.Main",
+            "projectName": "code"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "GUI.Main",
+            "projectName": "code"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
             "mainClass": "Main",
             "projectName": "code"
         },

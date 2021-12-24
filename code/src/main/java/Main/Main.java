@@ -39,10 +39,7 @@ public class Main {
         int port = 1234;
         try {
             tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
-            //tcpServer.init();
             tcpServer.start();
-            //System.out.println("here");
-            //ClientTCP client = new ClientTCP();
         } catch (IOException e) {
             e.printStackTrace();
         }

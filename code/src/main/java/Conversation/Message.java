@@ -20,8 +20,8 @@ public class Message implements Serializable {
         this.date=new Date(ts.getTime());
     }
 
-    
     // TODO : Remove this constructeur, use for test
+    @Deprecated
     public Message(String msg){
         User u= new User("martin");
         this.from=u; this.to=u; this.msg=msg;
