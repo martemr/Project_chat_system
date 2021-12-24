@@ -1,42 +1,46 @@
 package Network;
 
-import java.io.*;
+import Conversation.*;
+
 import java.net.*;
-import Conversation.Message;
-import GUI.User;
+import java.io.*;
 
-/** Le processus client se connecte à l'adresse fournie dans la commande
- *   d'appel en premier argument et utilise le port distant 8080.
- */
-public class ClientTCP implements Runnable {
-    private Socket chatSocket;
-	private final Message message;
-	private final String host;
-	private PrintWriter output;
-	private final int port = 8080;
-    private User user;
+public class ClientTCP {
 
+	protected int port;
+   protected String serverName;
+   protected Socket client;
 
-	public ClientTCP(String host, Message message) throws IOException {
-		this.host = host;
-		this.message = message;
-	}
+   /** Constructor for Client  */
+   public ClientTCP(String serverName, int port) throws IOException {
+      this.serverName = serverName; this.port = port;
 
+      System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
+      Socket client = new Socket(serverName, port); // Create socket
+      System.out.println("[TCP Client] Connected");
+   }
 
-	public void run() {
+   /** Envoiie un message
+	 * 
+	**/
+	public void sendMessage(Message msg) {     
+      try {
+         OutputStream outToServer = client.getOutputStream();
+         ObjectOutputStream out = new ObjectOutputStream(outToServer);
+         out.writeObject(msg);
+      } catch (IOException e) {
+         System.out.println("[TCP Client] Error while sending message");
+         e.printStackTrace();
+         this.close();
+      }
+   }
+
+   	/** Closing function for the server */
+	public void close(){
 		try {
-				/* Request a connection to the given User  */
-				System.out.println("connecting to port " + port + " and host " + host);
-				chatSocket = new Socket(host, port);
-				/* Initialization of the output channel */
-				this.output = new PrintWriter(chatSocket.getOutputStream());
-
-				/* Send the message...*/
-				output.println(message.toString() + ":" + user.pseudo + ":" + Integer.toString(port));
-				output.flush();
-				/* Close the socket */
-				chatSocket.close();
-		}catch (IOException e) {
+			client.close();
+		} catch (Exception e) {
+			System.out.println("[TCP Server] Error while closing server");
 			e.printStackTrace();
 		}
 	}

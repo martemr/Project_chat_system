@@ -8,6 +8,7 @@ import java.awt.*;
 import Main.Main;
 import Database.DatabaseManager;
 import Conversation.Message;
+import Network.ClientTCP;
 
 public class Interface implements ActionListener {
 
@@ -21,6 +22,7 @@ public class Interface implements ActionListener {
     JScrollPane scroll;
 
     static User user = Main.getMainUser();
+    static ClientTCP tcpClient = Main.getClientTCP();
 
     ActionListener sendAction;
 
@@ -142,16 +144,17 @@ public class Interface implements ActionListener {
     // Zone de gestion des actions 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
+        
         // Send message
         if (source==msgCapture || source==sendMessageButton) {
             // Capture text
             String texteSaisi=msgCapture.getText();
             // Create message and stamp it
-            Message message = new Message(user, user, texteSaisi);
-
-            
+            Message message = new Message(user, user, texteSaisi);            
             // Print message
             printMessage(message);
+            // Send it
+            // TODO : tcpClient.sendMessage(message);
         } 
         // Change pseudo
         else if (source==pseudoCapture || source==changePseudoButton) {

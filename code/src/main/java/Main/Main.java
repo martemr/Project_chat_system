@@ -11,6 +11,8 @@ public class Main {
 
     private static User user; // Main user, static for getting it everywhere
     static Interface mainWindow;
+    static ServerTCP tcpServer;
+    static ClientTCP tcpClient; // TODO : Link with interface
 
     static {
         user = new User("Pseudo"); // the main user is declared once, here.
@@ -21,6 +23,13 @@ public class Main {
      */
     static public User getMainUser(){
         return user;
+    }
+
+    /** Getter for the client TCP
+     * @return clientTCP
+     */
+    static public ClientTCP getClientTCP(){
+        return tcpClient;
     }
 
     // Main fonction (appelée en premier lors de l'exécution)
@@ -34,8 +43,8 @@ public class Main {
         mainWindow = new Interface();   
 
         // TCP Server
-        ServerTCP tcpServer;
-        System.out.println("[Main] Running as server");
+
+        System.out.println("[Main] Running the server");
         int port = 1234;
         try {
             tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
