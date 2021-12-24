@@ -2,10 +2,11 @@ package Conversation;
 
 import GUI.User;
 
-import java.util.Date;  
+import java.util.Date;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Message {
+public class Message implements Serializable {
     public User from;  // User écrivant le message
     public User to;    // User recevant le message
     public String msg; // Texte du message
@@ -19,7 +20,7 @@ public class Message {
         this.date=new Date(ts.getTime());
     }
 
-    /*
+    
     // TODO : Remove this constructeur, use for test
     public Message(String msg){
         User u= new User("martin");
@@ -28,7 +29,6 @@ public class Message {
         Timestamp ts=new Timestamp(System.currentTimeMillis());  
         this.date=new Date(ts.getTime());
     }
-    */
 
     @Override
     public String toString(){

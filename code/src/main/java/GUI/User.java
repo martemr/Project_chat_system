@@ -2,7 +2,7 @@ package GUI;
 
 import java.io.*;
 
-public class User {
+public class User implements Serializable{
 
     public enum Status {
         CONNECTED, ABSENT, OCCUPIED
@@ -68,7 +68,7 @@ public class User {
             }
             
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("[User] " + e);
         }
     }
 

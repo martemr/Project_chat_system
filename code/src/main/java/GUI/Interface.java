@@ -2,12 +2,10 @@ package GUI;
 
 import java.awt.event.*;
 import javax.swing.*;
+
 import java.awt.*;
 
-
-import java.util.Date;  
-
-
+import Main.Main;
 import Database.DatabaseManager;
 import Conversation.Message;
 
@@ -17,12 +15,12 @@ public class Interface implements ActionListener {
     JFrame interfaceFrame;
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
-    static JTextArea displayMsg;                 // Zone de texte
-    JButton sendMessageButton, changePseudoButton;                   // Boutons 
+    static JTextArea displayMsg;          // Zone de texte
+    JButton sendMessageButton, changePseudoButton;  // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
-    static User user ;
     JScrollPane scroll;
 
+    static User user = Main.getMainUser();
 
     ActionListener sendAction;
 
@@ -36,8 +34,7 @@ public class Interface implements ActionListener {
         }}
 
     public void createPannels(){
-        // Create the main panel
-        //  There is only one panel at this step
+        // Create the main panel, there is only one
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -59,9 +56,6 @@ public class Interface implements ActionListener {
             //natural height, maximum width
             c.fill = GridBagConstraints.BOTH;
             }
-
-        //Create user
-        user = new User("titi");
         
         // Pseudo field
         pseudoLabel = new JLabel("Pseudo :");
@@ -141,26 +135,32 @@ public class Interface implements ActionListener {
 
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
-        interfaceFrame.pack();
+        //interfaceFrame.pack();
         interfaceFrame.setVisible(true);
     }
 
     // Zone de gestion des actions 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
+        // Send message
         if (source==msgCapture || source==sendMessageButton) {
             // Capture text
             String texteSaisi=msgCapture.getText();
             // Create message and stamp it
             Message message = new Message(user, user, texteSaisi);
+
+            
             // Print message
             printMessage(message);
         } 
+        // Change pseudo
         else if (source==pseudoCapture || source==changePseudoButton) {
             String nouveauPseudo=pseudoCapture.getText();
             user.pseudo= nouveauPseudo;
         }
     }
+
+
 
     /* Affiche le message sur l'interface  **/
     public static void printMessage(Message msg){
