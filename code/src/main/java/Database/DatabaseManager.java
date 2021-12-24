@@ -14,22 +14,23 @@ public class DatabaseManager{
     Connection con;
     ResultSet resultats = null;
 
-    //HANDLERS
+//HANDLERS
 
-/**
- * Fonction qui gère une erreur en affichant un message personnalisé
- * @param exc
- * @param message
- */
+    /**
+     * Fonction qui gère une erreur en affichant un message personnalisé
+     * @param exc exception levé
+     * @param message message à afficher à la suite
+     */
     private static void handleError(SQLException exc, String message) {
         System.err.println("SQL Error " + exc.getSQLState() + " : " + exc.getMessage());
         System.err.println(message);
         System.exit(2);
     }
-/**
- * Fonction qui gère une erreur sans afficher de message personnalisé 
- * @param exc
- */
+
+    /**
+     * Fonction qui gère une erreur sans afficher de message personnalisé 
+     * @param exc exception levé
+     */
     private static void handleError(SQLException exc) {
         //exc.printStackTrace();
         System.err.println("SQL Error " + exc.getSQLState() + " : " + exc.getMessage());
@@ -38,11 +39,7 @@ public class DatabaseManager{
 
 
 
-
-
-
-
-    //CONSTRUCTEUR
+//CONSTRUCTEUR
 
     /**
      * Constructeur de la base de données : connecte à la bonne base de données
@@ -62,14 +59,12 @@ public class DatabaseManager{
 
 
 
-
-
 //FONCTIONS GENERALES SUR LES REQUETES
-/**
- * Fonction qui permet de mettre à jour la table
- * @param requete
- * @return
- */
+    /**
+     * Fonction qui permet de mettre à jour la table
+     * @param requete requete à envoyer à la base de données
+     * @return nombre de mise à jour dans la table effectuées
+     */
     public int update(String requete){
         int nbMaj =0;
         try {
@@ -84,8 +79,8 @@ public class DatabaseManager{
 
     /**
      * Fonction qui permet de faire une requete sur les valeurs de la table
-     * @param requete
-     * @return
+     * @param requete requete à envoyer à la base de données
+     * @return résultat de la requete sous la forme ResultSet
      */
     public ResultSet query(String requete){ 
         try{
@@ -99,32 +94,26 @@ public class DatabaseManager{
 
     /**
      * Fonction qui permet de faire une execution generale sur la table
-     * @param requete
-     * @return
+     * @param requete requete à envoyer à la base de données
+     * @return true si la requete à bien été exécutée
      */
     public Boolean execute(String requete){
-    Boolean res = true;
+        Boolean res = true;
         try {
         Statement stmt = con.createStatement();
         res = stmt.execute(requete);
-    }catch (SQLException e) {
+        }catch (SQLException e) {
         handleError(e);
+        }
+        return res;
     }
-    return res;
-}
-
-
-
-
-
-
 
 
 //REQUETES SUR PSEUDOTAB
 
-/**
- * Permet d'afficher la table pour verifier nos autres requetes
- */
+    /**
+     * Permet d'afficher la table pour verifier nos autres requetes
+     */
     public void afficher_pseudoTab(){
         ResultSet table;
         String requete = "select * from pseudoTab";
@@ -145,8 +134,8 @@ public class DatabaseManager{
 
     /**
      * Verifie l'existence d'un pseudo dans la base de données
-     * @param pseudo
-     * @return
+     * @param pseudo 
+     * @return true si le pseudo existe
      */
     public Boolean exist_pseudo(String pseudo){
         ResultSet username;
@@ -166,11 +155,10 @@ public class DatabaseManager{
     }
 
 
-
     /**
      * Verifie l'existence d'un id dans la base de données
      * @param id
-     * @return
+     * @return true si l'id existe
      */
     public Boolean exist_id(int id){
         ResultSet num;
@@ -339,7 +327,7 @@ public class DatabaseManager{
 
 
 
-    //REQUETES SUR MSGTABLE
+//REQUETES SUR MSGTABLE
     
     //TODO : public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
 
