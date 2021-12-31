@@ -1,8 +1,7 @@
 package Database;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Vector;
+
 
 import GUI.User;
 
@@ -263,9 +262,9 @@ public class DatabaseManager{
      * @param user
      * @return
      */
-    public int get_id(User user){
+    public int get_id(String pseudo){
         ResultSet id;
-        String requete = "select id from pseudoTab where pseudo='"+user.pseudo+"'";
+        String requete = "select id from pseudoTab where pseudo='"+pseudo+"'";
         id=query(requete);
         try{
             id.next(); // Saute la ligne de titre
@@ -283,12 +282,12 @@ public class DatabaseManager{
     
     /**
      * Retourne le pseudo associé à un id
-     * @param user
+     * @param id
      * @return
      */
-    public String get_pseudo(User user){
+    public String get_pseudo(int id){
         ResultSet pseudo;
-        String requete = "select pseudo from pseudoTab where id='"+Integer.toString(user.id)+"'";
+        String requete = "select pseudo from pseudoTab where id='"+Integer.toString(id)+"'";
         pseudo=query(requete);
         try{
             pseudo.next(); // Saute la ligne de titre
@@ -329,8 +328,43 @@ public class DatabaseManager{
 
 //REQUETES SUR MSGTABLE
     
-    //TODO : public void history(int id_user, int id_destinataire){} //affiche l'historique des messages échangés entre deux personnes
+    /**
+     * Affiche l'historique des messages entre 2 personnes, triés par date d'envoi
+     * Format : date pseudo : message
+     * @param emetteur
+     * @param destinataire
+     */
+    public void historique(User emetteur, User destinataire){
+        String requete = "select date, emetteur, message from msgTable where (emetteur='"+emetteur.id+"' and destinataire='"+destinataire.id+"') or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id+"') order by date" ;
+        try {
+            Statement stmt = con.createStatement();
+            resultats = stmt.executeQuery(requete);
+            while(resultats.next()){
+                System.out.println(resultats.getString(1)+" "+get_pseudo(resultats.getInt(2))+" : "+resultats.getString(3));
+            }
+        }catch (SQLException e) {
+            handleError(e, "Anomalie lors de l'execution de la requête historique");         
+         }
+    }
 
+
+
+    /**
+     * Ajoute un nouveau message à la base de données
+     * @param emetteur
+     * @param destinataire
+     * @param message
+     */
+    public void nouveau_message(User emetteur, String destinataire, String message){
+        if(exist_pseudo(destinataire)){
+            String requete = "insert into msgTable values ('"+emetteur.id+"', '"+get_id(destinataire)+"', '"+message+"')";
+            update(requete);
+        } else {
+            System.out.println("Destinataire inconnu");
+        }
+        
+    }
+    
 
     //FERMETURE DE LA BASE DE DONNEES
     public void closeConnection(){
