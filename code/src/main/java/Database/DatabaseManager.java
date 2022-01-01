@@ -1,6 +1,7 @@
 package Database;
 
 import java.sql.*;
+import Conversation.Message;
 
 
 import GUI.User;
@@ -355,9 +356,9 @@ public class DatabaseManager{
      * @param destinataire
      * @param message
      */
-    public void nouveau_message(User emetteur, String destinataire, String message){
-        if(exist_pseudo(destinataire)){
-            String requete = "insert into msgTable values ('"+emetteur.id+"', '"+get_id(destinataire)+"', '"+message+"')";
+    public void nouveau_message(Message message){
+        if(exist_pseudo(message.to.pseudo)){
+            String requete = "insert into msgTable values ('"+message.from.id+"', '"+message.to.id+"', '"+message.msg+"')";
             update(requete);
         } else {
             System.out.println("Destinataire inconnu");
