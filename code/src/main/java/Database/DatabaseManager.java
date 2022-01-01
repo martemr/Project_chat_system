@@ -352,8 +352,6 @@ public class DatabaseManager{
 
     /**
      * Ajoute un nouveau message à la base de données
-     * @param emetteur
-     * @param destinataire
      * @param message
      */
     public void nouveau_message(Message message){
