@@ -1,21 +1,16 @@
 package GUI;
-
-import java.awt.event.*;
 import javax.swing.*;
-
 import java.awt.*;
-
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 import Main.Main;
 import Database.DatabaseManager;
 import Conversation.Message;
 import Network.ClientTCP;
 
-public class Interface implements ActionListener {
+public class Interface {
 
-    // Elements interface
+    // ELEMENTS INTERFACE
     JFrame interfaceFrame;
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
@@ -23,30 +18,18 @@ public class Interface implements ActionListener {
     JButton sendMessageButton, changePseudoButton;  // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
     JScrollPane scroll;
-    
-    ActionListener sendAction;
-    
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
-
-    // Get variables from Main
+    // GET VARIABLES FROM MAIN 
     static User user = Main.getMainUser();
     static ClientTCP tcpClient = Main.getClientTCP();
     static DatabaseManager database = Main.getMainDatabase();
-    
-    public static void addComponentsToPane(Container pane) {
-        if (RIGHT_TO_LEFT) {
-            pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
-    }
 
-    public void createPannels(){
-        // Create the main panel, there is only one
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-    }
+
+
+    // CONSTRUCTEUR
+    // Appel des méthodes créées ci-dessus
 
     public Interface() {
 
@@ -54,115 +37,76 @@ public class Interface implements ActionListener {
         createPannels();
 
         // Create and set up the window.
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
-        interfaceFrame.addWindowListener(new WindowAdapter() { // Crée l'operation de fermeture.
-            public void windowClosing(WindowEvent e) {
-                Main.closeSystem();
-                System.out.println("[Interface] Closing frame");
-                interfaceFrame.setVisible(false);
-                System.exit(0);
-            }
-        });
-        interfaceFrame.setSize(2400, 1800);
-        interfaceFrame.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        if (shouldFill) {
-            //natural height, maximum width
-            c.fill = GridBagConstraints.BOTH;
-            }
+        createWindow();
+        pseudo_setup(); //ajoute les champs relatifs au pseudo de l'utilisateur
+        destinataire_setup(); //ajoute les champs relatifs au destinataire
+        message_setup(); //ajoute les champs relatifs au message à envoyer
+        conversation_setup();//ajoute la zone d'affichage de la conversation
         
-        // Pseudo field
-        pseudoLabel = new JLabel("Pseudo :"+user.pseudo);
-        //pseudoLabel.setBounds(0, 0, 100, 30);  
-        if (shouldWeightX) {
-            c.weightx = 0.5;
-            }
-            c.fill = GridBagConstraints.BOTH;
-            c.gridx = 0;
-            c.gridy = 0;
-            c.anchor=GridBagConstraints.FIRST_LINE_START;
-        interfaceFrame.add(pseudoLabel, c);
-/*
-        pseudoCapture=new JTextField(user.pseudo);
-        //pseudoCapture.setBounds(100, 0, 500,30);  
-        pseudoCapture.addActionListener(this); // capture le retour chariot
-        c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 0.5;
-	    c.gridx = 1;
-	    c.gridy = 0;
-        c.anchor=GridBagConstraints.PAGE_START;
-        interfaceFrame.add(pseudoCapture, c); // lie la capture à la fenetre
-*/
-        changePseudoButton=new JButton("Change Pseudo");
-        changePseudoButton.setBounds(600, 0, 100,30);
-        changePseudoButton.addActionListener(this);
-        c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 0.5;
-	    c.gridx = 2;
-	    c.gridy = 0;
-        c.anchor=GridBagConstraints.FIRST_LINE_END;
-        interfaceFrame.add(changePseudoButton,c);
-        
-        // Message fields
-        messageLabel = new JLabel("Message :");
-       // messageLabel.setBounds(0, 30, 100,30);
-       c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 0.5;
-	    c.gridx = 0;
-	    c.gridy = 2;
-        c.anchor=GridBagConstraints.LAST_LINE_START;
-        interfaceFrame.add(messageLabel, c);
-
-        msgCapture=new JTextField();
-       // msgCapture.setBounds(100, 30, 500,30);  
-        msgCapture.addActionListener(this); // capture le retour chariot
-        c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 0.5;
-	    c.gridx = 1;
-	    c.gridy = 2;
-        c.anchor=GridBagConstraints.PAGE_END;
-        interfaceFrame.add(msgCapture, c);
-        
-        sendMessageButton=new JButton("Send");
-       // sendMessageButton.setBounds(600, 30, 100, 30);
-        sendMessageButton.addActionListener(this); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
-        c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 0.5;
-	    c.gridx = 2;
-	    c.gridy = 2;
-        c.anchor=GridBagConstraints.FIRST_LINE_END;
-        interfaceFrame.add(sendMessageButton, c);
-
-        // Message display
-        displayMsg =new JTextArea("CONVERSATION \n \n");
-        displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
-        scroll = new JScrollPane(displayMsg); 
-        c.fill = GridBagConstraints.BOTH;
-	    c.ipady = 400;      //make this component tall
-	    c.weightx = 0.0;
-	    c.gridwidth = 3;
-	    c.gridx = 0;
-	    c.gridy = 1; 
-        c.anchor=GridBagConstraints.CENTER;
-       // scroll.setBounds(0,60,500,300);   
-        interfaceFrame.add(scroll, c);
-
+        //Liste des utilisateurs connectés
+        connected_users();
 
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
         //interfaceFrame.pack();
         interfaceFrame.setVisible(true);
 
-
-        //User existe = new User("Martin", 60, User.Status.ABSENT);
-        //User inconnu = new User("cc", 79, User.Status.OCCUPIED);    
-        //printHistory(existe, inconnu);
-
         changePseudoWindow();
     }
 
 
+
+
+    // METHODES
+
+    /**
+     * Créer un panel
+     */
+    public void createPannels(){
+        // Create the main panel, there is only one
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    }
+    
+    /**
+     * Ajouter des composants au panel
+     * @param pane
+     */
+    public static void addComponentsToPane(Container pane) {
+        if (RIGHT_TO_LEFT) {
+            pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        }
+    }
+ 
+    /**
+     * Créer la fenêtre
+     */
+    public void createWindow(){
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
+        interfaceFrame.addWindowListener(
+            new WindowAdapter() { // Crée l'operation de fermeture.
+                public void windowClosing(WindowEvent e) {
+                    Main.closeSystem();
+                    System.out.println("[Interface] Closing frame");
+                    interfaceFrame.setVisible(false);
+                    System.exit(0);
+                }
+            }
+        );
+        interfaceFrame.setSize(2400, 1800);
+        interfaceFrame.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        if (shouldFill) {
+            //natural height, maximum width
+            c.fill = GridBagConstraints.BOTH;
+        }  
+    }
+
+    /**
+     * Affiche une fenetre pop-up pour changer le pseudo
+     */
     public void changePseudoWindow() {
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
@@ -175,34 +119,19 @@ public class Interface implements ActionListener {
         JOptionPane.showMessageDialog(jFrame, "Pseudo successfully changed !");
     }
 
-    // Zone de gestion des actions 
-    public void actionPerformed(ActionEvent evt) {
-        Object source = evt.getSource();
-        
-        // Send message
-        if (source==msgCapture || source==sendMessageButton) {
-            // Capture text
-            String texteSaisi=msgCapture.getText();
-            // Create message and stamp it
-            Message message = new Message(user, user, texteSaisi);            
-            // Print message
-            printMessage(message);
-            // Send it
-            // TODO : tcpClient.sendMessage(message);
-        } 
-
-        // Change pseudo
-        else if (source==pseudoCapture || source==changePseudoButton) {
-            //String nouveauPseudo=pseudoCapture.getText();
-            //user.pseudo= nouveauPseudo;
-            changePseudoWindow();
-        }
+    /**
+     * Affiche les utilisateurs connectés
+     */
+    public void connected_users(){
+        Vector<User> userList = new Vector<>(); // TODO: tcpclient.getListUser();
+        JList<User> users = new JList<User>(userList);
+        //users.VERTICAL;
+        users.addListSelectionListener(this);
+        JScrollPane scroll = new JScrollPane(users);
     }
 
-
-
-    /* Affiche le message sur l'interface  **/
-    public static void printMessage(Message msg){
+     /* Affiche le message sur l'interface  **/
+     public static void printMessage(Message msg){
         displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
     }
 
@@ -214,7 +143,7 @@ public class Interface implements ActionListener {
             printMessage(msgList.remove());
         }
     }
-
+    
     // TODO : Remove this, use for test
     public static void printMessage(String msgTxt){
         //TODO : ajouter message à la base de données pour pas qu'il disparaisse
@@ -222,4 +151,117 @@ public class Interface implements ActionListener {
         printMessage(message);
     }
 
+
+
+
+
+
+    //ACTION LISTENER ET PERFORMED
+
+    ActionListener pseudoListener = new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+            changePseudoWindow();
+        }
+    };
+    
+    ActionListener messageListener = new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+            // Capture text
+            String texteSaisi=msgCapture.getText();
+            // Create message and stamp it
+            Message message = new Message(user, user, texteSaisi);            
+            // Print message
+            printMessage(message);
+            // Send it
+            // TODO : tcpClient.sendMessage(message);
+        }
+    };
+
+    ActionListener destinataireListener = new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+            //TODO : définir Message.to
+        }
+    };
+
+    ListSelectionListener connectedListener = new ListSelectionListener() {
+        //TODO : trouver comment ecouter une liste de boutons
+    };
+
+
+
+
+
+
+    //CREATION DES BOUTONS
+    
+    public void pseudo_setup(){
+        // Pseudo label
+        pseudoLabel = new JLabel("Pseudo :"+user.pseudo); 
+        if (shouldWeightX) {
+            c.weightx = 0.5;
+            }
+            c.fill = GridBagConstraints.BOTH;
+            c.gridx = 0;
+            c.gridy = 0;
+            c.anchor=GridBagConstraints.FIRST_LINE_START;
+        interfaceFrame.add(pseudoLabel, c);
+        // Pseudo button
+        changePseudoButton=new JButton("Change Pseudo");
+        changePseudoButton.setBounds(600, 0, 100,30);
+        changePseudoButton.addActionListener(pseudoListener);
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 2;
+	    c.gridy = 0;
+        c.anchor=GridBagConstraints.FIRST_LINE_END;
+        interfaceFrame.add(changePseudoButton,c);
+    }
+
+    public void destinataire_setup(){
+        //TODO : créer les champs relatifs au destinataire
+    }
+
+    public void message_setup(){
+        // Message label
+        messageLabel = new JLabel("Message :");
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 0;
+	    c.gridy = 2;
+        c.anchor=GridBagConstraints.LAST_LINE_START;
+        interfaceFrame.add(messageLabel, c);
+        //Message field
+        msgCapture=new JTextField();
+       // msgCapture.setBounds(100, 30, 500,30);  
+        msgCapture.addActionListener(messageListener); // capture le retour chariot
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 1;
+	    c.gridy = 2;
+        c.anchor=GridBagConstraints.PAGE_END;
+        interfaceFrame.add(msgCapture, c);
+        // Send Message Button
+        sendMessageButton=new JButton("Send");
+        sendMessageButton.addActionListener(messageListener); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 2;
+	    c.gridy = 2;
+        c.anchor=GridBagConstraints.FIRST_LINE_END;
+        interfaceFrame.add(sendMessageButton, c);
+    }
+
+    public void conversation_setup(){
+        displayMsg =new JTextArea("CONVERSATION \n \n");
+        displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
+        scroll = new JScrollPane(displayMsg); 
+        c.fill = GridBagConstraints.BOTH;
+	    c.ipady = 400;      //make this component tall
+	    c.weightx = 0.0;
+	    c.gridwidth = 3;
+	    c.gridx = 0;
+	    c.gridy = 1; 
+        c.anchor=GridBagConstraints.CENTER;  
+        interfaceFrame.add(scroll, c);
+    }
 }
