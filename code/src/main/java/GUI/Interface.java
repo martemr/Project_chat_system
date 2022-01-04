@@ -182,12 +182,22 @@ public class Interface {
         GridBagConstraints c = new GridBagConstraints();
         // Pseudo label
         pseudoLabel = new JLabel("Pseudo :"+user.pseudo); 
+        if (shouldWeightX) {
+            c.weightx = 0.5;
+            }
+            c.fill = GridBagConstraints.BOTH;
+            c.gridx = 0;
+            c.gridy = 0;
         c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(pseudoLabel, c);
         // Pseudo button
         changePseudoButton=new JButton("Change Pseudo");
         changePseudoButton.setBounds(600, 0, 100,30);
         changePseudoButton.addActionListener(pseudoListener);
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 2;
+	    c.gridy = 0;
         c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(changePseudoButton,c);
     }
@@ -209,16 +219,28 @@ public class Interface {
         GridBagConstraints c = new GridBagConstraints();
         // Message label
         messageLabel = new JLabel("Message :");
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 0;
+	    c.gridy = 2;
         c.anchor=GridBagConstraints.PAGE_END;
         interfaceFrame.add(messageLabel, c);
         //Message field
         msgCapture=new JTextField();
         msgCapture.addActionListener(messageListener); // capture le retour chariot
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 1;
+	    c.gridy = 2;
         c.anchor=GridBagConstraints.PAGE_END;
         interfaceFrame.add(msgCapture, c);
         // Send Message Button
         sendMessageButton=new JButton("Send");
         sendMessageButton.addActionListener(messageListener); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 2;
+	    c.gridy = 2;
         c.anchor=GridBagConstraints.LAST_LINE_END;
         interfaceFrame.add(sendMessageButton, c);
     }
@@ -228,6 +250,12 @@ public class Interface {
         displayMsg =new JTextArea("CONVERSATION \n \n");
         displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
         scroll = new JScrollPane(displayMsg); 
+        c.fill = GridBagConstraints.BOTH;
+	    c.ipady = 400;      //make this component tall
+	    c.weightx = 0.0;
+	    c.gridwidth = 3;
+	    c.gridx = 0;
+	    c.gridy = 1; 
         c.anchor=GridBagConstraints.CENTER;  
         interfaceFrame.add(scroll, c);
     }
