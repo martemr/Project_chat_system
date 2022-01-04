@@ -145,6 +145,7 @@ public class Interface implements ActionListener {
        // scroll.setBounds(0,60,500,300);   
         interfaceFrame.add(scroll, c);
 
+
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
         //interfaceFrame.pack();
@@ -181,6 +182,7 @@ public class Interface implements ActionListener {
             // Send it
             // TODO : tcpClient.sendMessage(message);
         } 
+
         // Change pseudo
         else if (source==pseudoCapture || source==changePseudoButton) {
             //String nouveauPseudo=pseudoCapture.getText();
@@ -195,6 +197,11 @@ public class Interface implements ActionListener {
     public static void printMessage(Message msg){
         displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
     }
+
+    //public void printHistory(User from, User to){
+    //List<Message> msgList = database.history(from, to);
+    //while()
+    //}
 
     // TODO : Remove this, use for test
     public static void printMessage(String msgTxt){
