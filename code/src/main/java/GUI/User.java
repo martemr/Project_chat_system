@@ -15,7 +15,6 @@ public class User implements Serializable{
     private File userData;
     
     //Constructeur 
-    @Deprecated
     public User(String pseudo, int id, Status status){
         this.pseudo = pseudo; this.id=id; this.status=status;
     }

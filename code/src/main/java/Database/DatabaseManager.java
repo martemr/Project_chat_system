@@ -205,15 +205,18 @@ public class DatabaseManager{
      * @param user
      * @param new_pseudo
      */
-    public void change_pseudo(User user, String new_pseudo){
+    public int change_pseudo(User user, String new_pseudo){
         if (exist_pseudo(new_pseudo)){
             System.out.println("Ce pseudo est déjà utilisé");
+            return -1;
         } else if(new_pseudo=="") {
             System.out.println("Veuillez entrer un pseudo");
+            return -1;
         } else {
             String requete = "update pseudoTab set pseudo='"+new_pseudo+"' where pseudo='"+user.pseudo+"'";
             update(requete);
             System.out.println("Pseudo modifié");
+            return 0;
         }
     } 
 
@@ -328,6 +331,26 @@ public class DatabaseManager{
 
 
 //REQUETES SUR MSGTABLE
+
+public void afficher_msgTab(){
+    ResultSet table;
+    String requete = "select * from msgTable";
+    table=query(requete);
+    try{
+        System.out.println("[Database] Table msgTable :");
+        System.out.println("-----------------------------");
+        System.out.println("|  Emetteur  |  Destinataire   |               Message                   |               Date               |");
+        System.out.println("-----------------------------");
+        while (table.next()){
+            System.out.printf("| %-8d   | %-5d           |    %s                        |  %s    |\n", table.getInt(1), table.getInt(2), table.getString(3), table.getString(4));
+        }
+        System.out.println("-----------------------------");
+    }catch (SQLException e) {
+        handleError(e);
+    }
+}
+
+
     
     /**
      * Affiche l'historique des messages entre 2 personnes, triés par date d'envoi
@@ -336,7 +359,8 @@ public class DatabaseManager{
      * @param destinataire
      */
     public void historique(User emetteur, User destinataire){
-        String requete = "select date, emetteur, message from msgTable where (emetteur='"+emetteur.id+"' and destinataire='"+destinataire.id+"') or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id+"') order by date" ;
+        String requete = "select date, emetteur, message from msgTable where ((emetteur='"+emetteur.id+"' and destinataire='"+
+        destinataire.id+"') or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id+"')) order by date" ;
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
@@ -349,14 +373,14 @@ public class DatabaseManager{
     }
 
 
-
     /**
      * Ajoute un nouveau message à la base de données
      * @param message
      */
     public void nouveau_message(Message message){
         if(exist_pseudo(message.to.pseudo)){
-            String requete = "insert into msgTable values ('"+message.from.id+"', '"+message.to.id+"', '"+message.msg+"')";
+            String requete = "insert into msgTable values ('"+message.from.id+"', '"+message.to.id+"', '"+
+            message.msg+"', '"+message.date+"')";
             update(requete);
         } else {
             System.out.println("Destinataire inconnu");
@@ -382,12 +406,15 @@ public class DatabaseManager{
     //TESTS
 
     User existe = new User("Martin", 60, User.Status.ABSENT);
-    User inconnu = new User("bb", 89, User.Status.OCCUPIED);
+    User inconnu = new User("cc", 79, User.Status.OCCUPIED);
     User jsp = new User("null", 33, User.Status.CONNECTED);
+    Message msg = new Message(inconnu, existe, "uze");
     public void testdb(){
+        add_user(inconnu);
         afficher_pseudoTab();
-        add_user(jsp);
-        afficher_pseudoTab();
+        afficher_msgTab();
+        historique(inconnu, existe);
+    
     }
 
 } 
