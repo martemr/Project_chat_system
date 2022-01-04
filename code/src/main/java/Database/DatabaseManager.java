@@ -1,6 +1,8 @@
 package Database;
 
 import java.sql.*;
+import java.util.*;
+
 import Conversation.Message;
 
 
@@ -358,15 +360,24 @@ public void afficher_msgTab(){
      * @param emetteur
      * @param destinataire
      */
-    public void historique(User emetteur, User destinataire){
-        String requete = "select date, pseudo, message from msgTable, pseudoTab where ((emetteur='"+emetteur.id+"' and destinataire='"+
-        destinataire.id+"' and pseudoTab.id=msgTable.emetteur) or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id
-        +"' and pseudoTab.id=msgTable.emetteur)) order by date" ;
+    public List<Message> history(User emetteur, User destinataire){
+        List<Message> histo = new ArrayList<Message>(); 
+        String requete = "select emetteur, destinataire, message, date from msgTable where ((emetteur='"+emetteur.id
+        +"' and destinataire='"+ destinataire.id+"') or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id
+        +"')) order by date" ;
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
             while(resultats.next()){
+                if (resultats.getInt(1)==emetteur.id){
+                    Message msg = new Message(emetteur, destinataire, resultats.getString(3), resultats.getString(4));
+                    histo.add(msg);
+                } else {
+                    Message msg = new Message(destinataire, emetteur, resultats.getString(3), resultats.getString(4));
+                    histo.add(msg);
+                }
                 System.out.println(resultats.getString(1)+" "+resultats.getString(2)+" : "+resultats.getString(3));
+                return histo;
             }
         }catch (SQLException e) {
             handleError(e, "Anomalie lors de l'execution de la requête historique");         
@@ -415,7 +426,7 @@ public void afficher_msgTab(){
        // nouveau_message(msg);
         afficher_pseudoTab();
         afficher_msgTab();
-        historique(inconnu, existe);
+        history(inconnu, existe);
     
     }
 
