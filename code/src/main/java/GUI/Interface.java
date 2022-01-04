@@ -1,7 +1,15 @@
 package GUI;
+
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.Vector;
 
 import Main.Main;
 import Database.DatabaseManager;
@@ -28,32 +36,7 @@ public class Interface {
 
 
 
-    // CONSTRUCTEUR
-    // Appel des méthodes créées ci-dessus
-
-    public Interface() {
-
-        // Créer le(s) panneau(x)
-        createPannels();
-
-        // Create and set up the window.
-        createWindow();
-        pseudo_setup(); //ajoute les champs relatifs au pseudo de l'utilisateur
-        destinataire_setup(); //ajoute les champs relatifs au destinataire
-        message_setup(); //ajoute les champs relatifs au message à envoyer
-        conversation_setup();//ajoute la zone d'affichage de la conversation
-        
-        //Liste des utilisateurs connectés
-        connected_users();
-
-        // Display the window.
-        addComponentsToPane(interfaceFrame.getContentPane());
-        //interfaceFrame.pack();
-        interfaceFrame.setVisible(true);
-
-        changePseudoWindow();
-    }
-
+    
 
 
 
