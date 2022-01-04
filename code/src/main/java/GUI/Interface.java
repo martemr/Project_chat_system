@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.util.List;
+import java.util.Queue;
 
 import Main.Main;
 import Database.DatabaseManager;
@@ -207,10 +208,10 @@ public class Interface implements ActionListener {
 
     /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
     public void printHistory(User from, User to){
-        List<Message> msgList = database.history(from, to);
+        Queue<Message> msgList = database.history(from, to);
         int i;
         for(i=0; i<msgList.size(); i++){
-            printMessage(msgList.get(i));
+            printMessage(msgList.remove());
         }
     }
 

@@ -366,8 +366,8 @@ public void afficher_msgTab(){
      * @param emetteur
      * @param destinataire
      */
-    public List<Message> history(User emetteur, User destinataire){
-        List<Message> histo = new ArrayList<Message>(); 
+    public Queue<Message> history(User emetteur, User destinataire){
+        Queue<Message> histo = new PriorityQueue<>(); 
         String requete = "select emetteur, destinataire, message, date from msgTable where ((emetteur='"+emetteur.id
         +"' and destinataire='"+ destinataire.id+"') or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id
         +"')) order by date" ;
@@ -386,7 +386,6 @@ public void afficher_msgTab(){
         }catch (SQLException e) {
             handleError(e, "Anomalie lors de l'execution de la requête historique");         
         }
-        //histo.sort(Date);
         return histo;
     }
 
