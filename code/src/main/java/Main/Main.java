@@ -39,19 +39,19 @@ public class Main {
         //db.testdb();
         //db.closeConnection();
         
-        System.out.println("[Main] Starting interface");
-        mainWindow = new Interface();   
+        //System.out.println("[Main] Starting interface");
+        //mainWindow = new Interface();   
 
         // TCP Server
 
-        System.out.println("[Main] Running the server");
-        int port = 1234;
-        try {
-            tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
-            tcpServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //System.out.println("[Main] Running the server");
+        //int port = 1234;
+        //try {
+        //    tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
+        //    tcpServer.start();
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
         
     }
 
