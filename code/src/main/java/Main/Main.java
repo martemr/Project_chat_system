@@ -16,8 +16,8 @@ public class Main {
     static ClientTCP tcpClient; // TODO : Link with interface
 
     static {
-        user = new User("Pseudo"); // the main user is declared once, here.
-        database = new DatabaseManager();
+        //user = new User("Pseudo"); // the main user is declared once, here.
+        //database = new DatabaseManager();
     }
 
     static public User getMainUser(){
@@ -39,8 +39,8 @@ public class Main {
 
         //database.testdb();
         
-        System.out.println("[Main] Starting interface");
-        mainWindow = new Interface();   
+        //System.out.println("[Main] Starting interface");
+        //mainWindow = new Interface();   
         
         // TCP Server
 
@@ -52,6 +52,14 @@ public class Main {
         //} catch (IOException e) {
         //    e.printStackTrace();
         //}
+
+
+        // UDP  
+        try{
+            ClientUDP udp = new ClientUDP();
+        } catch (IOException e) {
+            System.out.println("Error in udp");
+        }
         
     }
 
