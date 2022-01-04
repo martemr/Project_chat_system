@@ -167,9 +167,9 @@ public class Interface {
         }
     };
 
-    ListSelectionListener connectedListener = new ListSelectionListener() {
+    /*ListSelectionListener connectedListener = new ListSelectionListener() {
         //TODO : trouver comment ecouter une liste de boutons
-    };
+    };*/
 
 
 
@@ -205,7 +205,7 @@ public class Interface {
     public void destinataire_setup(){
         GridBagConstraints c = new GridBagConstraints();
         // Destinataire label
-        destLabel = new JLabel("Recipient : ")
+        destLabel = new JLabel("Recipient : ");
         c.anchor=GridBagConstraints.FIRST_LINE_END;
         interfaceFrame.add(destLabel,c);
         // Destinataire button
