@@ -11,18 +11,20 @@ public class Main {
 
     private static User user; // Main user, static for getting it everywhere
     static Interface mainWindow;
+    static DatabaseManager database;
     static ServerTCP tcpServer;
     static ClientTCP tcpClient; // TODO : Link with interface
 
     static {
         user = new User("Pseudo"); // the main user is declared once, here.
+        database = new DatabaseManager();
     }
 
-    /** Getter for the user
-     * @return main user
-     */
     static public User getMainUser(){
         return user;
+    }
+    static public DatabaseManager getMainDatabase(){
+        return database;
     }
 
     /** Getter for the client TCP
@@ -35,13 +37,11 @@ public class Main {
     // Main fonction (appelée en premier lors de l'exécution)
     public static void main(String[] args) {     
 
-        //DatabaseManager db = new DatabaseManager();
-        //db.testdb();
-        //db.closeConnection();
+        //database.testdb();
         
-        //System.out.println("[Main] Starting interface");
-        //mainWindow = new Interface();   
-
+        System.out.println("[Main] Starting interface");
+        mainWindow = new Interface();   
+        
         // TCP Server
 
         //System.out.println("[Main] Running the server");
@@ -57,5 +57,9 @@ public class Main {
 
     public void messageReceived(Message msg){
         this.mainWindow.printMessage(msg);
+    }
+
+    public static void closeSystem(){
+        database.closeConnection();
     }
 }

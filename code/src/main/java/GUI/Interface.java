@@ -20,20 +20,23 @@ public class Interface implements ActionListener {
     JButton sendMessageButton, changePseudoButton;  // Boutons 
     JLabel pseudoLabel, messageLabel;     // Labels (= affichage)
     JScrollPane scroll;
-
-    static User user = Main.getMainUser();
-    static ClientTCP tcpClient = Main.getClientTCP();
-
+    
     ActionListener sendAction;
-
+    
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
 
+    // Get variables from Main
+    static User user = Main.getMainUser();
+    static ClientTCP tcpClient = Main.getClientTCP();
+    static DatabaseManager database = Main.getMainDatabase();
+    
     public static void addComponentsToPane(Container pane) {
         if (RIGHT_TO_LEFT) {
             pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }}
+        }
+    }
 
     public void createPannels(){
         // Create the main panel, there is only one
@@ -50,7 +53,14 @@ public class Interface implements ActionListener {
         // Create and set up the window.
         JFrame.setDefaultLookAndFeelDecorated(true);
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
-        interfaceFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        interfaceFrame.addWindowListener(new WindowAdapter() { // Crée l'operation de fermeture.
+            public void windowClosing(WindowEvent e) {
+                Main.closeSystem();
+                System.out.println("[Interface] Closing frame");
+                interfaceFrame.setVisible(false);
+                System.exit(0);
+            }
+        });
         interfaceFrame.setSize(2400, 1800);
         interfaceFrame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -60,7 +70,7 @@ public class Interface implements ActionListener {
             }
         
         // Pseudo field
-        pseudoLabel = new JLabel("Pseudo :");
+        pseudoLabel = new JLabel("Pseudo :"+user.pseudo);
         //pseudoLabel.setBounds(0, 0, 100, 30);  
         if (shouldWeightX) {
             c.weightx = 0.5;
@@ -70,7 +80,7 @@ public class Interface implements ActionListener {
             c.gridy = 0;
             c.anchor=GridBagConstraints.FIRST_LINE_START;
         interfaceFrame.add(pseudoLabel, c);
-
+/*
         pseudoCapture=new JTextField(user.pseudo);
         //pseudoCapture.setBounds(100, 0, 500,30);  
         pseudoCapture.addActionListener(this); // capture le retour chariot
@@ -80,7 +90,7 @@ public class Interface implements ActionListener {
 	    c.gridy = 0;
         c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(pseudoCapture, c); // lie la capture à la fenetre
-
+*/
         changePseudoButton=new JButton("Change Pseudo");
         changePseudoButton.setBounds(600, 0, 100,30);
         changePseudoButton.addActionListener(this);
@@ -139,6 +149,21 @@ public class Interface implements ActionListener {
         addComponentsToPane(interfaceFrame.getContentPane());
         //interfaceFrame.pack();
         interfaceFrame.setVisible(true);
+
+        changePseudoWindow();
+    }
+
+
+    public void changePseudoWindow() {
+        JFrame jFrame = new JFrame();
+        String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
+        while (database.change_pseudo(user, newPseudo) == -1){
+            JOptionPane.showMessageDialog(jFrame, "Pseudo already used, please select an other");
+            newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");   
+        }
+        user.change_pseudo(newPseudo);
+        pseudoLabel.setText("Pseudo : "+user.pseudo);
+        JOptionPane.showMessageDialog(jFrame, "Pseudo successfully changed !");
     }
 
     // Zone de gestion des actions 
@@ -158,8 +183,9 @@ public class Interface implements ActionListener {
         } 
         // Change pseudo
         else if (source==pseudoCapture || source==changePseudoButton) {
-            String nouveauPseudo=pseudoCapture.getText();
-            user.pseudo= nouveauPseudo;
+            //String nouveauPseudo=pseudoCapture.getText();
+            //user.pseudo= nouveauPseudo;
+            changePseudoWindow();
         }
     }
 
