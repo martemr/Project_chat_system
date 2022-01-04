@@ -396,6 +396,7 @@ public void afficher_msgTab(){
         } catch (Exception e){
             System.out.println(e);
         }
+        System.out.println("[Database] Connection succesfully closed");        
     }    
     
     
@@ -408,9 +409,9 @@ public void afficher_msgTab(){
     User existe = new User("Martin", 60, User.Status.ABSENT);
     User inconnu = new User("cc", 79, User.Status.OCCUPIED);
     User jsp = new User("null", 33, User.Status.CONNECTED);
-    Message msg = new Message(inconnu, existe, "uze");
+    //Message msg = new Message(inconnu, existe, "zheufv");
     public void testdb(){
-        add_user(inconnu);
+       // nouveau_message(msg);
         afficher_pseudoTab();
         afficher_msgTab();
         historique(inconnu, existe);
