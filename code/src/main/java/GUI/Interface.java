@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import java.awt.*;
 
+import java.util.List;
+
 import Main.Main;
 import Database.DatabaseManager;
 import Conversation.Message;
@@ -151,6 +153,11 @@ public class Interface implements ActionListener {
         //interfaceFrame.pack();
         interfaceFrame.setVisible(true);
 
+
+        //User existe = new User("Martin", 60, User.Status.ABSENT);
+        //User inconnu = new User("cc", 79, User.Status.OCCUPIED);    
+        //printHistory(existe, inconnu);
+
         changePseudoWindow();
     }
 
@@ -198,10 +205,14 @@ public class Interface implements ActionListener {
         displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
     }
 
-    //public void printHistory(User from, User to){
-    //List<Message> msgList = database.history(from, to);
-    //while()
-    //}
+    /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
+    public void printHistory(User from, User to){
+        List<Message> msgList = database.history(from, to);
+        int i;
+        for(i=0; i<msgList.size(); i++){
+            printMessage(msgList.get(i));
+        }
+    }
 
     // TODO : Remove this, use for test
     public static void printMessage(String msgTxt){

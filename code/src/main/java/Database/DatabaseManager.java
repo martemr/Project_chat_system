@@ -2,6 +2,9 @@ package Database;
 
 import java.sql.*;
 import java.util.*;
+import java.text.*;
+import java.util.Date;
+
 
 import Conversation.Message;
 
@@ -15,6 +18,7 @@ public class DatabaseManager{
 
     Connection con;
     ResultSet resultats = null;
+
 
 //HANDLERS
 
@@ -49,6 +53,7 @@ public class DatabaseManager{
     public DatabaseManager(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("[Database] Connection...");
             con=DriverManager.getConnection("jdbc:mysql://srv-bdens.insa-toulouse.fr:3306","tp_servlet_007","EiJ0eoVo");  
             System.out.println("[Database] Connection established");
             String requete = "use tp_servlet_007";
@@ -353,6 +358,7 @@ public void afficher_msgTab(){
 }
 
 
+
     
     /**
      * Affiche l'historique des messages entre 2 personnes, triés par date d'envoi
@@ -376,12 +382,12 @@ public void afficher_msgTab(){
                     Message msg = new Message(destinataire, emetteur, resultats.getString(3), resultats.getString(4));
                     histo.add(msg);
                 }
-                System.out.println(resultats.getString(1)+" "+resultats.getString(2)+" : "+resultats.getString(3));
-                return histo;
             }
         }catch (SQLException e) {
             handleError(e, "Anomalie lors de l'execution de la requête historique");         
-         }
+        }
+        //histo.sort(Date);
+        return histo;
     }
 
 

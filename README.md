@@ -24,3 +24,12 @@ Connecter la base de donnée de l'insa (attention penser au VPN)
 Resoudre problème uid
 ### Network :
 
+
+####Martin :
+use files on /home/memery/javatestsocket
+USE PRINT MESSAGE IN SERVER OR SMTHG LIKE THAT TO PRINT THE MESSAGE ON THE INTERFACE.
+
+On serverTCP send messages and catch it on interface.
+Know how to discuss, exchange.
+
+

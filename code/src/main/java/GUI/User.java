@@ -11,7 +11,7 @@ public class User implements Serializable{
     //Attributs
     public String pseudo;
     public int id;
-    public Status status;
+    public Status status; @Deprecated
     private File userData;
     
     //Constructeur 

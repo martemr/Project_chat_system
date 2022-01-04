@@ -23,15 +23,7 @@ public class Message implements Serializable {
 
     // Constructeur avec date
     public Message(User from, User to, String msg, String dateStr){
-        this.from=from; this.to=to; this.msg=msg; 
-        //this.date=new Date(dateStr));
-        SimpleDateFormat df=new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        try{
-            this.date = df.parse(dateStr);
-        }catch (ParseException e){
-            System.out.println("Error parsing date");
-            System.exit(1);
-        } 
+        this.from=from; this.to=to; this.msg=msg; this.date=convertDate(dateStr);
     }
 
     // TODO : Remove this constructeur, use for test
@@ -42,6 +34,18 @@ public class Message implements Serializable {
         // TimeStamp
         Timestamp ts=new Timestamp(System.currentTimeMillis());  
         this.date=new Date(ts.getTime());
+    }
+
+    protected Date convertDate(String strDate){
+        Date date = new Date();
+        SimpleDateFormat df=new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        try{
+            date = df.parse(strDate);
+        }catch (ParseException e){
+            System.out.println("Error parsing date");
+            System.exit(1);
+        }
+        return date;
     }
     
     @Override
