@@ -36,6 +36,32 @@ public class Interface {
     static DatabaseManager database = Main.getMainDatabase();
 
 
+    // CONSTRUCTEUR
+    // Appel des méthodes créées ci-dessus
+
+    public Interface() {
+
+        // Créer le(s) panneau(x)
+        createPannels();
+
+        // Create and set up the window.
+        createWindow();
+        pseudo_setup(); //ajoute les champs relatifs au pseudo de l'utilisateur
+        destinataire_setup(); //ajoute les champs relatifs au destinataire
+        message_setup(); //ajoute les champs relatifs au message à envoyer
+        conversation_setup();//ajoute la zone d'affichage de la conversation
+
+        //Liste des utilisateurs connectés
+        connected_users();
+
+        // Display the window.
+        addComponentsToPane(interfaceFrame.getContentPane());
+        //interfaceFrame.pack();
+        interfaceFrame.setVisible(true);
+
+        changePseudoWindow();
+    }
+
 
     
 
@@ -167,9 +193,9 @@ public class Interface {
         }
     };
 
-    ListSelectionListener connectedListener = new ListSelectionListener() {
-        //TODO : trouver comment ecouter une liste de boutons
-    };
+    //ListSelectionListener connectedListener = new ListSelectionListener() {
+    //    //TODO : trouver comment ecouter une liste de boutons
+    //};
 
 
 
@@ -195,7 +221,7 @@ public class Interface {
     public void destinataire_setup(){
         GridBagConstraints c = new GridBagConstraints();
         // Destinataire label
-        destLabel = new JLabel("Recipient : ")
+        destLabel = new JLabel("Recipient : ");
         c.anchor=GridBagConstraints.FIRST_LINE_END;
         interfaceFrame.add(destLabel,c);
         // Destinataire button
