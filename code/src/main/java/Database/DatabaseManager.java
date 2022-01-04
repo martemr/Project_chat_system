@@ -359,13 +359,14 @@ public void afficher_msgTab(){
      * @param destinataire
      */
     public void historique(User emetteur, User destinataire){
-        String requete = "select date, emetteur, message from msgTable where ((emetteur='"+emetteur.id+"' and destinataire='"+
-        destinataire.id+"') or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id+"')) order by date" ;
+        String requete = "select date, pseudo, message from msgTable, pseudoTab where ((emetteur='"+emetteur.id+"' and destinataire='"+
+        destinataire.id+"' and pseudoTab.id=msgTable.emetteur) or (emetteur='"+destinataire.id+"' and destinataire='"+emetteur.id
+        +"' and pseudoTab.id=msgTable.emetteur)) order by date" ;
         try {
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
             while(resultats.next()){
-                System.out.println(resultats.getString(1)+" "+get_pseudo(resultats.getInt(2))+" : "+resultats.getString(3));
+                System.out.println(resultats.getString(1)+" "+resultats.getString(2)+" : "+resultats.getString(3));
             }
         }catch (SQLException e) {
             handleError(e, "Anomalie lors de l'execution de la requête historique");         
