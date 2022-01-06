@@ -20,7 +20,7 @@ public class ClientUDP {
 
     public ClientUDP() throws IOException {
         socket = new DatagramSocket();
-        IPAddress = InetAddress.getByName("localhost");
+        IPAddress = InetAddress.getByName("10.1.255.255");
         incomingData = new byte[1024];
         user = Main.getMainUser();
     }

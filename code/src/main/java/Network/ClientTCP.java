@@ -16,7 +16,7 @@ public class ClientTCP {
       this.serverName = serverName; this.port = port;
 
       System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
-      Socket client = new Socket(serverName, port); // Create socket
+      client = new Socket(serverName, port); // Create socket
       System.out.println("[TCP Client] Connected");
    }
 
