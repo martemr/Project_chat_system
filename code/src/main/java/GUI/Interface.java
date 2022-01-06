@@ -85,7 +85,7 @@ public class Interface {
         gridBagLayout.columnWidths = new int[]{0,0,0,0,0, 0};
         gridBagLayout.rowHeights = new int[]{0,0,0, 0};
         gridBagLayout.columnWeights = new double[]{0.4, 0.1, 0.2, 0.1, 0.2, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.2, 0.4, 0.2, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.05, 0.9, 0.05, Double.MIN_VALUE};
         interfaceFrame.getContentPane().setLayout(gridBagLayout);
         //mainPanel.setLayout(gridBagLayout);
         //interfaceFrame.add(mainPanel, gridBagLayout);
@@ -315,9 +315,12 @@ public class Interface {
         connected =new JTextArea("CONNECTED USERS \n \n");
         connected.setEditable(false); // Bloque l'édition de la zone de texte   
         scroller = new JScrollPane(connected); 
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx=0.0;
         c.gridx = 0;
 	    c.gridy = 0;
         c.gridheight = 3;
+        c.gridheight = GridBagConstraints.REMAINDER;
      //   c.anchor=GridBagConstraints.LINE_START;
         interfaceFrame.add(scroller, c);
     }
