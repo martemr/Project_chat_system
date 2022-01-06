@@ -193,15 +193,9 @@ public class Interface {
         }
     };
 
-<<<<<<< HEAD
     //ListSelectionListener connectedListener = new ListSelectionListener() {
     //    //TODO : trouver comment ecouter une liste de boutons
     //};
-=======
-    /*ListSelectionListener connectedListener = new ListSelectionListener() {
-        //TODO : trouver comment ecouter une liste de boutons
-    };*/
->>>>>>> eb86bccc6574c9dcfd7d3ae5100414f63e6cbb7e
 
 
 
@@ -218,8 +212,8 @@ public class Interface {
             c.weightx = 0.5;
             }
             c.fill = GridBagConstraints.BOTH;
-            c.gridx = 0;
-            c.gridy = 0;
+            c.gridx = 1;//colonne
+            c.gridy = 0;//ligne
         c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(pseudoLabel, c);
         // Pseudo button
