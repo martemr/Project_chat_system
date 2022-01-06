@@ -78,6 +78,13 @@ public class Interface {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{0,0,0,0,0, 0};
+        gridBagLayout.rowHeights = new int[]{0,0,0, 0};
+        gridBagLayout.columnWeights = new double[]{0.4, 0.1, 0.2, 0.1, 0.2, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.2, 0.4, 0.2, Double.MIN_VALUE};
+        mainPanel.setLayout(gridBagLayout);
+        interfaceFrame.add(mainPanel,gridBagLayout);
     }
     
     /**
@@ -107,7 +114,8 @@ public class Interface {
             }
         );
         interfaceFrame.setSize(2400, 1800);
-        interfaceFrame.setLayout(new GridBagLayout());
+        //interfaceFrame.setLayout(new GridBagLayout());
+        
         GridBagConstraints c = new GridBagConstraints();
         if (shouldFill) {
             //natural height, maximum width
@@ -215,7 +223,7 @@ public class Interface {
             c.fill = GridBagConstraints.BOTH;
             c.gridx = 1;//colonne
             c.gridy = 0;//ligne
-        c.anchor=GridBagConstraints.PAGE_START;
+      //  c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(pseudoLabel, c);
         // Pseudo button
         changePseudoButton=new JButton("Change Pseudo");
@@ -225,7 +233,7 @@ public class Interface {
 	    c.weightx = 0.5;
 	    c.gridx = 2;
 	    c.gridy = 0;
-        c.anchor=GridBagConstraints.PAGE_START;
+       // c.anchor=GridBagConstraints.PAGE_START;
         interfaceFrame.add(changePseudoButton,c);
     }
 
@@ -235,17 +243,17 @@ public class Interface {
         destLabel = new JLabel("Recipient : ");
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
-	    c.gridx = 0;
-	    c.gridy = 2;
-        c.anchor=GridBagConstraints.LAST_LINE_START;
+	    c.gridx = 3;
+	    c.gridy = 0;
+       // c.anchor=GridBagConstraints.LAST_LINE_START;
         interfaceFrame.add(destLabel,c);
         // Destinataire button
         destinataireButton = new JButton("Change Recipient");
         destinataireButton.addActionListener(destinataireListener);
         c.weightx = 0.5;
-	    c.gridx = 0;
-	    c.gridy = 2;
-        c.anchor=GridBagConstraints.LAST_LINE_START;
+	    c.gridx = 4;
+	    c.gridy = 0;
+       // c.anchor=GridBagConstraints.LAST_LINE_START;
         interfaceFrame.add(destinataireButton,c);
         //TODO : créer les champs relatifs au destinataire
     }
@@ -258,25 +266,26 @@ public class Interface {
 	    c.weightx = 0.5;
 	    c.gridx = 1;
 	    c.gridy = 2;
-        c.anchor=GridBagConstraints.PAGE_END;
+        //c.anchor=GridBagConstraints.PAGE_END;
         interfaceFrame.add(messageLabel, c);
         //Message field
         msgCapture=new JTextField();
         msgCapture.addActionListener(messageListener); // capture le retour chariot
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
-	    c.gridx = 1;
+	    c.gridx = 2;
 	    c.gridy = 2;
-        c.anchor=GridBagConstraints.PAGE_END;
+        c.gridwidth=2;
+       // c.anchor=GridBagConstraints.PAGE_END;
         interfaceFrame.add(msgCapture, c);
         // Send Message Button
         sendMessageButton=new JButton("Send");
         sendMessageButton.addActionListener(messageListener); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
-	    c.gridx = 2;
+	    c.gridx = 4;
 	    c.gridy = 2;
-        c.anchor=GridBagConstraints.LAST_LINE_END;
+       // c.anchor=GridBagConstraints.LAST_LINE_END;
         interfaceFrame.add(sendMessageButton, c);
     }
 
@@ -288,10 +297,10 @@ public class Interface {
         c.fill = GridBagConstraints.BOTH;
 	   // c.ipady = 400;      //make this component tall
 	    c.weightx = 0.0;
-	    c.gridwidth = 1;
 	    c.gridx = 1;
-	    c.gridy = 0; 
-        c.anchor=GridBagConstraints.CENTER;  
+	    c.gridy = 1; 
+        c.gridwidth = 4;
+       // c.anchor=GridBagConstraints.CENTER;  
         interfaceFrame.add(scroll, c);
     }
 
@@ -302,7 +311,8 @@ public class Interface {
         scroller = new JScrollPane(connected); 
         c.gridx = 0;
 	    c.gridy = 0;
-        c.anchor=GridBagConstraints.LINE_START;
+        c.gridheight = 3;
+     //   c.anchor=GridBagConstraints.LINE_START;
         interfaceFrame.add(scroller, c);
     }
 }
