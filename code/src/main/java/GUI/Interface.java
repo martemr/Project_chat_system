@@ -280,8 +280,8 @@ public class Interface {
 	    c.ipady = 400;      //make this component tall
 	    c.weightx = 0.0;
 	    c.gridwidth = 3;
-	    c.gridx = 0;
-	    c.gridy = 1; 
+	    c.gridx = 1;
+	    c.gridy = 0; 
         c.anchor=GridBagConstraints.CENTER;  
         interfaceFrame.add(scroll, c);
     }
@@ -291,6 +291,8 @@ public class Interface {
         connected =new JTextArea("CONNECTED USERS \n \n");
         connected.setEditable(false); // Bloque l'édition de la zone de texte   
         scroll = new JScrollPane(connected); 
+        c.gridx = 0;
+	    c.gridy = 0;
         c.anchor=GridBagConstraints.LINE_START;
         interfaceFrame.add(scroll, c);
     }
