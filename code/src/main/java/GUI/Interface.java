@@ -24,8 +24,8 @@ public class Interface {
     JTextField msgCapture, pseudoCapture; // Champs de texte
     static JTextArea displayMsg, connected;          // Zone de texte
     JButton sendMessageButton, changePseudoButton, destinataireButton;  // Boutons 
-    JLabel pseudoLabel, destLabel, messageLabel;     // Labels (= affichage)
-    JScrollPane scroll;
+    static JLabel pseudoLabel, destLabel, messageLabel;     // Labels (= affichage)
+    JScrollPane scroll, scroller;
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
@@ -137,7 +137,7 @@ public class Interface {
         JList<User> users = new JList<User>(userList);
         //users.VERTICAL;
       //  users.addListSelectionListener(this);
-        JScrollPane scroll = new JScrollPane(users);
+        //JScrollPane scroll = new JScrollPane(users);
     }
 
      /* Affiche le message sur l'interface  **/
@@ -218,7 +218,7 @@ public class Interface {
         interfaceFrame.add(pseudoLabel, c);
         // Pseudo button
         changePseudoButton=new JButton("Change Pseudo");
-        changePseudoButton.setBounds(600, 0, 100,30);
+        //changePseudoButton.setBounds(600, 0, 100,30);
         changePseudoButton.addActionListener(pseudoListener);
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
@@ -232,12 +232,20 @@ public class Interface {
         GridBagConstraints c = new GridBagConstraints();
         // Destinataire label
         destLabel = new JLabel("Recipient : ");
-        c.anchor=GridBagConstraints.FIRST_LINE_END;
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 0;
+	    c.gridy = 2;
+        c.anchor=GridBagConstraints.LAST_LINE_START;
         interfaceFrame.add(destLabel,c);
         // Destinataire button
         destinataireButton = new JButton("Change Recipient");
         destinataireButton.addActionListener(destinataireListener);
-        c.anchor=GridBagConstraints.FIRST_LINE_END;
+        c.weightx = 0.5;
+	    c.gridx = 0;
+	    c.gridy = 2;
+        c.anchor=GridBagConstraints.LAST_LINE_START;
+        interfaceFrame.add(destinataireButton,c);
         //TODO : créer les champs relatifs au destinataire
     }
 
@@ -247,7 +255,7 @@ public class Interface {
         messageLabel = new JLabel("Message :");
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
-	    c.gridx = 0;
+	    c.gridx = 1;
 	    c.gridy = 2;
         c.anchor=GridBagConstraints.PAGE_END;
         interfaceFrame.add(messageLabel, c);
@@ -277,9 +285,9 @@ public class Interface {
         displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
         scroll = new JScrollPane(displayMsg); 
         c.fill = GridBagConstraints.BOTH;
-	    c.ipady = 400;      //make this component tall
+	   // c.ipady = 400;      //make this component tall
 	    c.weightx = 0.0;
-	    c.gridwidth = 3;
+	    c.gridwidth = 1;
 	    c.gridx = 1;
 	    c.gridy = 0; 
         c.anchor=GridBagConstraints.CENTER;  
@@ -290,10 +298,10 @@ public class Interface {
         GridBagConstraints c = new GridBagConstraints();
         connected =new JTextArea("CONNECTED USERS \n \n");
         connected.setEditable(false); // Bloque l'édition de la zone de texte   
-        scroll = new JScrollPane(connected); 
+        scroller = new JScrollPane(connected); 
         c.gridx = 0;
 	    c.gridy = 0;
         c.anchor=GridBagConstraints.LINE_START;
-        interfaceFrame.add(scroll, c);
+        interfaceFrame.add(scroller, c);
     }
 }
