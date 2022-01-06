@@ -50,6 +50,7 @@ public class Interface {
         destinataire_setup(); //ajoute les champs relatifs au destinataire
         message_setup(); //ajoute les champs relatifs au message à envoyer
         conversation_setup();//ajoute la zone d'affichage de la conversation
+        connected_setup();
 
         //Liste des utilisateurs connectés
         connected_users();
