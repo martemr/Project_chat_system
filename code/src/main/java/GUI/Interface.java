@@ -29,6 +29,8 @@ public class Interface {
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
+    //GridBagLayout gridBagLayout;
+    //GridBagConstraints c;
 
     // GET VARIABLES FROM MAIN 
     static User user = Main.getMainUser();
@@ -42,11 +44,12 @@ public class Interface {
     public Interface() {
 
         // Créer le(s) panneau(x)
-        createPannels();
-
+        
         // Create and set up the window.
         createWindow();
+        createPannels();
         pseudo_setup(); //ajoute les champs relatifs au pseudo de l'utilisateur
+        
         destinataire_setup(); //ajoute les champs relatifs au destinataire
         message_setup(); //ajoute les champs relatifs au message à envoyer
         conversation_setup();//ajoute la zone d'affichage de la conversation
@@ -75,16 +78,18 @@ public class Interface {
      */
     public void createPannels(){
         // Create the main panel, there is only one
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        //mainPanel = new JPanel();
+        //mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+        //mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0,0,0,0,0, 0};
         gridBagLayout.rowHeights = new int[]{0,0,0, 0};
         gridBagLayout.columnWeights = new double[]{0.4, 0.1, 0.2, 0.1, 0.2, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.2, 0.4, 0.2, Double.MIN_VALUE};
-        mainPanel.setLayout(gridBagLayout);
-        interfaceFrame.add(mainPanel,gridBagLayout);
+        interfaceFrame.getContentPane().setLayout(gridBagLayout);
+        //mainPanel.setLayout(gridBagLayout);
+        //interfaceFrame.add(mainPanel, gridBagLayout);
+        //interfaceFrame.getContentPane();
     }
     
     /**
@@ -103,6 +108,7 @@ public class Interface {
     public void createWindow(){
         JFrame.setDefaultLookAndFeelDecorated(true);
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
+        interfaceFrame.setVisible(true);
         interfaceFrame.addWindowListener(
             new WindowAdapter() { // Crée l'operation de fermeture.
                 public void windowClosing(WindowEvent e) {
@@ -129,10 +135,10 @@ public class Interface {
     public void changePseudoWindow() {
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
-        while (database.change_pseudo(user, newPseudo) == -1){
-            JOptionPane.showMessageDialog(jFrame, "Pseudo already used, please select an other");
-            newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");   
-        }
+        //while (database.change_pseudo(user, newPseudo) == -1){
+        //    JOptionPane.showMessageDialog(jFrame, "Pseudo already used, please select an other");
+        //    newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");   
+        //}
         user.change_pseudo(newPseudo);
         pseudoLabel.setText("Pseudo : "+user.pseudo);
         JOptionPane.showMessageDialog(jFrame, "Pseudo successfully changed !");
