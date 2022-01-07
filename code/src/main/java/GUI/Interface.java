@@ -56,17 +56,21 @@ public class Interface {
         destinataire_setup(); //ajoute les champs relatifs au destinataire
         message_setup(); //ajoute les champs relatifs au message à envoyer
         conversation_setup();//ajoute la zone d'affichage de la conversation
-        connected_setup();
+        //connected_setup();
 
+        
         //Liste des utilisateurs connectés
-        connected_users();
-
+        
+        
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
         //interfaceFrame.pack();
         interfaceFrame.setVisible(true);
-
+        
         changePseudoWindow();
+        connected_setup(Main.connectedUsers);
+
+        //connected_users(Main.getServerUDP().connectedUsers);
     }
 
 
@@ -166,21 +170,8 @@ public class Interface {
         return pseudos;
     }
 
-    /**
-     * Permet d'afficher une liste de sélection des users
-     * @param userList
-     */
-    public void connected_users(Vector<User> userList){
-        // TODO: tcpclient.getListUser();
-        String[] users = get_pseudo(userList);
-        liste = new JList<String>(users);
-        liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        liste.addListSelectionListener(connectedListener);
-        interfaceFrame.add(liste);
-       }
-
-     /* Affiche le message sur l'interface  **/
-     public static void printMessage(Message msg){
+    /* Affiche le message sur l'interface  **/
+    public static void printMessage(Message msg){
         displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
     }
 
@@ -235,9 +226,9 @@ public class Interface {
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-             int index = liste.getSelectedIndex();
-             User destinataire = users.get(index);
-             //TODO:lancer thread conversation
+            int index = liste.getSelectedIndex();
+            User destinataire = users.get(index);
+            //TODO:lancer thread conversation
         }    
     };
 
@@ -339,11 +330,29 @@ public class Interface {
         interfaceFrame.add(scroll, c);
     }
 
-    public void connected_setup(){
+    /** 
+     * Permet d'afficher une liste de sélection des users
+     * @param userList
+     */
+    public void connected_users(Vector<User> userList){
+        // TODO: tcpclient.getListUser();
+        String[] users = get_pseudo(userList);
+        liste = new JList<String>(users);
+        liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        liste.addListSelectionListener(connectedListener);
+        interfaceFrame.add(liste);
+    }
+
+    public void connected_setup(Vector<User> userList){
         GridBagConstraints c = new GridBagConstraints();
-        connected =new JTextArea("CONNECTED USERS \n \n");
-        connected.setEditable(false); // Bloque l'édition de la zone de texte   
-        scroller = new JScrollPane(connected); 
+        
+        String[] users = get_pseudo(userList);
+        liste = new JList<String>(users);
+        liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        liste.addListSelectionListener(connectedListener);
+        //connected =new JTextArea("CONNECTED USERS \n \n");
+        //liste.setEditable(false); // Bloque l'édition de la zone de texte   
+        scroller = new JScrollPane(liste); 
         c.fill = GridBagConstraints.BOTH;
         c.weightx=0.0;
         c.gridx = 0;
