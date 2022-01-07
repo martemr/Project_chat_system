@@ -56,6 +56,7 @@ public class Interface {
         destinataire_setup(); //ajoute les champs relatifs au destinataire
         message_setup(); //ajoute les champs relatifs au message à envoyer
         conversation_setup();//ajoute la zone d'affichage de la conversation
+        connected_setup(Main.connectedUsers);
         //connected_setup();
 
         
@@ -68,7 +69,7 @@ public class Interface {
         interfaceFrame.setVisible(true);
         
         changePseudoWindow();
-        connected_setup(Main.connectedUsers);
+       
 
         //connected_users(Main.getServerUDP().connectedUsers);
     }
@@ -336,7 +337,6 @@ public class Interface {
      */
     public void connected_setup(Vector<User> userList){
         GridBagConstraints c = new GridBagConstraints();
-        
         String[] users = get_pseudo(userList);
         liste = new JList<String>(users);
         liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
