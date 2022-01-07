@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
@@ -26,6 +27,8 @@ public class Interface {
     JButton sendMessageButton, changePseudoButton, destinataireButton;  // Boutons 
     static JLabel pseudoLabel, destLabel, messageLabel;     // Labels (= affichage)
     JScrollPane scroll, scroller;
+    JList<String> liste;
+    Vector<User> users;
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
     final static boolean RIGHT_TO_LEFT = false;
@@ -151,15 +154,30 @@ public class Interface {
     }
 
     /**
-     * Affiche les utilisateurs connectés
+     * Permet de récupérer une liste de pseudos à partir du tableau de users
+     * @param users
+     * @return
      */
-    public void connected_users(){
-        Vector<User> userList = new Vector<>(); // TODO: tcpclient.getListUser();
-        JList<User> users = new JList<User>(userList);
-        //users.VERTICAL;
-      //  users.addListSelectionListener(this);
-        //JScrollPane scroll = new JScrollPane(users);
+    public String[] get_pseudo(Vector<User> users){
+        String[] pseudos = new String[users.size()];
+        for(int i=0; i<users.size();i++){
+            pseudos[i]=users.get(i).pseudo;
+        }
+        return pseudos;
     }
+
+    /**
+     * Permet d'afficher une liste de sélection des users
+     * @param userList
+     */
+    public void connected_users(Vector<User> userList){
+        // TODO: tcpclient.getListUser();
+        String[] users = get_pseudo(userList);
+        liste = new JList<String>(users);
+        liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        liste.addListSelectionListener(connectedListener);
+        interfaceFrame.add(liste);
+       }
 
      /* Affiche le message sur l'interface  **/
      public static void printMessage(Message msg){
@@ -214,9 +232,14 @@ public class Interface {
         }
     };
 
-    //ListSelectionListener connectedListener = new ListSelectionListener() {
-    //    //TODO : trouver comment ecouter une liste de boutons
-    //};
+    ListSelectionListener connectedListener = new ListSelectionListener() {
+        public void valueChanged(ListSelectionEvent e)
+        {
+             int index = liste.getSelectedIndex();
+             User destinataire = users.get(index);
+             //TODO:lancer thread conversation
+        }    
+    };
 
 
 
