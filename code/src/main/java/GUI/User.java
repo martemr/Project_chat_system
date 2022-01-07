@@ -1,6 +1,7 @@
 package GUI;
 
 import java.io.*;
+import java.net.InetAddress;
 
 public class User implements Serializable{
 
@@ -13,6 +14,7 @@ public class User implements Serializable{
     public int id;
     public Status status; @Deprecated
     private File userData;
+    public InetAddress IPAddress;
     
     //Constructeur 
     public User(String pseudo, int id, Status status){
