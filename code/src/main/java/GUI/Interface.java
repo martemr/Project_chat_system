@@ -334,15 +334,6 @@ public class Interface {
      * Permet d'afficher une liste de sélection des users
      * @param userList
      */
-    public void connected_users(Vector<User> userList){
-        // TODO: tcpclient.getListUser();
-        String[] users = get_pseudo(userList);
-        liste = new JList<String>(users);
-        liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        liste.addListSelectionListener(connectedListener);
-        interfaceFrame.add(liste);
-    }
-
     public void connected_setup(Vector<User> userList){
         GridBagConstraints c = new GridBagConstraints();
         
