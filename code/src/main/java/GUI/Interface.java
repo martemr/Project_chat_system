@@ -141,7 +141,13 @@ public class Interface {
         //}
         user.change_pseudo(newPseudo);
         pseudoLabel.setText("Pseudo : "+user.pseudo);
-        JOptionPane.showMessageDialog(jFrame, "Pseudo successfully changed !");
+        sendPopUp("Pseudo successfully changed !");
+        //jFrame.dispose();
+    }
+
+    public void sendPopUp(String message){
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, message);
     }
 
     /**
