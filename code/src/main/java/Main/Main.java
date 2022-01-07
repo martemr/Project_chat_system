@@ -70,13 +70,13 @@ public class Main {
         //database.testdb();
         
         // Démarre le serveur UDP sur le port 1234
-        //System.out.println("[Main] Starting server UDP ");
-        //startUDPServer();
+        System.out.println("[Main] Starting server UDP ");
+        startUDPServer();
 
         User Martin = new User("Martin", 60, User.Status.ABSENT);
         User Paul = new User("Paul", 79, User.Status.OCCUPIED);
-        connectedUsers = new Vector<User>();
         User Marie = new User("Marie", 33, User.Status.CONNECTED);
+        connectedUsers = new Vector<User>();
         connectedUsers.add(Martin);
         connectedUsers.add(Paul);
         connectedUsers.add(Marie);

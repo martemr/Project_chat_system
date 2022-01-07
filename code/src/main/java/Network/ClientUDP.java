@@ -14,14 +14,19 @@ import Main.Main;
 public class ClientUDP {
 
     DatagramSocket socket;
-    InetAddress IPAddress;
-    byte[] incomingData;
+    InetAddress BroadcastAddress;
+    byte[] outgoingData;
     User user;
+
+    public InetAddress findBroadcastAddress() throws IOException {
+        // TODO : Make a search file function to find BroadcastAddress in json file
+        return InetAddress.getByName("10.1.255.255");
+    }
 
     public ClientUDP() throws IOException {
         socket = new DatagramSocket();
-        IPAddress = InetAddress.getByName("10.1.255.255");
-        incomingData = new byte[1024];
+        BroadcastAddress = findBroadcastAddress();
+        outgoingData = new byte[1024];
         user = Main.getMainUser();
     }
     
@@ -32,8 +37,8 @@ public class ClientUDP {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ObjectOutputStream os = new ObjectOutputStream(outputStream);
             os.writeObject(user);
-            incomingData = outputStream.toByteArray();
-            DatagramPacket sendPacket = new DatagramPacket(incomingData, incomingData.length, IPAddress, 1234);
+            outgoingData = outputStream.toByteArray();
+            DatagramPacket sendPacket = new DatagramPacket(outgoingData, outgoingData.length, BroadcastAddress, 1234);
             socket.send(sendPacket);
             System.out.println("[UDP Client] Broadcast message sent");
         } catch (Exception e) {
