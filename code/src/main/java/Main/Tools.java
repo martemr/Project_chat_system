@@ -3,6 +3,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.*;
+import Main.Main;
+import GUI.User;
 
 
 public class Tools {
@@ -43,12 +45,10 @@ public class Tools {
                 //TODO: traiter les données
                 public void characters(char ch[], int start,int length) throws SAXException {
                    if (ip_local) {
-                     System.out.println("ip_local : " + 
-                            new String(ch, start, length));
+                    Main.getMainUser().set_ip_broadcast(new String(ch, start, length));
                      ip_local = false;
                    } else if (ip_broadcast) {
-                     System.out.println("ip_broadcast : " +
-                             new String(ch, start, length));
+                     Main.getMainUser().set_ip_broadcast(new String(ch, start, length));
                      ip_broadcast = false;
                    }
                 }
