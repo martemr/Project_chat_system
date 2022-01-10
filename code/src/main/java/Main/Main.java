@@ -16,6 +16,7 @@ public class Main {
     static ServerTCP tcpServer;
     static ClientTCP tcpClient; // TODO : Link with interface
     static ServerUDP udp_server;
+    static ClientUDP udp_client;
     static final int UDPPort=1234;
     static final int TCPPort=4321;
 
@@ -48,12 +49,14 @@ public class Main {
         return udp_server;
     }
 
+    static public ClientUDP getClientUDP(){
+        return udp_client;
+    }
+
     public static void startUDPServer(){
         try{
-            ServerUDP udp_server = new ServerUDP(UDPPort);
+            udp_server = new ServerUDP(UDPPort);
             udp_server.start();
-            ClientUDP udp_client=new ClientUDP();
-            udp_client.sendBroadcast();
         } catch (IOException e) {
             System.out.println("[Main] Error while starting UDP");
         }
@@ -105,6 +108,12 @@ public class Main {
         //database.testdb();
         
         // Démarre le serveur UDP sur le port 1234
+        System.out.println("[Main] Starting client UDP ");
+        try{
+            udp_client=new ClientUDP();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         
         /*
         User Martin = new User("Martin", 60, User.Flag.CONNECTED);
@@ -119,7 +128,6 @@ public class Main {
 
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
-
     }
 
     public void messageReceived(Message msg){
@@ -129,4 +137,19 @@ public class Main {
     public static void closeSystem(){
         //database.closeConnection();
     }
+
+    static private boolean contains(Object[] array, Object element){
+        for (int i = 0; i <array.length; i++){
+            if (array[i].equals(element)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static public boolean isPseudoFree(String pseudo){
+        return !contains(Main.connectedPseudos, pseudo);
+    }
+
+
 }

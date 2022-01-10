@@ -139,16 +139,23 @@ public class Interface {
      * Affiche une fenetre pop-up pour changer le pseudo
      */
     public void changePseudoWindow() {
+        // Lance la fenetre
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
-        //while (database.change_pseudo(user, newPseudo) == -1){
-        //    JOptionPane.showMessageDialog(jFrame, "Pseudo already used, please select an other");
-        //    newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");   
-        //}
+
+        // Vérifie dans le tableau si il est libre
+        while (!Main.isPseudoFree(newPseudo)){
+            //sendPopUp("Error : Pseudo already used !");
+            newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
+        }
+
+        // Met à jour le tableau user
         user.change_pseudo(newPseudo);
         pseudoLabel.setText("Pseudo : "+user.pseudo);
         sendPopUp("Pseudo successfully changed !");
-        //jFrame.dispose();
+
+        // Envoie un broadcast pour notifier les autres utilisateurs
+        Main.getClientUDP().sendBroadcast();
     }
 
     public void sendPopUp(String message){

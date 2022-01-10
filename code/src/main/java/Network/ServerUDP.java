@@ -7,8 +7,6 @@ import java.net.DatagramSocket;
 import GUI.*;
 import Main.Main;
 
-
-
 public class ServerUDP extends Thread {
 
     DatagramSocket socket;
@@ -26,6 +24,8 @@ public class ServerUDP extends Thread {
     public void changePseudoReceived(User received_user, int old_user_index) {
             Main.connectedUsers.remove(old_user_index);
             Main.connectedUsers.add(received_user);
+
+            
         //if (!received_user.pseudo.equals(Main.connectedUsers.get(old_user_index).pseudo)){
             // Received a changement of pseudo user
             
@@ -34,18 +34,6 @@ public class ServerUDP extends Thread {
         
     }
 
-    private boolean contains(Object[] array, Object element){
-        for (int i = 0; i <array.length; i++){
-            if (array[i].equals(element)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isPseudoFree(User new_user){
-        return !contains(Main.connectedPseudos, new_user.pseudo);
-    }
 
     private boolean isNew(User new_user){
         for (int i = 0; i <Main.connectedId.length; i++){
@@ -91,14 +79,14 @@ public class ServerUDP extends Thread {
 
                     
                     if (!isNew(new_user)){ // Vérifie si l'utilsateur est dejà sur le réseau
-                        if (isPseudoFree(new_user)){ // Vérifie si le pseudo est dispo
+                        if (Main.isPseudoFree(new_user.pseudo)){ // Vérifie si le pseudo est dispo
                             changePseudoReceived(new_user, Main.connectedUsers.indexOf(new_user));
                             Main.updateConnectedUsers();
                         } else {
                             notifyPseudoNotAvailable(new_user);
                         }
                     } else { // Nouvel utilisateur
-                        if (isPseudoFree(new_user)){ // Vérifie si le pseudo est dispo
+                        if (Main.isPseudoFree(new_user.pseudo)){ // Vérifie si le pseudo est dispo
                             Main.connectedUsers.add(new_user);
                             Main.updateConnectedUsers();
                             sendUnicast(Main.getMainUser(), new_user);
