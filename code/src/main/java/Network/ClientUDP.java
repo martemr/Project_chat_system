@@ -40,7 +40,7 @@ public class ClientUDP {
             outgoingData = outputStream.toByteArray();
             DatagramPacket sendPacket = new DatagramPacket(outgoingData, outgoingData.length, BroadcastAddress, 1234);
             socket.send(sendPacket);
-            System.out.println("[UDP Client] Broadcast message sent");
+            System.out.println("[UDP Client] Broadcast message sent from " +user.pseudo);
         } catch (Exception e) {
             e.printStackTrace();
         }
