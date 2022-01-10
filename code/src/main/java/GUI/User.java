@@ -60,7 +60,7 @@ public class User implements Serializable{
 
             // Creating a new id if not already gave
             if (this.id==0){
-                this.id = this.hashCode(); // Le uid est défini avec le hash de la classe
+                this.id = this.hashCode(); // Le uid est défini avec le hash de la classe TODO : Changer cette génération par un truc plus aléatoire.
                 FileWriter fileWriter = new FileWriter(userData);
                 fileWriter.write("uid:"+Integer.toString(this.id));
                 fileWriter.close();

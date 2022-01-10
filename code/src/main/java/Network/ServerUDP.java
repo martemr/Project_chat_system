@@ -22,7 +22,8 @@ public class ServerUDP extends Thread {
     }
 
     public void changePseudoReceived(User received_user, int old_user_index) {
-            Main.connectedUsers.remove(old_user_index);
+            //Main.connectedUsers.remove(old_user_index);
+            Main.connectedUsers.remove(received_user);
             Main.connectedUsers.add(received_user);
 
             
@@ -74,6 +75,7 @@ public class ServerUDP extends Thread {
                 ObjectInputStream is = new ObjectInputStream(in);
                 try {
                     new_user = (User) is.readObject();
+
                     //new_user.IPAddress = incomingPacket.getAddress();
                     if (new_user.id != Main.getMainUser().id){
                         System.out.println("[UDP Server] " + new_user.pseudo + " just joined");

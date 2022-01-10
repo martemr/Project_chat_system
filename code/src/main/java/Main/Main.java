@@ -28,7 +28,8 @@ public class Main {
         user = new User("Pseudo"); // the main user is declared once, here.
         connectedUsers = new Vector<User>();
         Tools.lire_config_xml();
-        updateConnectedUsers();
+        connectedPseudos=get_pseudo(connectedUsers);
+        connectedId=get_id(connectedUsers);
         //database = new DatabaseManager();
     }
 
@@ -101,6 +102,7 @@ public class Main {
     static public void updateConnectedUsers(){
         connectedPseudos=get_pseudo(connectedUsers);
         connectedId=get_id(connectedUsers);
+        mainWindow.connected_setup(connectedUsers); 
     }
 
     // Main fonction (appelée en premier lors de l'exécution)
@@ -115,6 +117,7 @@ public class Main {
         System.out.println("[Main] Starting client UDP ");
         try{
             udp_client=new ClientUDP();
+            //udp_client.sendBroadcast();
         } catch (Exception e){
             e.printStackTrace();
         }
