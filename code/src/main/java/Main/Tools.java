@@ -42,7 +42,6 @@ public class Tools {
                    }
                 }
         
-                //TODO: traiter les données
                 public void characters(char ch[], int start,int length) throws SAXException {
                    if (ip_local) {
                     Main.getMainUser().set_ip_broadcast(new String(ch, start, length));
@@ -53,7 +52,7 @@ public class Tools {
                    }
                 }
             };
-               saxParser.parse("config.xml", handler);
+          saxParser.parse("config.xml", handler);
         } catch (Exception e) {
             e.printStackTrace();
         }
