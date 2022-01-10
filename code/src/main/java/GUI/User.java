@@ -2,23 +2,25 @@ package GUI;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class User implements Serializable{
 
-    public enum Status {
-        CONNECTED, ABSENT, OCCUPIED
+    public enum Flag {
+        CONNECTION, PSEUDO_NOT_AVAILABLE, CONNECTED
     }
     
     //Attributs
     public String pseudo;
     public int id;
-    public Status status; @Deprecated
+    public Flag flag; 
     private File userData;
     public InetAddress IPAddress;
+    public InetAddress IPAddressBroadcast;
     
     //Constructeur 
-    public User(String pseudo, int id, Status status){
-        this.pseudo = pseudo; this.id=id; this.status=status;
+    public User(String pseudo, int id, Flag flag){
+        this.pseudo = pseudo; this.id=id; this.flag=flag;
     }
 
     /** Constructor for User
@@ -32,9 +34,6 @@ public class User implements Serializable{
     public User(String pseudo){
         this.pseudo=pseudo;
 
-        // Automatically connected
-        this.status=Status.CONNECTED;
-
         // Creating or getting the id
         this.id=0;
         try {
@@ -43,7 +42,7 @@ public class User implements Serializable{
             userData = new File(localDir + "/code/.userdata");
             if (!userData.exists()) { 
                 if (!userData.createNewFile()) throw new FileNotFoundException();
-                System.out.println("[User] file code/.userdata not exists, creating one...");
+                System.out.println("[User] file code/.userdata doesn't exist, creating one...");
             }
 
             // Read the existing uid  
@@ -78,6 +77,28 @@ public class User implements Serializable{
      */
     protected void change_pseudo(String new_pseudo){
         this.pseudo=new_pseudo;
+    }
+
+    public void setFlag(Flag new_flag){
+        this.flag=new_flag;
+    }
+
+    public void set_ip_local(String ip){
+        try{
+            this.IPAddress= InetAddress.getByName(ip);
+        } catch (UnknownHostException e){
+            System.out.println("[User] UnknownHostException");
+            e.printStackTrace();
+        }
+    }
+
+    public void set_ip_broadcast(String ip){
+        try{
+            this.IPAddressBroadcast= InetAddress.getByName(ip);
+        } catch (UnknownHostException e){
+            System.out.println("[User] UnknownHostException");
+            e.printStackTrace();
+        }
     }
   
 }

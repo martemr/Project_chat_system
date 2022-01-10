@@ -46,27 +46,3 @@ public class ClientUDP {
         }
     }
 }
-       
-            /*
-            DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-            Socket.receive(incomingPacket);
-            String response = new String(incomingPacket.getData());
-            System.out.println("Response from server:" + response);
-            Thread.sleep(2000);
-            */
-           
-
-/*
-        // Create the socket object for carrying the data.
-        DatagramSocket datagramReceiveSocket = new DatagramSocket();
-    
-        byte buf[] = null;
-        buf = "Hello World !".getBytes(); // convert the String input into the byte array.
-
-        // Create the datagramPacket for sending the data.
-        InetAddress ip = InetAddress.getLocalHost(); // InetAddress.getHostbyname("localhost");
-        DatagramPacket broadcastPacket = new DatagramPacket(buf, buf.length, ip, 1234);
-
-        // invoke the send call to actually send the data.
-        datagramReceiveSocket.send(broadcastPacket);
-*/

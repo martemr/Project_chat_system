@@ -158,19 +158,6 @@ public class Interface {
         JOptionPane.showMessageDialog(jFrame, message);
     }
 
-    /**
-     * Permet de récupérer une liste de pseudos à partir du tableau de users
-     * @param users
-     * @return
-     */
-    public String[] get_pseudo(Vector<User> users){
-        String[] pseudos = new String[users.size()];
-        for(int i=0; i<users.size();i++){
-            pseudos[i]=users.get(i).pseudo;
-        }
-        return pseudos;
-    }
-
     /* Affiche le message sur l'interface  **/
     public static void printMessage(Message msg){
         displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 

@@ -20,6 +20,8 @@ public class Main {
     static final int TCPPort=4321;
 
     static public Vector<User> connectedUsers;
+    static public String[] connectedPseudos;
+    static public int[] connectedId;
 
     static {
         user = new User("Pseudo"); // the main user is declared once, here.
@@ -64,6 +66,37 @@ public class Main {
         }
     }
 
+    /**
+     * Permet de récupérer une liste de pseudos à partir du tableau de users
+     * @param users
+     * @return
+     */
+    static public String[] get_pseudo(Vector<User> users){
+        String[] pseudos = new String[users.size()];
+        for(int i=0; i<users.size();i++){
+            pseudos[i]=users.get(i).pseudo;
+        }
+        return pseudos;
+    }
+
+    /**
+     * Permet de récupérer une liste de pseudos à partir du tableau de users
+     * @param users
+     * @return
+     */
+    static public int[] get_id(Vector<User> users){
+        int[] id = new int[users.size()];
+        for(int i=0; i<users.size();i++){
+            id[i]=users.get(i).id;
+        }
+        return id;
+    }
+
+    static public void updateConnectedUsers(){
+        connectedPseudos=get_pseudo(connectedUsers);
+        connectedId=get_id(connectedUsers);
+    }
+
     // Main fonction (appelée en premier lors de l'exécution)
     public static void main(String[] args) {     
 
@@ -73,9 +106,9 @@ public class Main {
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
-        User Martin = new User("Martin", 60, User.Status.ABSENT);
-        User Paul = new User("Paul", 79, User.Status.OCCUPIED);
-        User Marie = new User("Marie", 33, User.Status.CONNECTED);
+        User Martin = new User("Martin", 60, User.Flags.CONNECTED);
+        User Paul   = new User("Paul",   79, User.Flags.CONNECTED);
+        User Marie  = new User("Marie",  33, User.Flags.CONNECTED);
         connectedUsers = new Vector<User>();
         connectedUsers.add(Martin);
         connectedUsers.add(Paul);

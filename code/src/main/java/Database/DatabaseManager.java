@@ -197,7 +197,7 @@ public void afficher_msgTab(){
     
 
     //TESTS
-
+/*
     User existe = new User("Martin", 60, User.Status.ABSENT);
     User inconnu = new User("cc", 79, User.Status.OCCUPIED);
     User jsp = new User("null", 33, User.Status.CONNECTED);
@@ -208,5 +208,5 @@ public void afficher_msgTab(){
         history(inconnu, existe);
     
     }
-
+*/
 } 
