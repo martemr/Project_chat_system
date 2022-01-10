@@ -44,7 +44,7 @@ public class Tools {
         
                 public void characters(char ch[], int start,int length) throws SAXException {
                    if (ip_local) {
-                    Main.getMainUser().set_ip_broadcast(new String(ch, start, length));
+                    Main.getMainUser().set_ip_local(new String(ch, start, length));
                      ip_local = false;
                    } else if (ip_broadcast) {
                      Main.getMainUser().set_ip_broadcast(new String(ch, start, length));
