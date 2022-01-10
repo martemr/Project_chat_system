@@ -27,6 +27,7 @@ public class Main {
     static {
         user = new User("Pseudo"); // the main user is declared once, here.
         connectedUsers = new Vector<User>();
+        Tools.lire_config_xml();
         updateConnectedUsers();
         //database = new DatabaseManager();
     }
@@ -108,6 +109,9 @@ public class Main {
         //database.testdb();
         
         // Démarre le serveur UDP sur le port 1234
+        System.out.println("[Main] Starting server UDP ");
+        startUDPServer();
+
         System.out.println("[Main] Starting client UDP ");
         try{
             udp_client=new ClientUDP();
@@ -126,8 +130,7 @@ public class Main {
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();   
 
-        System.out.println("[Main] Starting server UDP ");
-        startUDPServer();
+
     }
 
     public void messageReceived(Message msg){
