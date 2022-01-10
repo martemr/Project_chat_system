@@ -101,8 +101,14 @@ public class Main {
 
     static public void updateConnectedUsers(){
         connectedPseudos=get_pseudo(connectedUsers);
+
+        //for(int i=0; i<connectedPseudos.length;i++){
+        //    System.out.println(connectedPseudos[i]);
+        //}
+        
+        
         connectedId=get_id(connectedUsers);
-        mainWindow.connected_setup(connectedUsers); 
+        //mainWindow.connected_setup();
     }
 
     // Main fonction (appelée en premier lors de l'exécution)
@@ -122,17 +128,19 @@ public class Main {
             e.printStackTrace();
         }
         
-        /*
+        
         User Martin = new User("Martin", 60, User.Flag.CONNECTED);
         User Paul   = new User("Paul",   79, User.Flag.CONNECTED);
         User Marie  = new User("Marie",  33, User.Flag.CONNECTED);
         connectedUsers.add(Martin);
         connectedUsers.add(Paul);
-        connectedUsers.add(Marie);*/
+        connectedUsers.add(Marie);
 
+        
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();   
-
+        
+        updateConnectedUsers();
 
     }
 

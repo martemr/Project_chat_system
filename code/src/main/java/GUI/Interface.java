@@ -61,12 +61,13 @@ public class Interface {
 
         
         //Liste des utilisateurs connectés
-        changePseudoWindow();
+         changePseudoWindow();
         
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
         //interfaceFrame.pack();
         interfaceFrame.setVisible(true);
+        
        
 
         //connected_users(Main.getServerUDP().connectedUsers);
@@ -157,6 +158,7 @@ public class Interface {
         // Envoie un broadcast pour notifier les autres utilisateurs
         Main.getClientUDP().sendBroadcast();
     }
+
 
     public void sendPopUp(String message){
         JFrame jFrame = new JFrame();
@@ -329,7 +331,8 @@ public class Interface {
      */
     public void connected_setup(Vector<User> userList){
         GridBagConstraints c = new GridBagConstraints();
-        liste = new JList<String>(Main.connectedPseudos);
+        String[] users = Main.get_pseudo(userList);
+        liste = new JList<String>(users);
         liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         liste.addListSelectionListener(connectedListener);
         //connected =new JTextArea("CONNECTED USERS \n \n");
