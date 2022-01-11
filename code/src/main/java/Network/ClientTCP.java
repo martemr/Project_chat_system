@@ -12,7 +12,7 @@ public class ClientTCP {
    protected Socket client;
 
    /** Constructor for Client  */
-   public ClientTCP(String serverName, int port) throws IOException {
+   public ClientTCP(String serverName, int port) throws IOException { // serverName est l'adresse ip du destinataire
       this.serverName = serverName; this.port = port;
 
       System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
@@ -20,7 +20,7 @@ public class ClientTCP {
       System.out.println("[TCP Client] Connected");
    }
 
-   /** Envoiie un message
+   /** Envoie un message
 	 * 
 	**/
 	public void sendMessage(Message msg) {     

@@ -67,39 +67,46 @@ public class ServerUDP extends Thread {
         try{
             while (true)
             {
-                // Wait for receiving a broadcast
+                /* Wait a broadcast */
                 incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 socket.receive(incomingPacket);
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);
-                try {
-                    new_user = (User) is.readObject();
 
-                    //new_user.IPAddress = incomingPacket.getAddress();
-                    if (new_user.id != Main.getMainUser().id){
-                        System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
+                /* When broadcast received */
+                // Désencapsule le user
+                new_user = (User) is.readObject();
+
+                // Vérifie que c'est pas soi même
+                if (new_user.id != Main.getMainUser().id){ 
+                    System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
                         
-                        if (!isNew(new_user)){ // Vérifie si l'utilsateur est dejà sur le réseau
-                            if (Main.isPseudoFree(new_user.pseudo)){ // Vérifie si le pseudo est dispo
-                                changePseudoReceived(new_user, Main.connectedUsers.indexOf(new_user));
-                                Main.updateConnectedUsers();
-                            } else {
-                                notifyPseudoNotAvailable(new_user);
-                            }
-                        } else { // Nouvel utilisateur
-                            if (Main.isPseudoFree(new_user.pseudo)){ // Vérifie si le pseudo est dispo
-                                Main.connectedUsers.add(new_user);
-                                Main.updateConnectedUsers();
-                                sendUnicast(Main.getMainUser(), new_user);
-                            } else {
-                                notifyPseudoNotAvailable(new_user);
-                            }
+                    // Vérifie si on à déjà vu cet user ou non
+                    if (!isNew(new_user)){
+
+                        // Vérifie si le pseudo est dispo
+                        if (Main.isPseudoFree(new_user.pseudo)){
+                            changePseudoReceived(new_user, Main.connectedUsers.indexOf(new_user));
+                            Main.updateArrayConnectedUsers();
+                        } else {
+                            notifyPseudoNotAvailable(new_user);
+                        }
+                    } else { // Nouvel utilisateur
+                        if (Main.isPseudoFree(new_user.pseudo)){ // Vérifie si le pseudo est dispo
+                            Main.connectedUsers.add(new_user);
+                            Main.updateArrayConnectedUsers();
+                            sendUnicast(Main.getMainUser(), new_user);
+                        } else {
+                            notifyPseudoNotAvailable(new_user);
                         }
                     }
+                    }
+                /*
+                
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
-                }                
+                }*/                
             }
         } catch (Exception e) {
             e.printStackTrace();

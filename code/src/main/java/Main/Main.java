@@ -24,14 +24,7 @@ public class Main {
     static public String[] connectedPseudos;
     static public int[] connectedId;
 
-    static {
-        user = new User("Pseudo"); // the main user is declared once, here.
-        connectedUsers = new Vector<User>();
-        Tools.lire_config_xml();
-        connectedPseudos=get_pseudo(connectedUsers);
-        connectedId=get_id(connectedUsers);
-        //database = new DatabaseManager();
-    }
+    /* GETTERS */
 
     static public User getMainUser(){
         return user;
@@ -40,9 +33,6 @@ public class Main {
         return database;
     }
 
-    /** Getter for the client TCP
-     * @return clientTCP
-     */
     static public ClientTCP getClientTCP(){
         return tcpClient;
     }
@@ -54,6 +44,9 @@ public class Main {
     static public ClientUDP getClientUDP(){
         return udp_client;
     }
+
+
+    /* METHODES */
 
     public static void startUDPServer(){
         try{
@@ -99,50 +92,15 @@ public class Main {
         return id;
     }
 
-    static public void updateConnectedUsers(){
-        connectedPseudos=get_pseudo(connectedUsers);
-
-        //for(int i=0; i<connectedPseudos.length;i++){
-        //    System.out.println(connectedPseudos[i]);
-        //}
-        
-        
+    static public void updateArrayConnectedUsers(){
+        connectedPseudos=get_pseudo(connectedUsers);     
         connectedId=get_id(connectedUsers);
-        //mainWindow.connected_setup();
-    }
-
-    // Main fonction (appelée en premier lors de l'exécution)
-    public static void main(String[] args) {     
-
-        //database.testdb();
-        
-        // Démarre le serveur UDP sur le port 1234
-        System.out.println("[Main] Starting server UDP ");
-        startUDPServer();
-
-        System.out.println("[Main] Starting client UDP ");
-        try{
-            udp_client=new ClientUDP();
-            //udp_client.sendBroadcast();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        
-        
-        User Martin = new User("Martin", 60, User.Flag.CONNECTED);
-        User Paul   = new User("Paul",   79, User.Flag.CONNECTED);
-        User Marie  = new User("Marie",  33, User.Flag.CONNECTED);
-        connectedUsers.add(Martin);
-        connectedUsers.add(Paul);
-        connectedUsers.add(Marie);
-
-        
-        System.out.println("[Main] Starting interface");
-        mainWindow = new Interface();   
-        
-        updateConnectedUsers();
 
     }
+
+
+
+
 
     public void messageReceived(Message msg){
         this.mainWindow.printMessage(msg);
@@ -165,5 +123,55 @@ public class Main {
         return !contains(Main.connectedPseudos, pseudo);
     }
 
+
+    /* STATIC PART */
+
+    static {
+        user = new User("Pseudo"); // Main user is declared once, here.
+        connectedUsers = new Vector<User>();
+        Tools.lire_config_xml();
+        connectedPseudos=get_pseudo(connectedUsers);
+        connectedId=get_id(connectedUsers);
+        //database = new DatabaseManager();
+    }
+
+    // Main fonction (appelée en premier lors de l'exécution)
+    public static void main(String[] args) {     
+
+        //database.testdb();
+
+        // Ouvre l'interface
+        System.out.println("[Main] Starting interface");
+        mainWindow = new Interface();  
+
+/*
+        // Lance le serveur UDP (port 1234)
+        System.out.println("[Main] Starting server UDP ");
+        startUDPServer();
+
+
+
+        
+        
+        System.out.println("[Main] Starting client UDP ");
+        try{
+            udp_client=new ClientUDP();
+            //udp_client.sendBroadcast();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+        /*
+        User Martin = new User("Martin", 60, User.Flag.CONNECTED);
+        User Paul   = new User("Paul",   79, User.Flag.CONNECTED);
+        User Marie  = new User("Marie",  33, User.Flag.CONNECTED);
+        connectedUsers.add(Martin);
+        connectedUsers.add(Paul);
+        connectedUsers.add(Marie);
+*/
+        
+         
+
+    }
 
 }
