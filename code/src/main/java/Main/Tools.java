@@ -3,8 +3,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.*;
-import Main.Main;
-import GUI.User;
+
 
 
 public class Tools {
@@ -41,7 +40,8 @@ public class Tools {
                      ip_broadcast = false;
                    }
                 }
-        
+                
+                /* definit les adresses ip du main user */
                 public void characters(char ch[], int start,int length) throws SAXException {
                    if (ip_local) {
                     Main.getMainUser().set_ip_local(new String(ch, start, length));
