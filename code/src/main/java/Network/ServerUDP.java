@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 import GUI.*;
+import GUI.User.Flag;
 import Main.Main;
 
 public class ServerUDP extends Thread {
@@ -15,26 +16,18 @@ public class ServerUDP extends Thread {
     ByteArrayOutputStream outputStream;
     ObjectOutputStream os;
 
-    public ServerUDP(int port) throws IOException {
-        socket = new DatagramSocket(port);
+    final int sendPort=1450;
+    final int receivePort=1400;
+
+    public ServerUDP() throws IOException {
+        socket = new DatagramSocket(receivePort);
         incomingData = new byte[65535];
         incomingPacket = null;
     }
 
-    public void changePseudoReceived(User received_user, int old_user_index) {
-            //Main.connectedUsers.remove(old_user_index);
-            Main.connectedUsers.remove(received_user);
-            Main.connectedUsers.add(received_user);
-
-            
-        //if (!received_user.pseudo.equals(Main.connectedUsers.get(old_user_index).pseudo)){
-            // Received a changement of pseudo user
-            
-
-            // TODO : Notify interface
-        
+    public void closeServer(){
+        this.socket.close();
     }
-
 
     private boolean isNew(User new_user){
         for (int i = 0; i <Main.connectedId.length; i++){
@@ -45,24 +38,20 @@ public class ServerUDP extends Thread {
         return true;
     }
 
-    public void sendUnicast(User userToSend, User recipient) throws Exception{
+    public void sendUnicast(User userToSend, User recipient) throws IOException {
         socket.setBroadcast(false);
         outputStream = new ByteArrayOutputStream();
         os = new ObjectOutputStream(outputStream);
         os.writeObject(userToSend); // Answer with my user
         byte[] outgoingData = outputStream.toByteArray();
-        DatagramPacket replyPacket = new DatagramPacket(outgoingData, outgoingData.length, recipient.IPAddress, 1234);
+        DatagramPacket replyPacket = new DatagramPacket(outgoingData, outgoingData.length, recipient.IPAddress, sendPort);
         socket.send(replyPacket);
         System.out.println("[UDP Server] Answer message sent");
     }
-
-    public void notifyPseudoNotAvailable(User new_user) throws Exception{
-        new_user.setFlag(User.Flag.PSEUDO_NOT_AVAILABLE);
-        sendUnicast(new_user, new_user);
-    }
      
-
+    @Override
     public void run() {
+        User main_user=Main.getMainUser();
         User new_user;
         try{
             while (true)
@@ -77,38 +66,33 @@ public class ServerUDP extends Thread {
                 /* When broadcast received */
                 // Désencapsule le user
                 new_user = (User) is.readObject();
-
                 // Vérifie que c'est pas soi même
-                if (new_user.id != Main.getMainUser().id){ 
-                    System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
-                        
-                    // Vérifie si on à déjà vu cet user ou non
-                    if (!isNew(new_user)){
-
-                        // Vérifie si le pseudo est dispo
-                        if (Main.isPseudoFree(new_user.pseudo)){
-                            changePseudoReceived(new_user, Main.connectedUsers.indexOf(new_user));
-                            Main.updateArrayConnectedUsers();
-                        } else {
-                            notifyPseudoNotAvailable(new_user);
+                if (new_user.id != main_user.id){                         
+                    // Pseudo identique au sien = répond avec un signal d'erreur
+                    if (new_user.pseudo.equals(main_user.pseudo)){
+                        // Renvoie le même user avec le flag PSEUDO_ALREADY_USED
+                        new_user.setFlag(Flag.PSEUDO_NOT_AVAILABLE);
+                        sendUnicast(new_user, new_user);
+                    // Pseudo différent = répond avec son user
+                    } else {
+                        // Renvoie son user
+                        new_user.setFlag(Flag.CONNECTED);
+                        sendUnicast(main_user, new_user);
+                        // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
+                        if (!isNew(new_user)){// Nouvel utilisateur
+                            Main.changePseudoUser(new_user);
+                        } else {// Changement de pseudo d'un utilisateur existant
+                            Main.addNewUser(new_user);
                         }
-                    } else { // Nouvel utilisateur
-                        if (Main.isPseudoFree(new_user.pseudo)){ // Vérifie si le pseudo est dispo
-                            Main.connectedUsers.add(new_user);
-                            Main.updateArrayConnectedUsers();
-                            sendUnicast(Main.getMainUser(), new_user);
-                        } else {
-                            notifyPseudoNotAvailable(new_user);
-                        }
+                        System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
                     }
-                    }
-                /*
-                
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }*/                
+                }           
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
+            System.out.println("[UDP Server] Error when desencapsulating the user received");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("[UDP Server] Error while receveing a broadcast");
             e.printStackTrace();
         }
     }

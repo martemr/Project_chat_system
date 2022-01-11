@@ -14,6 +14,7 @@ import java.util.Vector;
 
 import Main.Main;
 import Database.DatabaseManager;
+import GUI.User.Flag;
 import Conversation.Message;
 import Network.ClientTCP;
 
@@ -53,17 +54,16 @@ public class Interface {
         // Ajoute les composants 
         pseudo_setup(); //ajoute les champs relatifs au pseudo de l'utilisateur
         destinataire_setup(); //ajoute les champs relatifs au destinataire
-        //message_setup(); //ajoute les champs relatifs au message à envoyer
+        message_setup(); //ajoute les champs relatifs au message à envoyer
         conversation_setup();//ajoute la zone d'affichage de la conversation
-        connected_setup(Main.connectedUsers);
         
         //Liste des utilisateurs connectés
         changePseudoWindow();
         
+        updateConnectedUserList();
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
         interfaceFrame.setVisible(true);
-        
     }
 
 
@@ -276,19 +276,23 @@ public class Interface {
         // Lance la fenetre
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
-
-        // Envoie un broadcast pour notifier les autres utilisateurs et vérifier l'unicité du pseudo
-        Main.getClientUDP().sendBroadcast();
-
-        // Vérifie dans le tableau si il est libre
-        //while (!Main.isPseudoFree(newPseudo)){
-        //    newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
-        //}
-
-        // Met à jour le tableau user
+        // Change les parametre du User
         user.change_pseudo(newPseudo);
+        user.setFlag(Flag.CONNECTION);
+        // Vérifie l'unicité
+        while (!Main.getClientUDP().isUniquePseudoOnNetwork()){
+            newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
+        }
+        // Pseudo unique, connection autorisé
+        user.setFlag(Flag.CONNECTED);
+        // Met à jour l'interface
         pseudoLabel.setText("Pseudo : "+user.pseudo);
-        sendPopUp("Pseudo successfully changed !");
+        sendPopUp("Pseudo successfully changed !");       
+    }
+
+
+    public void updateConnectedUserList(){
+        connected_setup(Main.connectedUsers);
     }
 
 

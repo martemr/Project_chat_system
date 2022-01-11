@@ -15,9 +15,8 @@ public class Main {
     static DatabaseManager database;
     static ServerTCP tcpServer;
     static ClientTCP tcpClient; // TODO : Link with interface
-    static ServerUDP udp_server;
-    static ClientUDP udp_client;
-    static final int UDPPort=1234;
+    static ServerUDP udpServer;
+    static ClientUDP udpClient;
     static final int TCPPort=4321;
 
     static public Vector<User> connectedUsers;
@@ -38,11 +37,11 @@ public class Main {
     }
 
     static public ServerUDP getServerUDP(){
-        return udp_server;
+        return udpServer;
     }
 
     static public ClientUDP getClientUDP(){
-        return udp_client;
+        return udpClient;
     }
 
 
@@ -50,8 +49,8 @@ public class Main {
 
     public static void startUDPServer(){
         try{
-            udp_server = new ServerUDP(UDPPort);
-            udp_server.start();
+            udpServer = new ServerUDP();
+            udpServer.start();
         } catch (IOException e) {
             System.out.println("[Main] Error while starting UDP");
         }
@@ -92,11 +91,25 @@ public class Main {
         return id;
     }
 
+    // USER ARRAY ACTIONS
+
     static public void updateArrayConnectedUsers(){
         connectedPseudos=get_pseudo(connectedUsers);     
         connectedId=get_id(connectedUsers);
-
+    }    
+    
+    static public void addNewUser(User new_user){
+        connectedUsers.add(new_user);
+        updateArrayConnectedUsers();
+        mainWindow.updateConnectedUserList();
     }
+    
+    static public void changePseudoUser(User new_user){
+        connectedUsers.remove(new_user);
+        addNewUser(new_user);
+    }
+
+
 
 
 
@@ -108,6 +121,7 @@ public class Main {
 
     public static void closeSystem(){
         //database.closeConnection();
+        udpServer.closeServer();
     }
 
     static private boolean contains(Object[] array, Object element){
@@ -119,35 +133,39 @@ public class Main {
         return false;
     }
 
-    static public boolean isPseudoFree(String pseudo){
-        return !contains(Main.connectedPseudos, pseudo);
-    }
-
 
     /* STATIC PART */
 
     static {
         user = new User("Pseudo"); // Main user is declared once, here.
+        Tools.lire_config_xml();   // Récupère les adresses IPs
         connectedUsers = new Vector<User>();
-        Tools.lire_config_xml();
-        connectedPseudos=get_pseudo(connectedUsers);
-        connectedId=get_id(connectedUsers);
-        //database = new DatabaseManager();
+        updateArrayConnectedUsers();
+        //database = new DatabaseManager(); // Démarre la base de données
     }
 
-    // Main fonction (appelée en premier lors de l'exécution)
+    // Main fonction (appelée lors de l'exécution)
     public static void main(String[] args) {     
 
         //database.testdb();
+        
+        // Lance le serveur UDP (port 1234)
+        System.out.println("[Main] Starting server UDP ");
+        startUDPServer();
 
+        System.out.println("[Main] Creating client UDP ");
+        try{
+            udpClient = new ClientUDP();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();  
 
 /*
-        // Lance le serveur UDP (port 1234)
-        System.out.println("[Main] Starting server UDP ");
-        startUDPServer();
+        
 
 
 
