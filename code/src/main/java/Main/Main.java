@@ -101,7 +101,8 @@ public class Main {
     static public void addNewUser(User new_user){
         connectedUsers.add(new_user);
         updateArrayConnectedUsers();
-        mainWindow.updateConnectedUserList();
+        if (mainWindow != null)
+            mainWindow.updateConnectedUserList();
     }
     
     static public void changePseudoUser(User new_user){
@@ -121,7 +122,7 @@ public class Main {
 
     public static void closeSystem(){
         //database.closeConnection();
-        udpServer.closeServer();
+        //udpServer.closeServer();
     }
 
     static private boolean contains(Object[] array, Object element){
@@ -159,7 +160,7 @@ public class Main {
         } catch (Exception e){
             e.printStackTrace();
         }
-        
+
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();  
