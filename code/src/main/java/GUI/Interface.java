@@ -317,7 +317,7 @@ public class Interface {
     }
 
     public void disconnectUserFromList(User old_user){
-        userListToPrint.removeElement(old_user.pseudo);
+        userListToPrint.removeElement(old_user.oldPseudo);
     }
 
 
