@@ -123,12 +123,19 @@ public class Main {
     }
     
     static public void changePseudoUser(User new_user){
+        mainWindow.disconnectUserFromList(new_user);
         connectedUsers.remove(new_user);
         addNewUser(new_user);
     }
 
-
-
+    static public boolean isNew(User new_user){
+        for (int i = 0; i <Main.connectedId.length; i++){
+            if (Main.connectedId[i]==new_user.id){
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 

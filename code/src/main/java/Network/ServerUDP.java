@@ -27,15 +27,6 @@ public class ServerUDP extends Thread {
         //this.receiveSocket.close();
     }
 
-    private boolean isNew(User new_user){
-        for (int i = 0; i <Main.connectedId.length; i++){
-            if (Main.connectedId[i]==new_user.id){
-                return false;
-            }
-        }
-        return true;
-    }
-
     public void sendUnicast(User userToSend, User recipient) throws IOException {
         DatagramSocket sendSocket = new DatagramSocket();
         sendSocket.setBroadcast(false);
@@ -83,7 +74,7 @@ public class ServerUDP extends Thread {
                         new_user.setFlag(Flag.CONNECTED);
                         sendUnicast(main_user, new_user);
                         // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
-                        if (!isNew(new_user)){// Nouvel utilisateur
+                        if (!Main.isNew(new_user)){// Nouvel utilisateur
                             Main.changePseudoUser(new_user);
                         } else {// Changement de pseudo d'un utilisateur existant
                             Main.addNewUser(new_user);
