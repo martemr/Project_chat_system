@@ -17,7 +17,7 @@ public class Main {
     public static ClientTCP tcpClient; // TODO : Link with interface
     static ServerUDP udpServer;
     static ClientUDP udpClient;
-    static final int TCPPort=4321;
+    static final int TCPPort=1234;
 
     static public Vector<User> connectedUsers;
     static public String[] connectedPseudos;
@@ -196,12 +196,12 @@ public class Main {
 
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
-/*
-        
+
+        System.out.println("[Main] Starting server TCP");
+        startTCPServer();
 
 
-
-        
+/*  
         
         System.out.println("[Main] Starting client UDP ");
         try{
