@@ -12,6 +12,7 @@ public class User implements Serializable{
     
     //Attributs
     public String pseudo;
+    public String oldPseudo;
     public int id;
     public Flag flag; 
     private File userData;
@@ -20,7 +21,7 @@ public class User implements Serializable{
     
     //Constructeur 
     public User(String pseudo, int id, Flag flag){
-        this.pseudo = pseudo; this.id=id; this.flag=flag;
+        this.pseudo = pseudo; this.id=id; this.flag=flag; this.oldPseudo="";
     }
 
     /** Constructor for User
@@ -33,7 +34,7 @@ public class User implements Serializable{
      */
     public User(String pseudo){
         this.pseudo=pseudo;
-
+        this.oldPseudo="";
         // Creating or getting the id
         this.id=0;
         try {
@@ -76,6 +77,7 @@ public class User implements Serializable{
      * @param new_pseudo new pseudo to be set
      */
     protected void change_pseudo(String new_pseudo){
+        this.oldPseudo=this.pseudo;
         this.pseudo=new_pseudo;
     }
 
