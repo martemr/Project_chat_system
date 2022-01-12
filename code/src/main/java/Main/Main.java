@@ -119,7 +119,7 @@ public class Main {
         connectedUsers.add(new_user);
         updateArrayConnectedUsers();
         if (mainWindow != null)
-            mainWindow.updateConnectedUserList();
+            mainWindow.updateConnectedUserList(new_user);
     }
     
     static public void changePseudoUser(User new_user){
@@ -138,8 +138,8 @@ public class Main {
     }
 
     public static void closeSystem(){
-        database.closeConnection();
-        //udpServer.closeServer();
+        //database.closeConnection();
+        udpServer.closeServer();
     }
 
     static private boolean contains(Object[] array, Object element){
@@ -159,24 +159,21 @@ public class Main {
         Tools.lire_config_xml();   // Récupère les adresses IPs
         connectedUsers = new Vector<User>();
         updateArrayConnectedUsers();
-        database = new DatabaseManager(); // Démarre la base de données
+        //database = new DatabaseManager(); // Démarre la base de données
     }
 
     // Main fonction (appelée lors de l'exécution)
     public static void main(String[] args) {     
-
-        //database.testdb();
-        
+      
         // Lance le serveur UDP (port 1234)
-        //System.out.println("[Main] Starting server UDP ");
-        //startUDPServer();
 
-        //System.out.println("[Main] Creating client UDP ");
-        //try{
-        //    udpClient = new ClientUDP();
-        //} catch (Exception e){
-        //    e.printStackTrace();
-        //}
+
+        System.out.println("[Main] Creating client UDP ");
+        try{
+            udpClient = new ClientUDP();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         //User Martin = new User("Martin", 60, User.Flag.CONNECTED);
         //Martin.set_ip_local("10.1.5.234");
@@ -190,7 +187,8 @@ public class Main {
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();
 
-
+        System.out.println("[Main] Starting server UDP ");
+        startUDPServer();
 /*
         
 

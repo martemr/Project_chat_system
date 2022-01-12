@@ -43,6 +43,7 @@ public class Interface {
     static ClientTCP tcpClient = Main.getClientTCP();
     static DatabaseManager database = Main.getMainDatabase();
 
+    DefaultListModel userListToPrint;
 
     // CONSTRUCTEUR
     // Appel des méthodes créées ci-dessus
@@ -62,7 +63,7 @@ public class Interface {
         //Liste des utilisateurs connectés
         changePseudoWindow();
         
-        updateConnectedUserList();
+        connected_setup();
         // Display the window.
         addComponentsToPane(interfaceFrame.getContentPane());
         interfaceFrame.setVisible(true);
@@ -253,10 +254,15 @@ public class Interface {
      * Permet d'afficher une liste de sélection des users
      * @param userList
      */
-    public void connected_setup(Vector<User> userList){
+    public void connected_setup(){
         GridBagConstraints c = new GridBagConstraints();
-        String[] users = Main.get_pseudo(userList);
-        liste = new JList<String>(users);
+        // Création du modèle de liste
+        userListToPrint = new DefaultListModel();
+        liste = new JList<String>(userListToPrint);
+        // Ajout de les utilisateurs connectés avant nous 
+        for (String user : Main.connectedPseudos) {
+            userListToPrint.addElement(user);
+        }       
         liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         liste.addListSelectionListener(connectedListener);
         scroller = new JScrollPane(liste); 
@@ -302,8 +308,8 @@ public class Interface {
     }
 
 
-    public void updateConnectedUserList(){
-        connected_setup(Main.connectedUsers);
+    public void updateConnectedUserList(User new_user){
+        userListToPrint.addElement(new_user.pseudo);
     }
 
 
