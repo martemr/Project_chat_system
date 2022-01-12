@@ -10,23 +10,21 @@ import Main.Main;
 
 public class ServerUDP extends Thread {
 
-    DatagramSocket socket;
+    DatagramSocket receiveSocket;
     byte[] incomingData;
     DatagramPacket incomingPacket;
-    ByteArrayOutputStream outputStream;
-    ObjectOutputStream os;
 
     final int sendPort=1450;
     final int receivePort=1400;
 
     public ServerUDP() throws IOException {
-        socket = new DatagramSocket(receivePort);
+        receiveSocket = new DatagramSocket(receivePort);
         incomingData = new byte[65535];
         incomingPacket = null;
     }
 
     public void closeServer(){
-        this.socket.close();
+        this.receiveSocket.close();
     }
 
     private boolean isNew(User new_user){
@@ -39,13 +37,15 @@ public class ServerUDP extends Thread {
     }
 
     public void sendUnicast(User userToSend, User recipient) throws IOException {
-        socket.setBroadcast(false);
-        outputStream = new ByteArrayOutputStream();
-        os = new ObjectOutputStream(outputStream);
+        DatagramSocket sendSocket = new DatagramSocket(sendPort);
+        sendSocket.setBroadcast(false);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(outputStream);
         os.writeObject(userToSend); // Answer with my user
         byte[] outgoingData = outputStream.toByteArray();
         DatagramPacket replyPacket = new DatagramPacket(outgoingData, outgoingData.length, recipient.IPAddress, sendPort);
-        socket.send(replyPacket);
+        sendSocket.send(replyPacket);
+        sendSocket.close();
         System.out.println("[UDP Server] Answer message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort);
     }
      
@@ -58,14 +58,14 @@ public class ServerUDP extends Thread {
             {
                 /* Wait a broadcast */
                 incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                socket.receive(incomingPacket);
+                receiveSocket.receive(incomingPacket);
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);
 
                 /* When broadcast received */
                 // Désencapsule le user
-                System.out.println("Wait for answer on port " + socket.getPort());
+                System.out.println("Wait for answer on port " + receiveSocket.getPort());
                 new_user = (User) is.readObject();
                 // Vérifie que c'est pas soi même
                 if (new_user.id != main_user.id){                         

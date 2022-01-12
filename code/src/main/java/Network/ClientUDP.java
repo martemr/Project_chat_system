@@ -16,28 +16,26 @@ import Main.Main;
 
 public class ClientUDP {
 
-    DatagramSocket socket;
-    byte[] outgoingData;
     User user;
-
     final int sendPort=1400;
     final int receivePort=1450;
 
     /** Constructor */
     public ClientUDP() throws IOException {
-        socket = new DatagramSocket();
-        outgoingData = new byte[1024];
         user = Main.getMainUser();
     }
     
     public void sendBroadcast() throws IOException {
-        socket.setBroadcast(true); // Send a broadcast
+        DatagramSocket sendSocket = new DatagramSocket(sendPort);
+        byte[] outgoingData = new byte[1024];
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(outputStream);
+        sendSocket.setBroadcast(true); // Send a broadcast
         os.writeObject(user);
         outgoingData = outputStream.toByteArray();
         DatagramPacket sendPacket = new DatagramPacket(outgoingData, outgoingData.length, user.IPAddressBroadcast, sendPort);
-        socket.send(sendPacket);
+        sendSocket.send(sendPacket);
+        sendSocket.close();
         System.out.println("[UDP Client] Broadcast message sent from " + user.pseudo + " on " + user.IPAddressBroadcast.toString() + ":" + sendPort);
     }
 
@@ -54,18 +52,18 @@ public class ClientUDP {
             {
                 // TODO : Ne fonctionne que pour 2 utilisateurs, à adapter avec multiples
                 /* Wait an answer */
-                DatagramSocket socket= new DatagramSocket(receivePort);
+                DatagramSocket receiveSocket= new DatagramSocket(receivePort);
                 byte[] incomingData= new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                socket.receive(incomingPacket);
+                receiveSocket.receive(incomingPacket);
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);
 
-                System.out.println("Wait for answer on port " + socket.getPort());
+                System.out.println("Wait for answer on port " + receiveSocket.getPort());
                 // Désencapsule le user
                 User new_user = (User) is.readObject();
-                socket.close();
+                receiveSocket.close();
                 System.out.println(new_user.pseudo + " Flag="+ new_user.flag.toString());
                 // Vérifie son flag pour savoir si il est déja utilisé
                 if (new_user.flag==Flag.CONNECTED){
