@@ -302,13 +302,13 @@ public class Interface {
     public void changeDestinataireWindow() {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");
-        try {
+        //try {
             Main.tcpClient = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.getHostAddress(), 1234); //TODO : changer port
             destLabel.setText("Recipient : "+newDest);
             printHistory(user, Main.getUserByPseudo(newDest));
-        } catch (NullPointerException e) {
-            sendPopUp("Unknow user");
-        }
+        //} catch (NullPointerException e) {
+        //    sendPopUp("Unknown user");
+        //}
     }
 
 

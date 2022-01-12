@@ -18,11 +18,11 @@ public class ClientTCP {
       System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
       try {
          client = new Socket(serverName, port); // Create socket
+         System.out.println("[TCP Client] Connected");
       } catch (IOException e){
          System.out.println("[TCP Client] Error in socket creation");
          e.printStackTrace();
       } 
-      System.out.println("[TCP Client] Connected");
    }
 
    /** Envoie un message
