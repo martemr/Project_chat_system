@@ -21,7 +21,7 @@ public class ClientUDP {
     final int receivePort=1450;
 
     /** Constructor */
-    public ClientUDP() throws IOException {
+    public ClientUDP() {
         user = Main.getMainUser();
     }
     
@@ -60,7 +60,7 @@ public class ClientUDP {
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);
 
-                System.out.println("Wait for answer on port " + receiveSocket.getPort());
+                System.out.println("[UDP Client] Wait for answer on port " + receiveSocket.getPort());
                 // Désencapsule le user
                 User new_user = (User) is.readObject();
                 receiveSocket.close();
