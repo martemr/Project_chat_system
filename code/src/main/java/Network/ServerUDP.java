@@ -54,10 +54,10 @@ public class ServerUDP extends Thread {
         User main_user=Main.getMainUser();
         User new_user;
         try{
+            DatagramSocket receiveSocket = new DatagramSocket(receivePort);
             while (true)
             {
                 /* Wait a broadcast */
-                DatagramSocket receiveSocket = new DatagramSocket(receivePort);
                 byte[] incomingData = new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 System.out.println("[UDP Server] Wait a broadcast on port " + receiveSocket.getLocalPort());
@@ -78,6 +78,7 @@ public class ServerUDP extends Thread {
                         sendUnicast(new_user, new_user);
                     // Pseudo différent = répond avec son user
                     } else {
+                        System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
                         // Renvoie son user
                         new_user.setFlag(Flag.CONNECTED);
                         sendUnicast(main_user, new_user);
@@ -87,7 +88,6 @@ public class ServerUDP extends Thread {
                         } else {// Changement de pseudo d'un utilisateur existant
                             Main.addNewUser(new_user);
                         }
-                        System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
                     }
                 }           
             }
