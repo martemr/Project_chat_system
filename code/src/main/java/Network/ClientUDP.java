@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import GUI.User;
@@ -48,11 +49,12 @@ public class ClientUDP {
             // Send the broadcast
             sendBroadcast();
             // Wait 1000ms to see answers on the network
-            while (true)
-            {
+            //while (true)
+            //{
                 // TODO : Ne fonctionne que pour 2 utilisateurs, à adapter avec multiples
                 /* Wait an answer */
                 DatagramSocket receiveSocket= new DatagramSocket(receivePort);
+                receiveSocket.setSoTimeout(1000); // Timeout de 1 seconde pour le cas ou on est seul sur le réseau
                 byte[] incomingData= new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 receiveSocket.receive(incomingPacket);
@@ -72,7 +74,9 @@ public class ClientUDP {
                 } else {
                     return false;
                 }
-            }
+            //}
+            } catch (SocketTimeoutException t){
+                return true;
         } catch (ClassNotFoundException e) {
             System.out.println("[UDP Client] Error when desencapsulating the user received");
             e.printStackTrace();

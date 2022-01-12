@@ -60,7 +60,7 @@ public class ServerUDP extends Thread {
                 DatagramSocket receiveSocket = new DatagramSocket(receivePort);
                 byte[] incomingData = new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                System.out.println("[UDP Server] Wait for answer on port " + receiveSocket.toString());
+                System.out.println("[UDP Server] Wait a broadcast on port " + receiveSocket.getLocalPort());
                 receiveSocket.receive(incomingPacket);
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
