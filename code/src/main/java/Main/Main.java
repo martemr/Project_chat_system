@@ -82,7 +82,7 @@ public class Main {
         boolean trouve = false;
         int index = 0;
         while(!trouve && index<connectedUsers.size()){
-            if(connectedUsers.get(index).pseudo==pseudo){
+            if(connectedUsers.get(index).pseudo.equals(pseudo)){
                 trouve=true;
             } else {
                 index+=1;
@@ -138,7 +138,7 @@ public class Main {
     }
 
     public static void closeSystem(){
-        //database.closeConnection();
+        database.closeConnection();
         //udpServer.closeServer();
     }
 
@@ -159,7 +159,7 @@ public class Main {
         Tools.lire_config_xml();   // Récupère les adresses IPs
         connectedUsers = new Vector<User>();
         updateArrayConnectedUsers();
-        //database = new DatabaseManager(); // Démarre la base de données
+        database = new DatabaseManager(); // Démarre la base de données
     }
 
     // Main fonction (appelée lors de l'exécution)
@@ -168,19 +168,28 @@ public class Main {
         //database.testdb();
         
         // Lance le serveur UDP (port 1234)
-        System.out.println("[Main] Starting server UDP ");
-        startUDPServer();
+        //System.out.println("[Main] Starting server UDP ");
+        //startUDPServer();
 
-        System.out.println("[Main] Creating client UDP ");
-        try{
-            udpClient = new ClientUDP();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        //System.out.println("[Main] Creating client UDP ");
+        //try{
+        //    udpClient = new ClientUDP();
+        //} catch (Exception e){
+        //    e.printStackTrace();
+        //}
+
+        //User Martin = new User("Martin", 60, User.Flag.CONNECTED);
+        //Martin.set_ip_local("10.1.5.234");
+        //Martin.set_ip_broadcast("10.1.255.255");
+        //connectedUsers.add(Martin);
+        //updateArrayConnectedUsers();
+
+
 
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
-        mainWindow = new Interface();  
+        mainWindow = new Interface();
+
 
 /*
         
