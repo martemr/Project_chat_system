@@ -12,11 +12,16 @@ public class ClientTCP {
    protected Socket client;
 
    /** Constructor for Client  */
-   public ClientTCP(String serverName, int port) throws IOException { // serverName est l'adresse ip du destinataire
+   public ClientTCP(String serverName, int port) { // serverName est l'adresse ip du destinataire
       this.serverName = serverName; this.port = port;
 
       System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
-      client = new Socket(serverName, port); // Create socket
+      try {
+         client = new Socket(serverName, port); // Create socket
+      } catch (IOException e){
+         System.out.println("[TCP Client] Error in socket creation");
+         e.printStackTrace();
+      } 
       System.out.println("[TCP Client] Connected");
    }
 
