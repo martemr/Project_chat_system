@@ -26,7 +26,7 @@ public class ClientUDP {
     }
     
     public void sendBroadcast() throws IOException {
-        DatagramSocket sendSocket = new DatagramSocket(sendPort);
+        DatagramSocket sendSocket = new DatagramSocket();
         byte[] outgoingData = new byte[1024];
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(outputStream);

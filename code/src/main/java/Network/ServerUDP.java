@@ -37,7 +37,7 @@ public class ServerUDP extends Thread {
     }
 
     public void sendUnicast(User userToSend, User recipient) throws IOException {
-        DatagramSocket sendSocket = new DatagramSocket(sendPort);
+        DatagramSocket sendSocket = new DatagramSocket();
         sendSocket.setBroadcast(false);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(outputStream);
