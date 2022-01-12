@@ -1,6 +1,8 @@
 package GUI;
 
 import java.awt.event.*;
+
+import javax.crypto.NullCipher;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -149,7 +151,7 @@ public class Interface {
 
     ActionListener destinataireListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
-            //TODO : définir Message.to
+            changeDestinataireWindow();
         }
     };
 
@@ -288,6 +290,15 @@ public class Interface {
         // Met à jour l'interface
         pseudoLabel.setText("Pseudo : "+user.pseudo);
         sendPopUp("Pseudo successfully changed !");       
+    }
+
+
+    public void changeDestinataireWindow() {
+        JFrame jFrame = new JFrame();
+        String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");
+        ClientTCP tcp = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.toString(), 1234); //TODO : getUserByPseudo dans main et changer port
+        destLabel.setText("Recipient : "+newDest);
+        printHistory(user, Main.getUserByPseudo(newDest));
     }
 
 

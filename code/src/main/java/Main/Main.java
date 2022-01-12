@@ -78,6 +78,23 @@ public class Main {
         return pseudos;
     }
 
+    static public User getUserByPseudo(String pseudo){
+        boolean trouve = false;
+        int index = 0;
+        while(!trouve && index<connectedUsers.size()){
+            if(connectedUsers.get(index).pseudo==pseudo){
+                trouve=true;
+            } else {
+                index+=1;
+            }
+        }
+        if(trouve){
+            return connectedUsers.get(index);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Permet de récupérer une liste de pseudos à partir du tableau de users
      * @param users
