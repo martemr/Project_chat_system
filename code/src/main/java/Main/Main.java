@@ -14,7 +14,7 @@ public class Main {
     static Interface mainWindow;
     static DatabaseManager database;
     static ServerTCP tcpServer;
-    static ClientTCP tcpClient; // TODO : Link with interface
+    public static ClientTCP tcpClient; // TODO : Link with interface
     static ServerUDP udpServer;
     static ClientUDP udpClient;
     static final int TCPPort=4321;

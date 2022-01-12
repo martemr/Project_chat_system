@@ -296,7 +296,7 @@ public class Interface {
     public void changeDestinataireWindow() {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");
-        ClientTCP tcp = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.toString(), 1234); //TODO : getUserByPseudo dans main et changer port
+        Main.tcpClient = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.toString(), 1234); //TODO : changer port
         destLabel.setText("Recipient : "+newDest);
         printHistory(user, Main.getUserByPseudo(newDest));
     }
