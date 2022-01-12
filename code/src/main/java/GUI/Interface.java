@@ -302,14 +302,22 @@ public class Interface {
     public void changeDestinataireWindow() {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");
-        Main.tcpClient = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.toString(), 1234); //TODO : changer port
-        destLabel.setText("Recipient : "+newDest);
-        printHistory(user, Main.getUserByPseudo(newDest));
+        try {
+            Main.tcpClient = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.getHostAddress(), 1234); //TODO : changer port
+            destLabel.setText("Recipient : "+newDest);
+            printHistory(user, Main.getUserByPseudo(newDest));
+        } catch (NullPointerException e) {
+            sendPopUp("Unknow user");
+        }
     }
 
 
     public void updateConnectedUserList(User new_user){
         userListToPrint.addElement(new_user.pseudo);
+    }
+
+    public void disconnectUserFromList(User old_user){
+        userListToPrint.removeElement(old_user.pseudo);
     }
 
 
