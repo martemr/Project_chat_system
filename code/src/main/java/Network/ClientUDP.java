@@ -38,7 +38,7 @@ public class ClientUDP {
         outgoingData = outputStream.toByteArray();
         DatagramPacket sendPacket = new DatagramPacket(outgoingData, outgoingData.length, user.IPAddressBroadcast, sendPort);
         socket.send(sendPacket);
-        System.out.println("[UDP Client] Broadcast message sent from " + user.pseudo);
+        System.out.println("[UDP Client] Broadcast message sent from " + user.pseudo + " on " + user.IPAddressBroadcast.toString() + ":" + sendPort);
     }
 
     /**

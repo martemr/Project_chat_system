@@ -46,7 +46,7 @@ public class ServerUDP extends Thread {
         byte[] outgoingData = outputStream.toByteArray();
         DatagramPacket replyPacket = new DatagramPacket(outgoingData, outgoingData.length, recipient.IPAddress, sendPort);
         socket.send(replyPacket);
-        System.out.println("[UDP Server] Answer message sent");
+        System.out.println("[UDP Server] Answer message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort);
     }
      
     @Override
