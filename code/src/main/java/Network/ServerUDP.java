@@ -10,21 +10,21 @@ import Main.Main;
 
 public class ServerUDP extends Thread {
 
-    DatagramSocket receiveSocket;
-    byte[] incomingData;
-    DatagramPacket incomingPacket;
+    //DatagramSocket receiveSocket;
+    //byte[] incomingData;
+    //DatagramPacket incomingPacket;
 
     final int sendPort=1450;
     final int receivePort=1400;
 
     public ServerUDP() throws IOException {
-        receiveSocket = new DatagramSocket(receivePort);
-        incomingData = new byte[65535];
-        incomingPacket = null;
+        //receiveSocket = new DatagramSocket(receivePort);
+        //incomingData = new byte[65535];
+        //incomingPacket = null;
     }
 
     public void closeServer(){
-        this.receiveSocket.close();
+        //this.receiveSocket.close();
     }
 
     private boolean isNew(User new_user){
@@ -57,7 +57,10 @@ public class ServerUDP extends Thread {
             while (true)
             {
                 /* Wait a broadcast */
-                incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                DatagramSocket receiveSocket = new DatagramSocket(receivePort);
+                byte[] incomingData = new byte[65535];
+                DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                System.out.println("[UDP Server] Wait for answer on port " + receiveSocket.toString());
                 receiveSocket.receive(incomingPacket);
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
@@ -65,7 +68,6 @@ public class ServerUDP extends Thread {
 
                 /* When broadcast received */
                 // Désencapsule le user
-                System.out.println("Wait for answer on port " + receiveSocket.getPort());
                 new_user = (User) is.readObject();
                 // Vérifie que c'est pas soi même
                 if (new_user.id != main_user.id){                         
