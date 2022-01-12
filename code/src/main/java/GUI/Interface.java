@@ -40,7 +40,8 @@ public class Interface {
 
     // GET VARIABLES FROM MAIN 
     static User user = Main.getMainUser();
-    static ClientTCP tcpClient = Main.getClientTCP();
+    User destUser;
+    //static ClientTCP tcpClient = Main.getClientTCP();
     static DatabaseManager database = Main.getMainDatabase();
 
     DefaultListModel userListToPrint;
@@ -142,11 +143,13 @@ public class Interface {
             // Capture text
             String texteSaisi=msgCapture.getText();
             // Create message and stamp it
-            Message message = new Message(user, user, texteSaisi);            
+            Message message = new Message(user, destUser, texteSaisi);            
             // Print message
             printMessage(message);
+            //Add it to database
+            Main.getMainDatabase().nouveau_message(message);
             // Send it
-            // TODO : tcpClient.sendMessage(message);
+            Main.getClientTCP().sendMessage(message);
         }
     };
 
@@ -301,14 +304,11 @@ public class Interface {
 
     public void changeDestinataireWindow() {
         JFrame jFrame = new JFrame();
-        String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");
-        //try {
-            Main.tcpClient = new ClientTCP(Main.getUserByPseudo(newDest).IPAddress.getHostAddress(), 1234); //TODO : changer port
-            destLabel.setText("Recipient : "+newDest);
-            printHistory(user, Main.getUserByPseudo(newDest));
-        //} catch (NullPointerException e) {
-        //    sendPopUp("Unknown user");
-        //}
+        String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");            
+        destUser=Main.getUserByPseudo(newDest);
+        Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 1234); //TODO : changer port
+        destLabel.setText("Recipient : "+newDest);
+        printHistory(user, Main.getUserByPseudo(newDest));
     }
 
 

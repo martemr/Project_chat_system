@@ -175,9 +175,13 @@ public void afficher_msgTab(){
      * @param message
      */
     public void nouveau_message(Message message){
+        try{
             String requete = "insert into msgTable values ('"+message.from.id+"', '"+message.to.id+"', '"+
             message.msg+"', '"+message.date+"')";
             update(requete);
+        } catch (Exception e ){
+            e.printStackTrace();
+        }
     }
     
 
@@ -197,16 +201,15 @@ public void afficher_msgTab(){
     
 
     //TESTS
-/*
-    User existe = new User("Martin", 60, User.Status.ABSENT);
-    User inconnu = new User("cc", 79, User.Status.OCCUPIED);
-    User jsp = new User("null", 33, User.Status.CONNECTED);
+
+   // User existe = new User("Martin", 60, User.Status.ABSENT);
+   // User inconnu = new User("cc", 79, User.Status.OCCUPIED);
+   // User jsp = new User("null", 33, User.Status.CONNECTED);
     //Message msg = new Message(inconnu, existe, "zheufv");
     public void testdb(){
        // nouveau_message(msg);
         afficher_msgTab();
-        history(inconnu, existe);
+       // history(inconnu, existe);
     
     }
-*/
 } 
