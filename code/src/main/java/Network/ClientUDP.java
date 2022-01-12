@@ -20,6 +20,7 @@ public class ClientUDP {
     User user;
     final int sendPort=1400;
     final int receivePort=1450;
+    DatagramSocket receiveSocket;
 
     /** Constructor */
     public ClientUDP() {
@@ -53,7 +54,7 @@ public class ClientUDP {
             //{
                 // TODO : Ne fonctionne que pour 2 utilisateurs, à adapter avec multiples
                 /* Wait an answer */
-                DatagramSocket receiveSocket= new DatagramSocket(receivePort);
+                receiveSocket= new DatagramSocket(receivePort);
                 receiveSocket.setSoTimeout(1000); // Timeout de 1 seconde pour le cas ou on est seul sur le réseau
                 byte[] incomingData= new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
@@ -76,6 +77,7 @@ public class ClientUDP {
                 }
             //}
             } catch (SocketTimeoutException t){
+                receiveSocket.close();
                 return true;
         } catch (ClassNotFoundException e) {
             System.out.println("[UDP Client] Error when desencapsulating the user received");
