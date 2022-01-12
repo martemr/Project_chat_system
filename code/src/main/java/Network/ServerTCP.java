@@ -48,6 +48,7 @@ public class ServerTCP extends Thread {
 				ObjectInputStream in = new ObjectInputStream(server.getInputStream());
 				Object received = in.readObject(); // Read the socket
 				Message msg = (Message)received; // Convert the object receive into Message
+				System.out.println("[TCP Server] Received a message " + msg.msg);
 				Interface.printMessage(msg); // Print it on interface
 			} catch (ClassCastException e){
 				System.out.println("[TCP Server] Received something that is not a Message");
