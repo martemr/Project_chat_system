@@ -65,6 +65,7 @@ public class ServerUDP extends Thread {
 
                 /* When broadcast received */
                 // Désencapsule le user
+                System.out.println("Wait for answer on port " + socket.getPort());
                 new_user = (User) is.readObject();
                 // Vérifie que c'est pas soi même
                 if (new_user.id != main_user.id){                         

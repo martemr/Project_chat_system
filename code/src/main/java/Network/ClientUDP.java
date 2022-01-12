@@ -62,9 +62,11 @@ public class ClientUDP {
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);
 
+                System.out.println("Wait for answer on port " + socket.getPort());
                 // Désencapsule le user
                 User new_user = (User) is.readObject();
                 socket.close();
+                System.out.println(new_user.pseudo + " Flag="+ new_user.flag.toString());
                 // Vérifie son flag pour savoir si il est déja utilisé
                 if (new_user.flag==Flag.CONNECTED){
                     Main.addNewUser(new_user);
