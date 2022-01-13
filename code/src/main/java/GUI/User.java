@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 public class User implements Serializable{
 
     public enum Flag {
-        CONNECTION, PSEUDO_NOT_AVAILABLE, CONNECTED
+        CONNECTION, PSEUDO_NOT_AVAILABLE, CONNECTED, DISCONNECTION
     }
     
     //Attributs

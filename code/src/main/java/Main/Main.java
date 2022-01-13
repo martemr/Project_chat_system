@@ -144,10 +144,7 @@ public class Main {
         this.mainWindow.printMessage(msg);
     }
 
-    public static void closeSystem(){
-        //database.closeConnection();
-        udpServer.closeServer();
-    }
+
 
     static private boolean contains(Object[] array, Object element){
         for (int i = 0; i <array.length; i++){
@@ -160,6 +157,13 @@ public class Main {
 
 
     /* STATIC PART */
+
+    public static void closeSystem(){
+        user.setFlag(User.Flag.DISCONNECTION);
+        udpClient.sendBroadcast();
+        //database.closeConnection();
+        udpServer.closeServer();
+    }
 
     static {
         user = new User("Pseudo"); // Main user is declared once, here.
