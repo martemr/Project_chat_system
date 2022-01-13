@@ -23,6 +23,9 @@ public class ClientTCP {
          System.out.println("[TCP Client] Error in socket creation");
          e.printStackTrace();
       } 
+
+      // Lance le server en ecoute de 4321
+      Main.Main.startTCPServer(4321);
    }
 
    /** Envoie un message
@@ -39,6 +42,7 @@ public class ClientTCP {
          this.close();
       }
    }
+
 
    	/** Closing function for the server */
 	public void close(){

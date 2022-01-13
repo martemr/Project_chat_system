@@ -36,6 +36,10 @@ public class Main {
         return tcpClient;
     }
 
+    static public ServerTCP getServerTCP(){
+        return tcpServer;
+    }    
+    
     static public ServerUDP getServerUDP(){
         return udpServer;
     }
@@ -56,13 +60,17 @@ public class Main {
         }
     }
 
-    public static void startTCPServer(){
+    public static void startTCPServer(int port){
         try {
-            tcpServer = new ServerTCP(TCPPort); // Start a thread on given server, ready to wait for messages
+            tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
             tcpServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void initTCPClient(String host, int port){
+        tcpClient = new ClientTCP(host, port);
     }
 
     /**
@@ -201,8 +209,8 @@ public class Main {
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
-        //System.out.println("[Main] Starting server TCP");
-        //startTCPServer();
+        System.out.println("[Main] Starting server TCP");
+        startTCPServer(1234);
 
 
 /*  

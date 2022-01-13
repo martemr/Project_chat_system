@@ -41,7 +41,11 @@ public class ServerTCP extends Thread {
 			System.out.println("Error on Server TCP init");
 			e.printStackTrace();
 		}
+
+		// Lance le client en 4321
+		Main.Main.initTCPClient(server.getInetAddress().getHostAddress(), 4321);
         
+		// Ecoute le 1234
 		// Receive and print the message
 		while(true) {
 			try {

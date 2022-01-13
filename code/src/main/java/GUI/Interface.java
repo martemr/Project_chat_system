@@ -306,6 +306,7 @@ public class Interface {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");            
         destUser=Main.getUserByPseudo(newDest);
+        Main.getServerTCP().close();
         Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 1234); //TODO : changer port
         destLabel.setText("Recipient : "+newDest);
         printHistory(user, Main.getUserByPseudo(newDest));
