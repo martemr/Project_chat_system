@@ -52,7 +52,7 @@ public class ClientUDP {
      * @return true if pseudo unique, false if the pseudo can't be taken by user
      */
     public boolean isUniquePseudoOnNetwork(){
-        int TIMEOUT = 1000;
+        int TIMEOUT = 100;
         try {
             // Send the broadcast
             sendBroadcast();

@@ -79,8 +79,8 @@ public class ServerUDP extends Thread {
                                 Main.addNewUser(new_user);
                             }
                             // Renvoie son user
-                            sendUnicast(main_user, new_user);
                             new_user.setFlag(Flag.CONNECTED);
+                            sendUnicast(main_user, new_user);
                         }
                     } else if (new_user.flag==User.Flag.DISCONNECTION){
                         Main.mainWindow.removeUserFromList(new_user);
