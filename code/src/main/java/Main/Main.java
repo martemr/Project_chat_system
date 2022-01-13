@@ -123,7 +123,7 @@ public class Main {
     }
     
     static public void changePseudoUser(User new_user){
-        mainWindow.disconnectUserFromList(new_user);
+        mainWindow.removeUserFromList(new_user);
         connectedUsers.remove(new_user);
         addNewUser(new_user);
     }
@@ -201,8 +201,8 @@ public class Main {
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
-        System.out.println("[Main] Starting server TCP");
-        startTCPServer();
+        //System.out.println("[Main] Starting server TCP");
+        //startTCPServer();
 
 
 /*  
