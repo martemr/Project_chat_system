@@ -21,7 +21,7 @@ public class Main {
 
     static public Vector<User> connectedUsers;
     static public String[] connectedPseudos;
-    static public int[] connectedId;
+    static public double[] connectedId;
 
     /* GETTERS */
 
@@ -100,8 +100,8 @@ public class Main {
      * @param users
      * @return
      */
-    static public int[] get_id(Vector<User> users){
-        int[] id = new int[users.size()];
+    static public double[] get_id(Vector<User> users){
+        double[] id = new double[users.size()];
         for(int i=0; i<users.size();i++){
             id[i]=users.get(i).id;
         }

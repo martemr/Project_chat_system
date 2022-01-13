@@ -7,20 +7,20 @@ import java.net.UnknownHostException;
 public class User implements Serializable{
 
     public enum Flag {
-        CONNECTION, PSEUDO_NOT_AVAILABLE, CONNECTED, DISCONNECTION
+        CONNECTION, PSEUDO_CHANGE, PSEUDO_NOT_AVAILABLE, CONNECTED, DISCONNECTION
     }
     
     //Attributs
     public String pseudo;
     public String oldPseudo;
-    public int id;
+    public long id;
     public Flag flag; 
     private File userData;
     public InetAddress IPAddress;
     public InetAddress IPAddressBroadcast;
     
     //Constructeur 
-    public User(String pseudo, int id, Flag flag){
+    public User(String pseudo, long id, Flag flag){
         this.pseudo = pseudo; this.id=id; this.flag=flag; this.oldPseudo="";
     }
 
@@ -61,9 +61,9 @@ public class User implements Serializable{
 
             // Creating a new id if not already gave
             if (this.id==0){
-                this.id = this.hashCode(); // Le uid est défini avec le hash de la classe TODO : Changer cette génération par un truc plus aléatoire.
+                this.id = randomGenerator(); // Le uid est défini aléatoirement
                 FileWriter fileWriter = new FileWriter(userData);
-                fileWriter.write("uid:"+Integer.toString(this.id));
+                fileWriter.write("uid:"+this.id);
                 fileWriter.close();
                 System.out.println("[User] id created");
             }
@@ -103,4 +103,7 @@ public class User implements Serializable{
         }
     }
   
+    private long randomGenerator(){
+        return (long)Math.floor(Math.random()*(999999999-100000000+1)+100000000);
+    }
 }
