@@ -11,7 +11,7 @@ import Conversation.*;
 public class Main {
 
     private static User user; // Main user, static for getting it everywhere
-    static Interface mainWindow;
+    public static Interface mainWindow;
     static DatabaseManager database;
     static ServerTCP tcpServer;
     public static ClientTCP tcpClient; // TODO : Link with interface
