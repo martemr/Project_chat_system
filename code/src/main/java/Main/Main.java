@@ -169,8 +169,8 @@ public class Main {
     public static void closeSystem(){
         user.setFlag(User.Flag.DISCONNECTION);
         udpClient.sendBroadcast();
-        //database.closeConnection();
         udpServer.closeServer();
+        database.closeConnection();
     }
 
     static {
@@ -178,7 +178,7 @@ public class Main {
         Tools.lire_config_xml();   // Récupère les adresses IPs
         connectedUsers = new Vector<User>();
         updateArrayConnectedUsers();
-        //database = new DatabaseManager(); // Démarre la base de données
+        database = new DatabaseManager(); // Démarre la base de données
     }
 
     // Main fonction (appelée lors de l'exécution)
