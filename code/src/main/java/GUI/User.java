@@ -51,7 +51,7 @@ public class User implements Serializable{
             String line = reader.readLine();
             while (line != null) {
                 if (line.startsWith("uid:")){
-                    String uidString = line.substring(4, 14); // id is 14 characters long
+                    String uidString = line.substring(4, 13); // id is 14 characters long
                     this.id = Integer.valueOf(uidString);
                     System.out.println("[User] id successfully get ");
                 }
