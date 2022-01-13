@@ -61,25 +61,30 @@ public class ServerUDP extends Thread {
                 // Désencapsule le user
                 new_user = (User) is.readObject();
                 // Vérifie que c'est pas soi même
-                if (new_user.id != main_user.id){                         
-                    // Pseudo identique au sien = répond avec un signal d'erreur
-                    if (new_user.pseudo.equals(main_user.pseudo)){
-                        // Renvoie le même user avec le flag PSEUDO_ALREADY_USED
-                        new_user.setFlag(Flag.PSEUDO_NOT_AVAILABLE);
-                        sendUnicast(new_user, new_user);
-                    // Pseudo différent = répond avec son user
-                    } else {
-                        System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
-                        // Renvoie son user
-                        new_user.setFlag(Flag.CONNECTED);
-                        sendUnicast(main_user, new_user);
-                        // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
-                        if (!Main.isNew(new_user)){// Nouvel utilisateur
-                            Main.changePseudoUser(new_user);
-                        } else {// Changement de pseudo d'un utilisateur existant
-                            Main.addNewUser(new_user);
+                if (new_user.id != main_user.id){
+                    //Si c'est une connexion ou une demande de changement de pseudo
+                    if(new_user.flag==User.Flag.PSEUDO_CHANGE){ 
+                            // Pseudo identique au sien = répond avec un signal d'erreur
+                        if (new_user.pseudo.equals(main_user.pseudo)){
+                            // Renvoie le même user avec le flag PSEUDO_ALREADY_USED
+                            new_user.setFlag(Flag.PSEUDO_NOT_AVAILABLE);
+                            sendUnicast(new_user, new_user);
+                        // Pseudo différent = répond avec son user
+                        } else {
+                            System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
+                            // Renvoie son user
+                            new_user.setFlag(Flag.CONNECTED);
+                            sendUnicast(main_user, new_user);
+                            // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
+                            if (!Main.isNew(new_user)){// Nouvel utilisateur
+                                Main.changePseudoUser(new_user);
+                            } else {// Changement de pseudo d'un utilisateur existant
+                                Main.addNewUser(new_user);
+                            }
                         }
-                    }
+                    } else if (new_user.flag==User.Flag.DISCONNECTION){
+                        Main.mainWindow.removeUserFromList(new_user);
+                    }                         
                 }           
             }
         } catch (ClassNotFoundException e) {

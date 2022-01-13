@@ -289,7 +289,7 @@ public class Interface {
         String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
         // Change les parametre du User
         user.change_pseudo(newPseudo);
-        user.setFlag(Flag.CONNECTION);
+        user.setFlag(Flag.PSEUDO_CHANGE);
         // Vérifie l'unicité
         while (!Main.getClientUDP().isUniquePseudoOnNetwork()){
             newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
@@ -316,8 +316,12 @@ public class Interface {
         userListToPrint.addElement(new_user.pseudo);
     }
 
-    public void disconnectUserFromList(User old_user){
-        userListToPrint.removeElement(old_user.oldPseudo);
+    public void removeUserFromList(User user){
+        if(user.flag==User.Flag.PSEUDO_CHANGE){
+            userListToPrint.removeElement(user.oldPseudo);
+        } else if (user.flag==User.Flag.DISCONNECTION){
+            userListToPrint.removeElement(user.pseudo);
+        }
     }
 
 
