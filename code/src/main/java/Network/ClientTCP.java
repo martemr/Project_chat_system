@@ -40,6 +40,7 @@ public class ClientTCP extends Thread {
          System.out.println("[TCP Server] Received a message " + msg.msg);
          Main.Main.mainWindow.printMessage(msg); // Print it on interface
          }
+      } catch (EOFException e) {
       } catch (Exception e) {
          e.printStackTrace();
       } 
