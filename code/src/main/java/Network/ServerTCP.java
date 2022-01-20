@@ -68,7 +68,6 @@ public class ServerTCP extends Thread {
 			try {
 				in  = new ObjectInputStream(server.getInputStream());
 				Message msg = (Message)in.readObject(); // Convert the object receive into Message
-				System.out.println("ther");
 				sendTCPMsg(new Message("Bien recu"));
 				//Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("[TCP Server] Received a message " + msg.msg);

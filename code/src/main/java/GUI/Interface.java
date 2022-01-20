@@ -149,7 +149,9 @@ public class Interface {
             //Add it to database
             Main.getMainDatabase().nouveau_message(message);
             // Send it
-            Main.getClientTCP().sendMessage(message);
+            Main.tcpClient.sendMessage(message);
+
+            //Main.getClientTCP().sendMessage(message);
         }
     };
 
@@ -305,6 +307,9 @@ public class Interface {
     public void changeDestinataireWindow() {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");            
+        if (newDest==null){
+            sendPopUp("This user doesn't exists");
+        }
         destUser=Main.getUserByPseudo(newDest);
 
         // Si l'interface demande à parler 
@@ -317,10 +322,10 @@ public class Interface {
         //  Lance le server sur 1111
         //Main.startTCPServer(1111);
         //Main.getServerTCP().sendTCPMsg(new Message("Heyo"));
-        Main.tcpClient.sendMessage(new Message("Heyo"));
+        //Main.tcpClient.sendMessage(new Message("Heyo"));
 
         destLabel.setText("Recipient : "+destUser.pseudo);
-        printHistory(user, destUser);
+        //printHistory(user, destUser);
     }
 
 

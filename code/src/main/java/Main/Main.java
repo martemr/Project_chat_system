@@ -197,14 +197,6 @@ public class Main {
             e.printStackTrace();
         }
 
-        //User Martin = new User("Martin", 60, User.Flag.CONNECTED);
-        //Martin.set_ip_local("10.1.5.234");
-        //Martin.set_ip_broadcast("10.1.255.255");
-        //connectedUsers.add(Martin);
-        //updateArrayConnectedUsers();
-
-
-
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();
@@ -212,36 +204,8 @@ public class Main {
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
-        //System.out.println("[Main] Starting server TCP");
-        //startTCPServer(3070);
-
-
-        // Lance un server TCP port 3070 en attente de connection
-        // Si l'interface demande à parler 
-        //  Ferme le server 3070
-        //  Lance le client sur 3070
-        //  Lance le server sur 1111
-    
-/*  
-        
-        System.out.println("[Main] Starting client UDP ");
-        try{
-            udp_client=new ClientUDP();
-            //udp_client.sendBroadcast();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        
-        /*
-        User Martin = new User("Martin", 60, User.Flag.CONNECTED);
-        User Paul   = new User("Paul",   79, User.Flag.CONNECTED);
-        User Marie  = new User("Marie",  33, User.Flag.CONNECTED);
-        connectedUsers.add(Martin);
-        connectedUsers.add(Paul);
-        connectedUsers.add(Marie);
-*/
-        
-         
+        System.out.println("[Main] Starting server TCP");
+        startTCPServer(3070);
 
     }
 

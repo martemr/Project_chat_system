@@ -25,19 +25,14 @@ public class ClientTCP extends Thread {
          client = new Socket(serverName, port); // Create socket
 			out = new ObjectOutputStream(client.getOutputStream());
          System.out.println("[TCP Client] Connected");
-     
       } catch (IOException e){
          System.out.println("[TCP Client] Error in socket creation");
          e.printStackTrace();
       } 
-
-      // Lance le server en ecoute de 3070
-      //Main.Main.startTCPServer(1111);
    }
 
    public void run() {
 		// A partir de là, connecté à l'autre machine
-        
 		// Ecoute le 3070
 		// Receive and print the message
 		
@@ -45,10 +40,9 @@ public class ClientTCP extends Thread {
          while(true) {
 			in  = new ObjectInputStream(client.getInputStream());
          Message msg = (Message)in.readObject(); // Convert the object receive into Message
-         System.out.println("ther");
-         //Message msg = (Message)in.readObject(); // Convert the object receive into Message
+
          System.out.println("[TCP Server] Received a message " + msg.msg);
-         //Main.Main.mainWindow.printMessage(msg); // Print it on interface
+         Main.Main.mainWindow.printMessage(msg); // Print it on interface
          }
       } catch (Exception e) {
          e.printStackTrace();
