@@ -15,9 +15,19 @@ public class ServerTCP extends Thread {
 	protected int port;
 	protected Socket server;
    
+	ObjectInputStream  in ;
+	ObjectOutputStream out ;
+
 	// Constructor for server
 	public ServerTCP(int port) throws IOException {
     	serverSocket = new ServerSocket(port);
+		// Initialise the server = attend une connection
+		try{
+			this.init();
+		} catch (IOException e) {
+			System.out.println("Error on Server TCP init");
+			e.printStackTrace();
+		}
     }
 
 	/** Initialise le server TCP : Se connecte au client.
@@ -29,29 +39,37 @@ public class ServerTCP extends Thread {
 		System.out.println("[TCP Server] Waiting for client on port " + port + "...");
 		server = serverSocket.accept(); // Wait for the client to connect
 		System.out.println("[TCP Server] Successfully connected to " + server.getRemoteSocketAddress());	
+		try {
+			out = new ObjectOutputStream(server.getOutputStream());
+		}catch (Exception e){
+			e.printStackTrace();
+		} 
+	}
+
+	public void sendTCPMsg(Message msg){
+		try{
+			//while(null){}
+			//System.out.println("Sending "+ msg);
+			//out.writeObject(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/** Run a server TCP, waiting messages for the client */
     public void run() {
-
-		// Initialise the server = attend une connection
-		try{
-			this.init();
-		} catch (IOException e) {
-			System.out.println("Error on Server TCP init");
-			e.printStackTrace();
-		}
-
+		// A partir de là, connecté à l'autre machine
 		// Quand quelqu'un s'est connecté au server : Lance un client en 3070
-		Main.Main.initTCPClient(server.getInetAddress().getHostAddress(), 3070);
+		//Main.Main.initTCPClient(server.getInetAddress().getHostAddress(), 3070);
         
 		// Ecoute le 3070
 		// Receive and print the message
 		while(true) {
 			try {
-				ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-				Object received = in.readObject(); // Read the socket
-				Message msg = (Message)received; // Convert the object receive into Message
+				in  = new ObjectInputStream(server.getInputStream());
+				Message msg = (Message)in.readObject(); // Convert the object receive into Message
+				System.out.println("ther");
+				//Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("[TCP Server] Received a message " + msg.msg);
 				Interface.printMessage(msg); // Print it on interface
 			} catch (ClassCastException e){

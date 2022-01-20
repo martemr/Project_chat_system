@@ -309,12 +309,15 @@ public class Interface {
 
         // Si l'interface demande à parler 
         //  Ferme le server 3070
-        Main.getServerTCP().close();
-        Main.getServerTCP().yield();
+        //Main.getServerTCP().close();
+        //Main.getServerTCP().yield();
         //  Lance le client sur 3070
         Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+        Main.tcpClient.start();
         //  Lance le server sur 1111
-        Main.startTCPServer(1111);
+        //Main.startTCPServer(1111);
+        //Main.getServerTCP().sendTCPMsg(new Message("Heyo"));
+        Main.tcpClient.sendMessage(new Message("Heyo"));
 
         destLabel.setText("Recipient : "+destUser.pseudo);
         printHistory(user, destUser);

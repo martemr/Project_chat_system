@@ -212,8 +212,8 @@ public class Main {
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
-        System.out.println("[Main] Starting server TCP");
-        startTCPServer(3070);
+        //System.out.println("[Main] Starting server TCP");
+        //startTCPServer(3070);
 
 
         // Lance un server TCP port 3070 en attente de connection

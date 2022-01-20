@@ -5,11 +5,14 @@ import Conversation.*;
 import java.net.*;
 import java.io.*;
 
-public class ClientTCP {
+public class ClientTCP extends Thread {
 
 	protected int port;
    protected String serverName;
    protected Socket client;
+
+	ObjectInputStream  in ;
+	ObjectOutputStream out ;
 
    /** Constructor for Client 
     *  Se connecte au server sur le port donné
@@ -20,14 +23,37 @@ public class ClientTCP {
       System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
       try {
          client = new Socket(serverName, port); // Create socket
+			out = new ObjectOutputStream(client.getOutputStream());
          System.out.println("[TCP Client] Connected");
+     
       } catch (IOException e){
          System.out.println("[TCP Client] Error in socket creation");
          e.printStackTrace();
       } 
 
       // Lance le server en ecoute de 3070
-      Main.Main.startTCPServer(1111);
+      //Main.Main.startTCPServer(1111);
+   }
+
+   public void run() {
+		// A partir de là, connecté à l'autre machine
+        
+		// Ecoute le 3070
+		// Receive and print the message
+		
+		try {
+         while(true) {
+			in  = new ObjectInputStream(client.getInputStream());
+         Message msg = (Message)in.readObject(); // Convert the object receive into Message
+         System.out.println("ther");
+         //Message msg = (Message)in.readObject(); // Convert the object receive into Message
+         System.out.println("[TCP Server] Received a message " + msg.msg);
+         //Main.Main.mainWindow.printMessage(msg); // Print it on interface
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+      } 
+      
    }
 
    /** Envoie un message
@@ -35,9 +61,8 @@ public class ClientTCP {
 	**/
 	public void sendMessage(Message msg) {     
       try {
-         OutputStream outToServer = client.getOutputStream();
-         ObjectOutputStream out = new ObjectOutputStream(outToServer);
          out.writeObject(msg);
+         System.out.println("sending " + msg);
       } catch (IOException e) {
          System.out.println("[TCP Client] Error while sending message");
          e.printStackTrace();
