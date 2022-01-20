@@ -330,7 +330,7 @@ public class Interface {
         //Main.tcpClient.sendMessage(new Message("Heyo"));
 
         destLabel.setText("Recipient : "+destUser.pseudo);
-        //printHistory(user, destUser);
+        printHistory(user, destUser);
     }
 
 

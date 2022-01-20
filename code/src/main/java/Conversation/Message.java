@@ -19,11 +19,6 @@ public class Message implements Comparable<Message>, Serializable {
         this.from=from; this.to=to; this.msg=msg; 
         // TimeStamp
         this.date=new Date();
-
-        //Timestamp ts=new Timestamp(System.currentTimeMillis());  
-        //this.date=new Date(ts.getTime());
-
-
     }
 
     // Constructeur avec date
@@ -38,8 +33,7 @@ public class Message implements Comparable<Message>, Serializable {
         try{
             date = dateFormat.parse(strDate);
         }catch (ParseException e){
-            System.out.println("Error parsing date");
-            //System.exit(1);
+            System.out.println("[Message] Error parsing date");
         }
         return date;
     }

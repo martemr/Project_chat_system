@@ -10,18 +10,17 @@ public class ClientTCP extends Thread {
 	protected int port;
    protected String serverName;
    protected Socket client;
-
-	ObjectInputStream  in ;
-	ObjectOutputStream out ;
+   ObjectOutputStream out ;
 
    /** Constructor for Client 
     *  Se connecte au server sur le port donné
     */
    public ClientTCP(String serverName, int port) { // serverName est l'adresse ip du destinataire
+      // Définit les paramètres
       this.serverName = serverName; this.port = port;
-
-      System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
+      // Initialise la connection
       try {
+         System.out.println("[TCP Client] Connecting to " + serverName + " on port " + port);
          client = new Socket(serverName, port); // Create socket
 			out = new ObjectOutputStream(client.getOutputStream());
          System.out.println("[TCP Client] Connected");
@@ -31,16 +30,13 @@ public class ClientTCP extends Thread {
       } 
    }
 
+   /** Thread qui tourne pour recevoir un message de la connexion établie */
    public void run() {
-		// A partir de là, connecté à l'autre machine
-		// Ecoute le 3070
-		// Receive and print the message
-		
+	   ObjectInputStream in;
 		try {
-         while(true) {
 			in  = new ObjectInputStream(client.getInputStream());
+         while(true) {
          Message msg = (Message)in.readObject(); // Convert the object receive into Message
-
          System.out.println("[TCP Server] Received a message " + msg.msg);
          Main.Main.mainWindow.printMessage(msg); // Print it on interface
          }
@@ -50,9 +46,7 @@ public class ClientTCP extends Thread {
       
    }
 
-   /** Envoie un message
-	 * 
-	**/
+   /** Envoie un message */
 	public void sendMessage(Message msg) {     
       try {
          out.flush();
@@ -66,7 +60,7 @@ public class ClientTCP extends Thread {
    }
 
 
-   	/** Closing function for the server */
+   /** Closing function for the server */
 	public void close(){
 		try {
 			client.close();
