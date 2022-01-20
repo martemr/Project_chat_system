@@ -55,6 +55,7 @@ public class ClientTCP extends Thread {
 	**/
 	public void sendMessage(Message msg) {     
       try {
+         out.flush();
          out.writeObject(msg);
          System.out.println("sending " + msg);
       } catch (IOException e) {

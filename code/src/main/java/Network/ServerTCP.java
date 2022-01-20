@@ -48,8 +48,7 @@ public class ServerTCP extends Thread {
 
 	public void sendTCPMsg(Message msg){
 		try{
-			//while(null){}
-			//System.out.println("Sending "+ msg);
+			out.flush();
 			out.writeObject(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,35 +57,26 @@ public class ServerTCP extends Thread {
 
 	/** Run a server TCP, waiting messages for the client */
     public void run() {
-		// A partir de là, connecté à l'autre machine
-		// Quand quelqu'un s'est connecté au server : Lance un client en 3070
-		//Main.Main.initTCPClient(server.getInetAddress().getHostAddress(), 3070);
-        
-		// Ecoute le 3070
+		// A partir de là, connecté à l'autre machine        
+
 		// Receive and print the message
-		while(true) {
-			try {
-				in  = new ObjectInputStream(server.getInputStream());
+		try {
+			in  = new ObjectInputStream(server.getInputStream());
+			while(true) {		
 				Message msg = (Message)in.readObject(); // Convert the object receive into Message
-				sendTCPMsg(new Message("Bien recu"));
-				//Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("[TCP Server] Received a message " + msg.msg);
 				Interface.printMessage(msg); // Print it on interface
-			} catch (ClassCastException e){
-				System.out.println("[TCP Server] Received something that is not a Message");
-				this.close();
-				e.printStackTrace();
-			} catch (EOFException eof){
-				//this.close();
-				//System.out.println("[TCP Server] Successfully closed");
-				//break;
-        	} catch (Exception e) {
-				this.close();
-				System.out.println("[TCP Server] Error on TCP Server running, closing server");
-        	    e.printStackTrace();
-				break;
-        	}
-        }
+			}
+		} catch (ClassCastException e){
+			System.out.println("[TCP Server] Received something that is not a Message");
+			this.close();
+			e.printStackTrace();
+		} catch (EOFException eof){
+		} catch (Exception e) {
+			this.close();
+			System.out.println("[TCP Server] Error on TCP Server running, closing server");
+			e.printStackTrace();
+		}
     }
 
 	/** Closing function for the server */

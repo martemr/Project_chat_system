@@ -307,10 +307,10 @@ public class Interface {
     public void changeDestinataireWindow() {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");            
-        if (newDest==null){
+        destUser=Main.getUserByPseudo(newDest);
+        if (destUser==null){
             sendPopUp("This user doesn't exists");
         }
-        destUser=Main.getUserByPseudo(newDest);
 
         // Si l'interface demande à parler 
         //  Ferme le server 3070
