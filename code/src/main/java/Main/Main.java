@@ -17,7 +17,7 @@ public class Main {
     public static ClientTCP tcpClient; // TODO : Link with interface
     static ServerUDP udpServer;
     static ClientUDP udpClient;
-    static final int TCPPort=1234;
+    //static final int TCPPort=1234;
 
     static public Vector<User> connectedUsers;
     static public String[] connectedPseudos;
@@ -58,6 +58,11 @@ public class Main {
         } catch (IOException e) {
             System.out.println("[Main] Error while starting UDP");
         }
+    }
+
+    public void closeServerTCP(){
+        udpServer.closeServer();
+        udpServer.currentThread().yield();
     }
 
     public static void startTCPServer(int port){
@@ -184,9 +189,7 @@ public class Main {
     // Main fonction (appelée lors de l'exécution)
     public static void main(String[] args) {     
       
-        // Lance le serveur UDP (port 1234)
-
-
+        // Lance le server udp pour attendre les broadcasts
         System.out.println("[Main] Creating client UDP ");
         try{
             udpClient = new ClientUDP();
@@ -210,9 +213,15 @@ public class Main {
         startUDPServer();
 
         System.out.println("[Main] Starting server TCP");
-        startTCPServer(1234);
+        startTCPServer(3070);
 
 
+        // Lance un server TCP port 3070 en attente de connection
+        // Si l'interface demande à parler 
+        //  Ferme le server 3070
+        //  Lance le client sur 3070
+        //  Lance le server sur 1111
+    
 /*  
         
         System.out.println("[Main] Starting client UDP ");

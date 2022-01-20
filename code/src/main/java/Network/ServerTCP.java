@@ -34,7 +34,7 @@ public class ServerTCP extends Thread {
 	/** Run a server TCP, waiting messages for the client */
     public void run() {
 
-		// Initialise the server
+		// Initialise the server = attend une connection
 		try{
 			this.init();
 		} catch (IOException e) {
@@ -42,10 +42,10 @@ public class ServerTCP extends Thread {
 			e.printStackTrace();
 		}
 
-		// Lance le client en 4321
-		Main.Main.initTCPClient(server.getInetAddress().getHostAddress(), 4321);
+		// Quand quelqu'un s'est connecté au server : Lance un client en 3070
+		Main.Main.initTCPClient(server.getInetAddress().getHostAddress(), 3070);
         
-		// Ecoute le 1234
+		// Ecoute le 3070
 		// Receive and print the message
 		while(true) {
 			try {
@@ -76,7 +76,6 @@ public class ServerTCP extends Thread {
 		try {
 			if (server != null)
 				server.close();
-			this.close();
 		} catch (Exception e) {
 			System.out.println("[TCP Server] Error while closing server");
 			e.printStackTrace();

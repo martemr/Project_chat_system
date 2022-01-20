@@ -306,8 +306,16 @@ public class Interface {
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");            
         destUser=Main.getUserByPseudo(newDest);
+
+        // Si l'interface demande à parler 
+        //  Ferme le server 3070
         Main.getServerTCP().close();
-        Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 1234); //TODO : changer port
+        Main.getServerTCP().yield();
+        //  Lance le client sur 3070
+        Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+        //  Lance le server sur 1111
+        Main.startTCPServer(1111);
+
         destLabel.setText("Recipient : "+newDest);
         printHistory(user, Main.getUserByPseudo(newDest));
     }

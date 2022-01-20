@@ -11,7 +11,9 @@ public class ClientTCP {
    protected String serverName;
    protected Socket client;
 
-   /** Constructor for Client  */
+   /** Constructor for Client 
+    *  Se connecte au server sur le port donné
+    */
    public ClientTCP(String serverName, int port) { // serverName est l'adresse ip du destinataire
       this.serverName = serverName; this.port = port;
 
@@ -24,8 +26,8 @@ public class ClientTCP {
          e.printStackTrace();
       } 
 
-      // Lance le server en ecoute de 4321
-      Main.Main.startTCPServer(4321);
+      // Lance le server en ecoute de 3070
+      Main.Main.startTCPServer(1111);
    }
 
    /** Envoie un message
