@@ -1,24 +1,17 @@
 package GUI;
 
-import java.awt.event.*;
-
-import javax.crypto.NullCipher;
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import java.awt.*;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.Vector;
-
-import Main.Main;
+import Conversation.Message;
 import Database.DatabaseManager;
 import GUI.User.Flag;
-import Conversation.Message;
+import Main.Main;
 import Network.ClientTCP;
+import java.util.Queue;
+import java.util.Vector;
+import javax.swing.event.ListSelectionListener;
+
+
+
+
 
 public class Interface {
 
@@ -164,9 +157,13 @@ public class Interface {
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-            int index = liste.getSelectedIndex();
-            User destinataire = users.get(index);
-            //TODO:lancer thread conversation
+            displayMsg.removeAll();
+            String selection = liste.getSelectedValue();
+            destUser = Main.getUserByPseudo(selection);
+            Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+            Main.tcpClient.start();
+            destLabel.setText("Recipient : "+destUser.pseudo);
+            printHistory(user, destUser);
         }    
     };
 
@@ -312,6 +309,7 @@ public class Interface {
 
 
     public void changeDestinataireWindow() {
+        //displayMsg.removeAll();
         JFrame jFrame = new JFrame();
         String newDest = JOptionPane.showInputDialog(jFrame, "Enter the recipient");            
         destUser=Main.getUserByPseudo(newDest);
