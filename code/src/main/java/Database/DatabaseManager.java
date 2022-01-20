@@ -177,7 +177,7 @@ public void afficher_msgTab(){
     public void nouveau_message(Message message){
         try{
             String requete = "insert into msgTable values ('"+message.from.id+"', '"+message.to.id+"', '"+
-            message.msg+"', '"+message.date+"')";
+            message.msg+"', '"+message.dateFormat.format(message.date)+"')";
             update(requete);
         } catch (Exception e ){
             e.printStackTrace();
