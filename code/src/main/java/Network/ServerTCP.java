@@ -50,7 +50,7 @@ public class ServerTCP extends Thread {
 		try{
 			//while(null){}
 			//System.out.println("Sending "+ msg);
-			//out.writeObject(msg);
+			out.writeObject(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,6 +69,7 @@ public class ServerTCP extends Thread {
 				in  = new ObjectInputStream(server.getInputStream());
 				Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("ther");
+				sendTCPMsg(new Message("Bien recu"));
 				//Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("[TCP Server] Received a message " + msg.msg);
 				Interface.printMessage(msg); // Print it on interface
@@ -77,9 +78,9 @@ public class ServerTCP extends Thread {
 				this.close();
 				e.printStackTrace();
 			} catch (EOFException eof){
-				this.close();
-				System.out.println("[TCP Server] Successfully closed");
-				break;
+				//this.close();
+				//System.out.println("[TCP Server] Successfully closed");
+				//break;
         	} catch (Exception e) {
 				this.close();
 				System.out.println("[TCP Server] Error on TCP Server running, closing server");
