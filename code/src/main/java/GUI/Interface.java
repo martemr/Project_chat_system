@@ -302,9 +302,11 @@ public class Interface {
             // Met à jour l'interface
             pseudoLabel.setText("Pseudo : "+user.pseudo);
             sendPopUp("Pseudo successfully changed !");  
+            msgCapture.setEditable(true);
         }else {
             sendPopUp("Please enter a pseudo");
             pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
+            msgCapture.setEditable(false);
         }    
     }
 
