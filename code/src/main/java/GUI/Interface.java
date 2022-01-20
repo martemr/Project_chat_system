@@ -316,8 +316,8 @@ public class Interface {
         //  Lance le server sur 1111
         Main.startTCPServer(1111);
 
-        destLabel.setText("Recipient : "+newDest);
-        printHistory(user, Main.getUserByPseudo(newDest));
+        destLabel.setText("Recipient : "+destUser.pseudo);
+        printHistory(user, destUser);
     }
 
 
