@@ -289,18 +289,23 @@ public class Interface {
         // Lance la fenetre
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
-        // Change les parametre du User
-        user.change_pseudo(newPseudo);
-        user.setFlag(Flag.PSEUDO_CHANGE);
-        // Vérifie l'unicité
-        while (!Main.getClientUDP().isUniquePseudoOnNetwork()){
-            newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
-        }
-        // Pseudo unique, connection autorisé
-        user.setFlag(Flag.CONNECTED);
-        // Met à jour l'interface
-        pseudoLabel.setText("Pseudo : "+user.pseudo);
-        sendPopUp("Pseudo successfully changed !");       
+        if(newPseudo!=null){
+            user.change_pseudo(newPseudo);
+            user.setFlag(Flag.PSEUDO_CHANGE);
+             // Vérifie l'unicité
+            while (!Main.getClientUDP().isUniquePseudoOnNetwork()){
+              newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
+              user.change_pseudo(newPseudo);
+            }
+            // Pseudo unique, connection autorisé
+             user.setFlag(Flag.CONNECTED);
+            // Met à jour l'interface
+            pseudoLabel.setText("Pseudo : "+user.pseudo);
+            sendPopUp("Pseudo successfully changed !");  
+        }else {
+            sendPopUp("Please enter a pseudo");
+            pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
+        }    
     }
 
 
