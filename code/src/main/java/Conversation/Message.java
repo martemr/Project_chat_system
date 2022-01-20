@@ -12,13 +12,18 @@ public class Message implements Comparable<Message>, Serializable {
     public User to;    // User recevant le message
     public String msg; // Texte du message
     public Date date;  // Horodage
+    public final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
 
     // Constructeur message
     public Message(User from, User to, String msg){
         this.from=from; this.to=to; this.msg=msg; 
         // TimeStamp
-        Timestamp ts=new Timestamp(System.currentTimeMillis());  
-        this.date=new Date(ts.getTime());
+        this.date=new Date();
+
+        //Timestamp ts=new Timestamp(System.currentTimeMillis());  
+        //this.date=new Date(ts.getTime());
+
+
     }
 
     // Constructeur avec date
@@ -30,12 +35,11 @@ public class Message implements Comparable<Message>, Serializable {
     // Convertit la date à partir d'un string en une Date
     protected Date convertDate(String strDate){
         Date date = new Date();
-        SimpleDateFormat df=new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         try{
-            date = df.parse(strDate);
+            date = dateFormat.parse(strDate);
         }catch (ParseException e){
             System.out.println("Error parsing date");
-            System.exit(1);
+            //System.exit(1);
         }
         return date;
     }
