@@ -166,6 +166,7 @@ public class Main {
         udpClient.sendBroadcast();
         udpServer.closeServer();
         database.closeConnection();
+        System.out.println("[Main] closing system");
     }
 
     static {

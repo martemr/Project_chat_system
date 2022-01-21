@@ -160,13 +160,14 @@ public class Interface {
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-            displayMsg.removeAll();
+            //displayMsg.removeAll();
             String selection = liste.getSelectedValue();
             destUser = Main.getUserByPseudo(selection);
             Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
             Main.tcpClient.start();
             destLabel.setText("Recipient : "+destUser.pseudo);
             printHistory(user, destUser);
+            msgCapture.setEditable(true);
         }    
     };
 
@@ -225,6 +226,7 @@ public class Interface {
         interfaceFrame.add(messageLabel, c);
         //Message field
         msgCapture=new JTextField();
+        msgCapture.setEditable(false);
         msgCapture.addActionListener(messageListener); // capture le retour chariot
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
@@ -302,7 +304,6 @@ public class Interface {
             // Met à jour l'interface
             pseudoLabel.setText("Pseudo : "+user.pseudo);
             sendPopUp("Pseudo successfully changed !");  
-            msgCapture.setEditable(true);
         }else {
             sendPopUp("Please enter a pseudo");
             pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
@@ -318,22 +319,13 @@ public class Interface {
         destUser=Main.getUserByPseudo(newDest);
         if (destUser==null){
             sendPopUp("This user doesn't exists");
-        }
-
-        // Si l'interface demande à parler 
-        //  Ferme le server 3070
-        //Main.getServerTCP().close();
-        //Main.getServerTCP().yield();
-        //  Lance le client sur 3070
-        Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
-        Main.tcpClient.start();
-        //  Lance le server sur 1111
-        //Main.startTCPServer(1111);
-        //Main.getServerTCP().sendTCPMsg(new Message("Heyo"));
-        //Main.tcpClient.sendMessage(new Message("Heyo"));
-
-        destLabel.setText("Recipient : "+destUser.pseudo);
-        printHistory(user, destUser);
+        } else{
+            Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+            Main.tcpClient.start();
+            destLabel.setText("Recipient : "+destUser.pseudo);
+            printHistory(user, destUser);
+            msgCapture.setEditable(true);
+        } 
     }
 
 
