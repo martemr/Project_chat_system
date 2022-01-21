@@ -160,14 +160,25 @@ public class Interface {
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-            //displayMsg.removeAll();
+            // Clear everything 
+            if (Main.tcpClient != null) {
+                Main.tcpClient.close();
+            }
+            displayMsg.setText(null);
+            destLabel.setText("Recipient : ");
+            sendMessageButton.setVisible(false);
+
+            // Write new
             String selection = liste.getSelectedValue();
-            destUser = Main.getUserByPseudo(selection);
-            Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
-            Main.tcpClient.start();
-            destLabel.setText("Recipient : "+destUser.pseudo);
-            printHistory(user, destUser);
-            msgCapture.setEditable(true);
+            if (selection != null) { // On a choisi un utilisateur
+                destUser = Main.getUserByPseudo(selection);
+                Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+                Main.tcpClient.start();
+                destLabel.setText("Recipient : "+destUser.pseudo);
+                printHistory(user, destUser);
+                msgCapture.setEditable(true);
+                sendMessageButton.setVisible(true);
+            }
         }    
     };
 
@@ -228,6 +239,7 @@ public class Interface {
         msgCapture=new JTextField();
         msgCapture.setEditable(false);
         msgCapture.addActionListener(messageListener); // capture le retour chariot
+        sendMessageButton.setVisible(false);
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 2;
@@ -300,7 +312,7 @@ public class Interface {
               user.change_pseudo(newPseudo);
             }
             // Pseudo unique, connection autorisé
-             user.setFlag(Flag.CONNECTED);
+            user.setFlag(Flag.CONNECTED);
             // Met à jour l'interface
             pseudoLabel.setText("Pseudo : "+user.pseudo);
             sendPopUp("Pseudo successfully changed !");  
@@ -308,6 +320,7 @@ public class Interface {
             sendPopUp("Please enter a pseudo");
             pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
             msgCapture.setEditable(false);
+            sendMessageButton.setVisible(false);
         }    
     }
 
@@ -325,6 +338,7 @@ public class Interface {
             destLabel.setText("Recipient : "+destUser.pseudo);
             printHistory(user, destUser);
             msgCapture.setEditable(true);
+            sendMessageButton.setVisible(true);
         } 
     }
 

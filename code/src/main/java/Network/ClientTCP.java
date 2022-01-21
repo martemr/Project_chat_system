@@ -36,11 +36,14 @@ public class ClientTCP extends Thread {
 		try {
 			in  = new ObjectInputStream(client.getInputStream());
          while(true) {
-         Message msg = (Message)in.readObject(); // Convert the object receive into Message
-         System.out.println("[TCP Server] Received a message " + msg.msg);
-         Main.Main.mainWindow.printMessage(msg); // Print it on interface
+            Message msg = (Message)in.readObject(); // Convert the object receive into Message
+            System.out.println("[TCP Server] Received a message " + msg.msg);
+            Main.Main.mainWindow.printMessage(msg); // Print it on interface
          }
       } catch (EOFException e) {
+      } catch (SocketException e) {
+         this.close();
+         //Main.Main.mainWindow.removeUserFromList();
       } catch (Exception e) {
          e.printStackTrace();
       } 
