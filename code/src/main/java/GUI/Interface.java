@@ -239,7 +239,6 @@ public class Interface {
         msgCapture=new JTextField();
         msgCapture.setEditable(false);
         msgCapture.addActionListener(messageListener); // capture le retour chariot
-        sendMessageButton.setVisible(false);
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 2;
@@ -249,6 +248,7 @@ public class Interface {
         // Send Message Button
         sendMessageButton=new JButton("Send");
         sendMessageButton.addActionListener(messageListener); // Capture le clic sur le bouton L'instruction this indique que la classe elle même recevra et gérera l'événement utilisateur.
+        sendMessageButton.setVisible(false);
         c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.5;
 	    c.gridx = 4;
