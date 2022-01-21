@@ -2,13 +2,8 @@ package Database;
 
 import java.sql.*;
 import java.util.*;
-import java.text.*;
-import java.util.Date;
-
 
 import Conversation.Message;
-
-
 import GUI.User;
 
 /**

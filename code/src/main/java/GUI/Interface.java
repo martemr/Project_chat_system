@@ -1,16 +1,19 @@
 package GUI;
 
-import Conversation.Message;
-import Database.DatabaseManager;
-import GUI.User.Flag;
-import Main.Main;
-import Network.ClientTCP;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+
 import java.util.Queue;
 import java.util.Vector;
-import javax.swing.event.ListSelectionListener;
 
-
-
+import Main.Main;
+import Database.DatabaseManager;
+import GUI.User.Flag;
+import Conversation.Message;
+import Network.ClientTCP;
 
 
 public class Interface {
@@ -368,12 +371,6 @@ public class Interface {
         }
     }
     
-    // TODO : Remove this, use for test
-    public static void printMessage(String msgTxt){
-        //TODO : ajouter message à la base de données pour pas qu'il disparaisse
-        Message message = new Message(user, user, msgTxt);
-        printMessage(message);
-    }
 
 
 

@@ -14,10 +14,9 @@ public class Main {
     public static Interface mainWindow;
     static DatabaseManager database;
     static ServerTCP tcpServer;
-    public static ClientTCP tcpClient; // TODO : Link with interface
+    public static ClientTCP tcpClient; 
     static ServerUDP udpServer;
     static ClientUDP udpClient;
-    //static final int TCPPort=1234;
 
     static public Vector<User> connectedUsers;
     static public String[] connectedPseudos;
@@ -158,15 +157,6 @@ public class Main {
     }
 
 
-
-    static private boolean contains(Object[] array, Object element){
-        for (int i = 0; i <array.length; i++){
-            if (array[i].equals(element)){
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     /* STATIC PART */
