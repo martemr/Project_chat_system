@@ -10,7 +10,7 @@ import Main.Main;
 
 public class ServerUDP extends Thread {
 
-    //DatagramSocket receiveSocket;
+    DatagramSocket receiveSocket;
     //byte[] incomingData;
     //DatagramPacket incomingPacket;
 
@@ -24,20 +24,29 @@ public class ServerUDP extends Thread {
     }
 
     public void closeServer(){
-        //this.receiveSocket.close();
+        if (receiveSocket != null)
+            this.receiveSocket.close();
     }
 
-    public void sendUnicast(User userToSend, User recipient) throws IOException {
-        DatagramSocket sendSocket = new DatagramSocket();
-        sendSocket.setBroadcast(false);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ObjectOutputStream os = new ObjectOutputStream(outputStream);
-        os.writeObject(userToSend); // Answer with my user
-        byte[] outgoingData = outputStream.toByteArray();
-        DatagramPacket replyPacket = new DatagramPacket(outgoingData, outgoingData.length, recipient.IPAddress, sendPort);
-        sendSocket.send(replyPacket);
-        sendSocket.close();
-        System.out.println("[UDP Server] Answer message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort);
+    public void sendUnicast(User userToSend, User recipient){
+        DatagramSocket sendSocket = null;
+        try {
+            sendSocket = new DatagramSocket();
+            sendSocket.setBroadcast(false);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ObjectOutputStream os = new ObjectOutputStream(outputStream);
+            os.writeObject(userToSend); // Answer with my user
+            byte[] outgoingData = outputStream.toByteArray();
+            DatagramPacket replyPacket = new DatagramPacket(outgoingData, outgoingData.length, recipient.IPAddress, sendPort);
+            sendSocket.send(replyPacket);
+        } catch (IOException e) {
+            System.out.println("[UDP Server] Error while sending unicast to " + userToSend.pseudo + "on" + userToSend.IPAddress.getHostAddress());
+            e.printStackTrace();
+        } finally {
+            if (sendSocket != null)
+                sendSocket.close();
+            System.out.println("[UDP Server] Answer message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort);
+        }
     }
      
     @Override
@@ -45,7 +54,7 @@ public class ServerUDP extends Thread {
         User main_user=Main.getMainUser();
         User new_user;
         try{
-            DatagramSocket receiveSocket = new DatagramSocket(receivePort);
+            receiveSocket = new DatagramSocket(receivePort);
             while (true)
             {
                 /* Wait a broadcast */

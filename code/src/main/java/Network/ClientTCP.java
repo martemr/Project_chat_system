@@ -31,6 +31,7 @@ public class ClientTCP extends Thread {
    }
 
    /** Thread qui tourne pour recevoir un message de la connexion établie */
+   @Override
    public void run() {
 	   ObjectInputStream in;
 		try {

@@ -28,16 +28,13 @@ public class Interface {
     JScrollPane scroll, scroller;
     JList<String> liste;
     Vector<User> users;
-    final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
-    final static boolean RIGHT_TO_LEFT = false;
-    //GridBagLayout gridBagLayout;
-    //GridBagConstraints c;
+    static final boolean shouldFill = true;
+    static final boolean shouldWeightX = true;
+    static final boolean RIGHT_TO_LEFT = false;
 
     // GET VARIABLES FROM MAIN 
     static User user = Main.getMainUser();
     User destUser;
-    //static ClientTCP tcpClient = Main.getClientTCP();
     static DatabaseManager database = Main.getMainDatabase();
 
     DefaultListModel userListToPrint;
@@ -82,7 +79,8 @@ public class Interface {
         interfaceFrame.setVisible(true);
         interfaceFrame.addWindowListener(
             new WindowAdapter() { // Crée l'operation de fermeture.
-                public void windowClosing(WindowEvent e) {
+                @Override
+                public void windowClosing(WindowEvent e) { 
                     Main.closeSystem();
                     System.out.println("[Interface] Closing frame");
                     interfaceFrame.setVisible(false);
@@ -146,8 +144,6 @@ public class Interface {
             Main.getMainDatabase().nouveau_message(message);
             // Send it
             Main.tcpClient.sendMessage(message);
-
-            //Main.getClientTCP().sendMessage(message);
         }
     };
 
@@ -277,10 +273,10 @@ public class Interface {
         GridBagConstraints c = new GridBagConstraints();
         // Création du modèle de liste
         userListToPrint = new DefaultListModel();
-        liste = new JList<String>(userListToPrint);
+        liste = new JList<>(userListToPrint);
         // Ajout de les utilisateurs connectés avant nous 
-        for (String user : Main.connectedPseudos) {
-            userListToPrint.addElement(user);
+        for (String userConnected : Main.connectedPseudos) {
+            userListToPrint.addElement(userConnected);
         }       
         liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         liste.addListSelectionListener(connectedListener);
