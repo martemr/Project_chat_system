@@ -66,6 +66,7 @@ public class Main {
     }
 
     public static void startTCPServer(int port){
+        System.out.println("[Main] Starting server TCP");
         try {
             tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
             tcpServer.start();
@@ -74,8 +75,10 @@ public class Main {
         }
     }
 
-    public static void initTCPClient(String host, int port){
+    public static void startTCPClient(String host, int port){
+        System.out.println("[Main] Starting client TCP");
         tcpClient = new ClientTCP(host, port);
+        tcpClient.start();
     }
 
     /**
@@ -180,11 +183,12 @@ public class Main {
     /* STATIC PART */
 
     public static void closeSystem(){
-        user.setFlag(User.Flag.DISCONNECTION);
-        udpClient.sendBroadcast();
-        udpServer.closeServer();
-        database.closeConnection();
         System.out.println("[Main] closing system");
+        user.setFlag(User.Flag.DISCONNECTION);
+        udpClient.sendBroadcast();  // Send disconnection message
+        udpServer.closeServer();    // Close udp server 
+        database.closeConnection(); // Close connection to database
+        System.out.println("[Main] Godd bye !");
     }
 
     static {
@@ -213,8 +217,8 @@ public class Main {
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
-        System.out.println("[Main] Starting server TCP");
-        startTCPServer(3070);
+        //System.out.println("[Main] Starting server TCP");
+        //startTCPServer(3070);
 
     }
 

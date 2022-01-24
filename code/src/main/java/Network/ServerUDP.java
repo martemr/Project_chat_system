@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import javax.swing.JOptionPane;
+
 import GUI.*;
 import GUI.User.Flag;
 import Main.Main;
@@ -60,7 +62,7 @@ public class ServerUDP extends Thread {
                 /* Wait a broadcast */
                 byte[] incomingData = new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                System.out.println("[UDP Server] Wait a broadcast on port " + receiveSocket.getLocalPort());
+                System.out.println("[UDP Server] Wait on port " + receiveSocket.getLocalPort());
                 receiveSocket.receive(incomingPacket);
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
@@ -93,8 +95,25 @@ public class ServerUDP extends Thread {
                         }
                     } else if (new_user.flag==User.Flag.DISCONNECTION){
                         Main.mainWindow.removeUserFromList(new_user);
+                        System.out.println("[UDP Server] " + new_user.pseudo + " just left");
                         Main.mainWindow.sendPopUp(new_user.pseudo + " left :(");
-                    }                         
+                    } else if (new_user.flag==User.Flag.INIT_CONVERSATION){
+                        // Ask to the user if he wants to start a conversation
+                        int answer = JOptionPane.showConfirmDialog(null, new_user.pseudo + " wants to talk with you. Agree ? ");
+                        switch (answer){
+                            case JOptionPane.YES_OPTION :
+                                // Answer by starting a connection TCP
+                                Main.startTCPClient(new_user.IPAddress.getHostAddress(), 3070);
+                                break;
+                            default :
+                                User.setFlag(User.Flag.REFUSE_CONVERSATION);
+                                sendUnicast(main_user, new_user);
+                                break;
+                        }
+                    } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
+                        Main.mainWindow.sendPopUp(new_user.pseudo + " don't want to talk with you :( Sorry");
+                        Main.getServerTCP().close();
+                    }             
                 }           
             }
         } catch (ClassNotFoundException e) {
@@ -105,4 +124,17 @@ public class ServerUDP extends Thread {
             e.printStackTrace();
         }
     }
-}
+
+    
+    // Notify the user
+    int input = JOptionPane.showConfirmDialog(null, Main.Main.getUserByIP(server.getInetAddress()).pseudo+ " wants to talk with you. Accepter la conversation ? ");
+    switch (input){
+        case JOptionPane.YES_OPTION : 
+            // TODO : Accepter la connexion
+            break;
+        case JOptionPane.NO_OPTION :
+            server.close();
+            break;
+        default :
+            server.close();
+    }
