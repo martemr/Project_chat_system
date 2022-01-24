@@ -28,6 +28,7 @@ public class ServerUDP extends Thread {
     public void closeServer(){
         if (receiveSocket != null)
             this.receiveSocket.close();
+            System.out.println("[UDP Server] : Fermeture serveur");
     }
 
     public void sendUnicast(User userToSend, User recipient){
@@ -111,7 +112,7 @@ public class ServerUDP extends Thread {
                                 break;
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
-                        Main.mainWindow.sendPopUp(new_user.pseudo + " don't want to talk with you :( Sorry");
+                        Main.mainWindow.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
                         Main.getServerTCP().close();
                     }             
                 }           

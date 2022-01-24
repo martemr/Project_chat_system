@@ -108,7 +108,7 @@ public class Interface {
         gridBagLayout.columnWeights = new double[]{0.4, 0.1, 0.2, 0.1, 0.2, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.05, 0.9, 0.05, Double.MIN_VALUE};
         interfaceFrame.getContentPane().setLayout(gridBagLayout);
-    }
+    } //TODO : mettre un bouton quitter convo qui enleve dest, ferme tcp et efface l'historique
     
     /**
      * Ajouter des composants au panel
