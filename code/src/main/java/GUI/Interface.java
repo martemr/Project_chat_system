@@ -250,12 +250,12 @@ public class Interface {
     public void conversation_setup(){
         GridBagConstraints c = new GridBagConstraints();
         displayMsg =new JTextArea("CONVERSATION \n \n");
-        displayMsg.se // Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
-        //Main.tcpClient.start();
-        destLabel.setText("Recipient : "+destUser.pseudo);
-        printHistory(user, destUser);
-        msgCapture.setEditable(true);
-        sendMessageButton.setVisible(true);
+        displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
+        scroll = new JScrollPane(displayMsg); 
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.0;
+	    c.gridx = 1;
+	    c.gridy = 1; 
         c.gridwidth = 4;
         interfaceFrame.add(scroll, c);
     }
@@ -360,17 +360,17 @@ public class Interface {
         JOptionPane.showMessageDialog(jFrame, message);
     }
 
-    /* Affiche le mes // Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
-                //Main.tcpClient.start();
-                destLabel.setText("Recipient : "+destUser.pseudo);
-                printHistory(user, destUser);
-                msgCapture.setEditable(true);
-                sendMessageButton.setVisible(true);
+    /* Affiche le message sur l'interface  **/
+    public static void printMessage(Message msg){
+        displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
     }
-    
 
-
-
-
-
+    /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
+    public void printHistory(User from, User to){
+        Queue<Message> msgList = database.history(from, to);
+        int i;
+        for(i=0; i<msgList.size(); i++){
+            printMessage(msgList.remove());
+        }
+    }
 }
