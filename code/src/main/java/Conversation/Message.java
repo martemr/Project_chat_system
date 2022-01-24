@@ -29,13 +29,13 @@ public class Message implements Comparable<Message>, Serializable {
 
     // Convertit la date à partir d'un string en une Date
     protected Date convertDate(String strDate){
-        Date date = new Date();
+        Date d = new Date();
         try{
-            date = dateFormat.parse(strDate);
+            d = dateFormat.parse(strDate);
         }catch (ParseException e){
             System.out.println("[Message] Error parsing date");
         }
-        return date;
+        return d;
     }
 
     // Comparer les messages par dates, permet de les trier

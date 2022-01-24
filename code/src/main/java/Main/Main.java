@@ -19,32 +19,32 @@ public class Main {
     static ServerUDP udpServer;
     static ClientUDP udpClient;
 
-    static public Vector<User> connectedUsers;
-    static public String[] connectedPseudos;
-    static public double[] connectedId;
+    public static Vector<User> connectedUsers;
+    public static String[] connectedPseudos;
+    public static double[] connectedId;
 
     /* GETTERS */
 
-    static public User getMainUser(){
+    public static User getMainUser(){
         return user;
     }
-    static public DatabaseManager getMainDatabase(){
+    public static DatabaseManager getMainDatabase(){
         return database;
     }
 
-    static public ClientTCP getClientTCP(){
+    public static ClientTCP getClientTCP(){
         return tcpClient;
     }
 
-    static public ServerTCP getServerTCP(){
+    public static ServerTCP getServerTCP(){
         return tcpServer;
     }    
     
-    static public ServerUDP getServerUDP(){
+    public static ServerUDP getServerUDP(){
         return udpServer;
     }
 
-    static public ClientUDP getClientUDP(){
+    public static ClientUDP getClientUDP(){
         return udpClient;
     }
 
@@ -83,7 +83,7 @@ public class Main {
      * @param users
      * @return
      */
-    static public String[] get_pseudo(Vector<User> users){
+    public static String[] get_pseudo(Vector<User> users){
         String[] pseudos = new String[users.size()];
         for(int i=0; i<users.size();i++){
             pseudos[i]=users.get(i).pseudo;
@@ -91,7 +91,7 @@ public class Main {
         return pseudos;
     }
 
-    static public User getUserByPseudo(String pseudo){
+    public static User getUserByPseudo(String pseudo){
         boolean trouve = false;
         int index = 0;
         while(!trouve && index<connectedUsers.size()){
@@ -130,7 +130,7 @@ public class Main {
      * @param users
      * @return
      */
-    static public double[] get_id(Vector<User> users){
+    public static double[] get_id(Vector<User> users){
         double[] id = new double[users.size()];
         for(int i=0; i<users.size();i++){
             id[i]=users.get(i).id;
@@ -140,7 +140,7 @@ public class Main {
 
     // USER ARRAY ACTIONS
 
-    static public void updateArrayConnectedUsers(){
+    public static void updateArrayConnectedUsers(){
         connectedPseudos=get_pseudo(connectedUsers);     
         connectedId=get_id(connectedUsers);
     }    
