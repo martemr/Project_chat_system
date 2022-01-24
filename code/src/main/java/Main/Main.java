@@ -1,6 +1,7 @@
 package Main;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Vector;
 
 import GUI.*;
@@ -95,6 +96,23 @@ public class Main {
         int index = 0;
         while(!trouve && index<connectedUsers.size()){
             if(connectedUsers.get(index).pseudo.equals(pseudo)){
+                trouve=true;
+            } else {
+                index+=1;
+            }
+        }
+        if(trouve){
+            return connectedUsers.get(index);
+        } else {
+            return null;
+        }
+    }
+
+    static public User getUserByIP(InetAddress IP){
+        boolean trouve = false;
+        int index = 0;
+        while(!trouve && index<connectedUsers.size()){
+            if(connectedUsers.get(index).IPAddress.equals(IP)){
                 trouve=true;
             } else {
                 index+=1;

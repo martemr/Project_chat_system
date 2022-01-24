@@ -3,6 +3,8 @@ package Network;
 import java.io.*;
 import java.net.*;
 
+import javax.swing.JOptionPane;
+
 import Conversation.Message;
 import GUI.*;
 
@@ -38,7 +40,21 @@ public class ServerTCP extends Thread {
 		port = serverSocket.getLocalPort();
 		System.out.println("[TCP Server] Waiting for client on port " + port + "...");
 		server = serverSocket.accept(); // Wait for the client to connect
-		System.out.println("[TCP Server] Successfully connected to " + server.getRemoteSocketAddress());	
+		System.out.println("[TCP Server] Successfully connected to " + server.getRemoteSocketAddress());
+
+		// Notify the user
+		int input = JOptionPane.showConfirmDialog(null, Main.Main.getUserByIP(server.getInetAddress()).pseudo+ " wants to talk with you. Accepter la conversation ? ");
+		switch (input){
+			case JOptionPane.YES_OPTION : 
+				// TODO : Accepter la connexion
+				break;
+			case JOptionPane.NO_OPTION :
+				server.close();
+				break;
+			default :
+				server.close();
+		}
+
 		try {
 			out = new ObjectOutputStream(server.getOutputStream());
 		}catch (Exception e){

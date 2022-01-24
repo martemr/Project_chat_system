@@ -84,7 +84,7 @@ public class ServerUDP extends Thread {
                         }
                     } else if (new_user.flag==User.Flag.DISCONNECTION){
                         Main.mainWindow.removeUserFromList(new_user);
-                        Main.mainWindow.sendPopUp(new_user + " left :(");
+                        Main.mainWindow.sendPopUp(new_user.pseudo + " left :(");
                     }                         
                 }           
             }
