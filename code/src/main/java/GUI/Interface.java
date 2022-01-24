@@ -168,12 +168,7 @@ public class Interface {
             String selection = liste.getSelectedValue();
             if (selection != null) { // On a choisi un utilisateur
                 destUser = Main.getUserByPseudo(selection);
-                Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
-                Main.tcpClient.start();
-                destLabel.setText("Recipient : "+destUser.pseudo);
-                printHistory(user, destUser);
-                msgCapture.setEditable(true);
-                sendMessageButton.setVisible(true);
+                destinataireChanged();
             }
         }    
     };
@@ -255,12 +250,12 @@ public class Interface {
     public void conversation_setup(){
         GridBagConstraints c = new GridBagConstraints();
         displayMsg =new JTextArea("CONVERSATION \n \n");
-        displayMsg.setEditable(false); // Bloque l'édition de la zone de texte   
-        scroll = new JScrollPane(displayMsg); 
-        c.fill = GridBagConstraints.BOTH;
-	    c.weightx = 0.0;
-	    c.gridx = 1;
-	    c.gridy = 1; 
+        displayMsg.se // Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+        //Main.tcpClient.start();
+        destLabel.setText("Recipient : "+destUser.pseudo);
+        printHistory(user, destUser);
+        msgCapture.setEditable(true);
+        sendMessageButton.setVisible(true);
         c.gridwidth = 4;
         interfaceFrame.add(scroll, c);
     }
@@ -329,12 +324,7 @@ public class Interface {
         if (destUser==null){
             sendPopUp("This user doesn't exists");
         } else{
-            Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
-            Main.tcpClient.start();
-            destLabel.setText("Recipient : "+destUser.pseudo);
-            printHistory(user, destUser);
-            msgCapture.setEditable(true);
-            sendMessageButton.setVisible(true);
+            destinataireChanged();
         } 
     }
 
@@ -351,6 +341,17 @@ public class Interface {
         }
     }
 
+    public void destinataireChanged(){
+        Main.startTCPServer(1789); //crée un serveur TCP prêt à acceuillir un msg de destUSer
+        user.portTCP=1789; //pour que destUser recoive le port lors de l'unicast
+        user.flag=Flag.INIT_CONVERSATION;
+        Main.getServerUDP().sendUnicast(user, destUser);
+        destLabel.setText("Recipient : "+destUser.pseudo);
+        printHistory(user, destUser);
+        msgCapture.setEditable(true);
+        sendMessageButton.setVisible(true);
+    }
+
 
 
 
@@ -359,18 +360,12 @@ public class Interface {
         JOptionPane.showMessageDialog(jFrame, message);
     }
 
-    /* Affiche le message sur l'interface  **/
-    public static void printMessage(Message msg){
-        displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
-    }
-
-    /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
-    public void printHistory(User from, User to){
-        Queue<Message> msgList = database.history(from, to);
-        int i;
-        for(i=0; i<msgList.size(); i++){
-            printMessage(msgList.remove());
-        }
+    /* Affiche le mes // Main.tcpClient = new ClientTCP(destUser.IPAddress.getHostAddress(), 3070);
+                //Main.tcpClient.start();
+                destLabel.setText("Recipient : "+destUser.pseudo);
+                printHistory(user, destUser);
+                msgCapture.setEditable(true);
+                sendMessageButton.setVisible(true);
     }
     
 
