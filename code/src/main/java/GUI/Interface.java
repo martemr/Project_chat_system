@@ -157,9 +157,9 @@ public class Interface {
         public void valueChanged(ListSelectionEvent e)
         {
             // Clear everything 
-            if (Main.tcpClient != null) {
-                Main.tcpClient.close();
-            }
+            //if (Main.getServerTCP() != null) {
+            //    Main.getServerTCP().close();
+            //}
             displayMsg.setText(null);
             destLabel.setText("Recipient : ");
             sendMessageButton.setVisible(false);
@@ -342,8 +342,9 @@ public class Interface {
     }
 
     public void destinataireChanged(){
-        Main.startTCPServer(1789); //crée un serveur TCP prêt à acceuillir un msg de destUSer
-        user.portTCP=1789; //pour que destUser recoive le port lors de l'unicast
+        if (Main.getServerTCP() != null)
+            Main.startTCPServer(2051); //crée un serveur TCP prêt à acceuillir un msg de destUSer
+        user.portTCP=2051; //pour que destUser recoive le port lors de l'unicast
         user.flag=Flag.INIT_CONVERSATION;
         Main.getServerUDP().sendUnicast(user, destUser);
         destLabel.setText("Recipient : "+destUser.pseudo);

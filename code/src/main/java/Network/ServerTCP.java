@@ -23,13 +23,6 @@ public class ServerTCP extends Thread {
 	// Constructor for server
 	public ServerTCP(int port) throws IOException {
     	serverSocket = new ServerSocket(port);
-		// Initialise the server = attend une connection
-		try{
-			this.init();
-		} catch (IOException e) {
-			System.out.println("Error on Server TCP init");
-			e.printStackTrace();
-		}
     }
 
 	/** Initialise le server TCP : Se connecte au client.
@@ -59,6 +52,14 @@ public class ServerTCP extends Thread {
 
 	/** Run a server TCP, waiting messages for the client */
     public void run() {
+		// Initialise the server = attend une connection
+		try{
+			this.init();
+		} catch (IOException e) {
+			System.out.println("Error on Server TCP init");
+			e.printStackTrace();
+		}
+
 		// A partir de là, connecté à l'autre machine        
 		// Receive and print the message
 		try {
