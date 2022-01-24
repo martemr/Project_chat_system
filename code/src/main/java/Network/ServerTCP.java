@@ -41,7 +41,6 @@ public class ServerTCP extends Thread {
 		System.out.println("[TCP Server] Waiting for client on port " + port + "...");
 		server = serverSocket.accept(); // Wait for the client to connect
 		System.out.println("[TCP Server] Successfully connected to " + server.getRemoteSocketAddress());
-
 		try {
 			out = new ObjectOutputStream(server.getOutputStream());
 		}catch (Exception e){
@@ -61,7 +60,6 @@ public class ServerTCP extends Thread {
 	/** Run a server TCP, waiting messages for the client */
     public void run() {
 		// A partir de là, connecté à l'autre machine        
-
 		// Receive and print the message
 		try {
 			in  = new ObjectInputStream(server.getInputStream());
@@ -75,6 +73,7 @@ public class ServerTCP extends Thread {
 			this.close();
 			e.printStackTrace();
 		} catch (EOFException eof){
+			// End of transmission : do nothing
 		} catch (Exception e) {
 			this.close();
 			System.out.println("[TCP Server] Error on TCP Server running, closing server");

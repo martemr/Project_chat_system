@@ -171,8 +171,6 @@ public class Main {
     }
 
 
-
-
     public void messageReceived(Message msg){
         this.mainWindow.printMessage(msg);
     }

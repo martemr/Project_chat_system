@@ -106,7 +106,7 @@ public class ServerUDP extends Thread {
                                 Main.startTCPClient(new_user.IPAddress.getHostAddress(), 3070);
                                 break;
                             default :
-                                User.setFlag(User.Flag.REFUSE_CONVERSATION);
+                                main_user.setFlag(User.Flag.REFUSE_CONVERSATION);
                                 sendUnicast(main_user, new_user);
                                 break;
                         }
@@ -124,17 +124,4 @@ public class ServerUDP extends Thread {
             e.printStackTrace();
         }
     }
-
-    
-    // Notify the user
-    int input = JOptionPane.showConfirmDialog(null, Main.Main.getUserByIP(server.getInetAddress()).pseudo+ " wants to talk with you. Accepter la conversation ? ");
-    switch (input){
-        case JOptionPane.YES_OPTION : 
-            // TODO : Accepter la connexion
-            break;
-        case JOptionPane.NO_OPTION :
-            server.close();
-            break;
-        default :
-            server.close();
-    }
+}
