@@ -111,7 +111,8 @@ public class ServerUDP extends Thread {
                     if(new_user.flag==User.Flag.PSEUDO_CHANGE){ 
                             // Pseudo identique au sien = répond avec un signal d'erreur
                         if (new_user.pseudo.equals(main_user.pseudo)){
-                            // Renvoie le même user avec le flag PSEUDO_ALREADY_USED
+                            // Renvoie le même user avec le flag PSEUDO_NOT_AVAILABLE
+                            Main.mainWindow.removeUserFromList(new_user);
                             sendUnicast(new_user, new_user, Flag.PSEUDO_NOT_AVAILABLE);
                         // Pseudo différent = répond avec son user
                         } else {
@@ -136,14 +137,12 @@ public class ServerUDP extends Thread {
                     } else if (new_user.flag==User.Flag.INIT_CONVERSATION){
                         // Ask to the user if he wants to start a conversation
                         int answer = JOptionPane.showConfirmDialog(null, new_user.pseudo + " wants to talk with you. Agree ? ");
-                        switch (answer){
-                            case JOptionPane.YES_OPTION :
-                                // Answer by starting a connection TCP
-                                Main.startTCPClient(new_user.IPAddress.getHostAddress(), 2051);
-                                break;
-                            default :
-                                sendUnicast(main_user, new_user, Flag.REFUSE_CONVERSATION);
-                                break;
+                        if (answer==JOptionPane.YES_OPTION){
+                            // Answer by starting a connection TCP
+                            Main.startTCPClient(new_user.IPAddress.getHostAddress(), 2051);
+                            Main.mainWindow.activeConversation();
+                        }else {
+                            sendUnicast(main_user, new_user, Flag.REFUSE_CONVERSATION);
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
                         Main.mainWindow.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");

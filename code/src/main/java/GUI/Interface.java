@@ -357,17 +357,18 @@ public class Interface {
     }
 
     public void destinataireChanged(){
-        if (Main.getServerTCP() != null)
+        if (Main.getServerTCP() == null)
             Main.startTCPServer(2051); //crée un serveur TCP prêt à acceuillir un msg de destUSer
-        user.portTCP=2051; //pour que destUser recoive le port lors de l'unicast
         Main.getServerUDP().sendUnicast(user, destUser, Flag.INIT_CONVERSATION);
+        activeConversation();
+    }
+
+    public void activeConversation(){
         destLabel.setText("Recipient : "+destUser.pseudo);
         printHistory(user, destUser);
         msgCapture.setEditable(true);
         sendMessageButton.setVisible(true);
     }
-
-
 
 
     public void sendPopUp(String message){
