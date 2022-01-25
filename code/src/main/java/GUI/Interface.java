@@ -158,6 +158,7 @@ public class Interface {
     ActionListener quitListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
           clear_window();
+          liste.clearSelection();
         }
     };
 
