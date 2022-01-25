@@ -3,8 +3,6 @@ package Network;
 import java.io.*;
 import java.net.*;
 
-import javax.swing.JOptionPane;
-
 import Conversation.Message;
 import GUI.*;
 

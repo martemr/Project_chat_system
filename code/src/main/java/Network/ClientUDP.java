@@ -72,7 +72,7 @@ public class ClientUDP {
             receiveSocket.close();
             System.out.println(new_user.pseudo + " Flag="+ new_user.flag.toString());
             // Vérifie son flag pour savoir si il est déja utilisé
-            if (new_user.flag==Flag.CONNECTED){ //si notre pseudo n'est pas utilisé par new_user
+            if (new_user.flag!=Flag.PSEUDO_CHANGE){ //si notre pseudo n'est pas utilisé par new_user
                 if(Main.isNew(new_user)){ //si new_user n'est pas encore dans notre vecteur d'utilisateurs
                     Main.addNewUser(new_user);
                 }

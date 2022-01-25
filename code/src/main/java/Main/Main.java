@@ -175,6 +175,13 @@ public class Main {
         this.mainWindow.printMessage(msg);
     }
 
+    static public void sendMessage(Message msg){
+        if (tcpClient!=null){
+            tcpClient.sendMessage(msg);
+        } else if (tcpServer!=null){
+            tcpServer.sendTCPMsg(msg);
+        }
+    }
 
 
 

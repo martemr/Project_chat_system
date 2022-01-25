@@ -105,7 +105,7 @@ public class ServerUDP extends Thread {
                         switch (answer){
                             case JOptionPane.YES_OPTION :
                                 // Answer by starting a connection TCP
-                                Main.startTCPClient(new_user.IPAddress.getHostAddress(), 3070);
+                                Main.startTCPClient(new_user.IPAddress.getHostAddress(), 2051);
                                 break;
                             default :
                                 main_user.setFlag(User.Flag.REFUSE_CONVERSATION);
