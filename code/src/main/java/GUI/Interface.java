@@ -144,6 +144,7 @@ public class Interface {
             Main.getMainDatabase().nouveau_message(message);
             // Send it
             Main.sendMessage(message);
+            msgCapture.setText(null);
         }
     };
 

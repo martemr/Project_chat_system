@@ -1,35 +1,23 @@
 # Projet de Chat System
 
-## Début de séance de travail
-Lancer la base de donnée lors de l'utilisation (base de donnée locale, stockée sur la machine de Martin)
-**sudo systemctl start mysql**
-
-## Fin de séance de travail
-Areter le serveur de la base de donnée 
-**sudo systemctl stop mysql**
-
-## Codes d'erreur
-0 : Pas d'erreur
-1 : 
-2 : Erreur dans la base de données
-
-## TODO:
-### General :
-S'organiser avec le TODO du README ou sur le Jira ?? (discuter de comment faire)
-### Database :
-Migrer la base de données dans le projet pour la garder à jour avec Git ?
-Faire des requetes sur la base de donnée
-Connecter la base de donnée de l'insa (attention penser au VPN)
-
-Resoudre problème uid
-### Network :
+## Installer le système
+1 - Télécharger tous les fichiers
+### Mettre les adresses à jour
+2 - Ouvrir un terminal (Ctrl+Alt+T)
+3 - Taper la commande ifconfig
+4 - Copier l'adresse inet (ip) de format X.X.X.X
+5 - Ouvrir le fichier config.xml
+6 - Coller l'adresse inet entre les <ip_local>
+7 - Retourner dans le terminal
+8 - Copier l'adresse broadcast de format X.X.X.255
+9 - Coller cette adresse entre les <ip_broadcast>
 
 
-####Martin :
-use files on /home/memery/javatestsocket
-USE PRINT MESSAGE IN SERVER OR SMTHG LIKE THAT TO PRINT THE MESSAGE ON THE INTERFACE.
-
-On serverTCP send messages and catch it on interface.
-Know how to discuss, exchange.
+## Lancer le système
+1 - Ouvrir le projet avec VSCode
+2 - Ouvrir le fichier Main.java
+3 - Aller à la ligne 207
+4 - Cliquer sur Run
+5 - L'application est lancée
 
 
