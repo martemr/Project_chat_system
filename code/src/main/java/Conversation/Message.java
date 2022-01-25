@@ -1,7 +1,5 @@
 package Conversation;
 
-import GUI.User;
-
 import java.util.Date;
 import java.text.*;
 import java.io.Serializable;
@@ -12,7 +10,7 @@ public class Message implements Comparable<Message>, Serializable {
     public User to;    // User recevant le message
     public String msg; // Texte du message
     public Date date;  // Horodage
-    public final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+    public final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy"); // Format du message
 
     // Constructeur message
     public Message(User from, User to, String msg){
@@ -38,12 +36,13 @@ public class Message implements Comparable<Message>, Serializable {
         return d;
     }
 
-    // Comparer les messages par dates, permet de les trier
+    // Comparer les messages par dates, permet de les trier dans l'historique
     @Override 
     public int compareTo(Message m){
         return this.date.compareTo(m.date);
     }
 
+    // Affiche le message
     @Override
     public String toString(){
         return msg;

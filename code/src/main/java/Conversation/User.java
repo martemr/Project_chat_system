@@ -1,4 +1,4 @@
-package GUI;
+package Conversation;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -7,16 +7,20 @@ import java.net.UnknownHostException;
 public class User implements Serializable{
 
     public enum Flag {
-        CONNECTION, PSEUDO_CHANGE, PSEUDO_NOT_AVAILABLE, CONNECTED, DISCONNECTION, INIT_CONVERSATION, REFUSE_CONVERSATION
+        PSEUDO_CHANGE,          // Signale un changement de pseudo en cours
+        PSEUDO_NOT_AVAILABLE,   // Signale que le pseudo demandé est déjà pris
+        CONNECTED,              // Signale que l'utilisateur envoyé est connecté et a un pseudo unique
+        DISCONNECTION,          // Signale qu'un utilisateur quitte le réseau
+        INIT_CONVERSATION,      // Signale la volontée de démarrer une conversation
+        REFUSE_CONVERSATION     // Signale le refus de démarrer une conversation
     }
     
     //Attributs
-    public String pseudo;
-    public String oldPseudo;
-    public long id;
+    public String pseudo; 
+    public String oldPseudo; // Ancien pseudo, utilse pour le changement de pseudo
+    public long id; // User id unique pour distinguer les users
     public Flag flag; 
-    public int portTCP;
-    private File userData;
+    private File userData; // Fichier contenant le uid
     public InetAddress IPAddress;
     public InetAddress IPAddressBroadcast;
     
@@ -31,7 +35,6 @@ public class User implements Serializable{
      *      Pseudo = pseudo
      *      Status = CONNECTED
      *      id = existing id or new id created (an id is already existing if the program has already been executed on the machine)
-     *  @throws IOException
      */
     public User(String pseudo){
         this.pseudo=pseudo;
@@ -43,10 +46,9 @@ public class User implements Serializable{
             String localDir = System.getProperty("user.dir");
             userData = new File(localDir + "/code/.userdata");
             if (!userData.exists()) { 
-                if (!userData.createNewFile()) throw new FileNotFoundException();
+                if (!userData.createNewFile()) throw new FileNotFoundException(); 
                 System.out.println("[User] file code/.userdata doesn't exist, creating one...");
             }
-
             // Read the existing uid  
             BufferedReader reader = new BufferedReader(new FileReader(userData));
             String line = reader.readLine();
@@ -59,7 +61,6 @@ public class User implements Serializable{
                 line = reader.readLine(); // read next line 
             }
             reader.close();
-
             // Creating a new id if not already gave
             if (this.id==0){
                 this.id = randomGenerator(); // Le uid est défini aléatoirement
@@ -70,14 +71,16 @@ public class User implements Serializable{
             }
             
         } catch (IOException e) {
-            System.out.println("[User] " + e);
+            System.out.println("[User] Erreur lors de la création de l'id");
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
     /** Function for changing pseudo
      * @param new_pseudo new pseudo to be set
      */
-    protected void change_pseudo(String new_pseudo){
+    public void change_pseudo(String new_pseudo){
         this.oldPseudo=this.pseudo;
         this.pseudo=new_pseudo;
     }

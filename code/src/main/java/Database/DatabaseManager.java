@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 import Conversation.Message;
-import GUI.User;
+import Conversation.User;
 
 /**
  * @author sqlitetutorial.net

@@ -13,30 +13,9 @@
         },
         {
             "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "GUI.Main",
-            "projectName": "code"
-        },
-        {
-            "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "code"
-        },
-        {
-            "type": "java",
             "name": "Launch Interface",
             "request": "launch",
             "mainClass": "GUI.Interface",
-            "projectName": "code"
-        },
-        {
-            "type": "java",
-            "name": "Launch GUI",
-            "request": "launch",
-            "mainClass": "project_chat_system.GUI",
             "projectName": "code"
         },
         {

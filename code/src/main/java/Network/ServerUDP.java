@@ -8,8 +8,8 @@ import java.net.SocketTimeoutException;
 
 import javax.swing.JOptionPane;
 
-import GUI.*;
-import GUI.User.Flag;
+import Conversation.User;
+import Conversation.User.Flag;
 import Main.Main;
 
 public class ServerUDP extends Thread {

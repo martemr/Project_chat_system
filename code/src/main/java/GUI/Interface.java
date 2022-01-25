@@ -11,8 +11,9 @@ import java.util.Vector;
 
 import Main.Main;
 import Database.DatabaseManager;
-import GUI.User.Flag;
 import Conversation.Message;
+import Conversation.User;
+import Conversation.User.Flag;
 import Network.ClientTCP;
 
 
