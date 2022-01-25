@@ -140,7 +140,7 @@ public class ServerUDP extends Thread {
                         if (answer==JOptionPane.YES_OPTION){
                             // Answer by starting a connection TCP
                             Main.startTCPClient(new_user.IPAddress.getHostAddress(), 2051);
-                            Main.mainWindow.activeConversation();
+                            Main.mainWindow.activeConversation(new_user);
                         }else {
                             sendUnicast(main_user, new_user, Flag.REFUSE_CONVERSATION);
                         }

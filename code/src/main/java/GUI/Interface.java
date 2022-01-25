@@ -360,11 +360,12 @@ public class Interface {
         if (Main.getServerTCP() == null)
             Main.startTCPServer(2051); //crée un serveur TCP prêt à acceuillir un msg de destUSer
         Main.getServerUDP().sendUnicast(user, destUser, Flag.INIT_CONVERSATION);
-        activeConversation();
+        activeConversation(destUser);
     }
 
-    public void activeConversation(){
-        destLabel.setText("Recipient : "+destUser.pseudo);
+    public void activeConversation(User to){
+        this.destUser=to;
+        destLabel.setText("Recipient : " + to.pseudo);
         printHistory(user, destUser);
         msgCapture.setEditable(true);
         sendMessageButton.setVisible(true);
@@ -384,10 +385,12 @@ public class Interface {
     /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
     public void printHistory(User from, User to){
         Queue<Message> msgList = database.history(from, to);
-        int i;
-        for(i=0; i<msgList.size(); i++){
+        //int i;
+        while (!msgList.isEmpty())
+        //for(i=0; i<msgList.size(); i++){
             printMessage(msgList.remove());
-        }
+        //}
+        //System.out.println("i="+i);
     }
 
     public void clear_window(){
