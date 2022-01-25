@@ -56,7 +56,7 @@ public class Interface {
         quit_conversation_setup();
         
         //Liste des utilisateurs connectés
-        changePseudoWindow();
+        changePseudoWindow("Enter your pseudo");
         
         connected_setup();
         // Display the window.
@@ -75,7 +75,6 @@ public class Interface {
      * Créer la fenêtre
      */
     public void createWindow(){
-        JFrame.setDefaultLookAndFeelDecorated(true);
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
         interfaceFrame.setVisible(true);
         interfaceFrame.addWindowListener(
@@ -129,7 +128,7 @@ public class Interface {
 
     ActionListener pseudoListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
-            changePseudoWindow();
+            changePseudoWindow("Enter your new pseudo :");
         }
     };
     
@@ -309,32 +308,25 @@ public class Interface {
     /**
      * Affiche une fenetre pop-up pour changer le pseudo
      */
-    public void changePseudoWindow() {
+    public void changePseudoWindow(String message) {
         // Lance la fenetre
         JFrame jFrame = new JFrame();
-        String newPseudo = JOptionPane.showInputDialog(jFrame, "Enter your pseudo");
+        String newPseudo = JOptionPane.showInputDialog(jFrame, message);
         if(newPseudo!=null){
             user.change_pseudo(newPseudo);
             user.setFlag(Flag.PSEUDO_CHANGE);
-             // Vérifie l'unicité
-            while (!Main.getClientUDP().isUniquePseudoOnNetwork()){
-                newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
-                user.change_pseudo(newPseudo);
-                pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
-                msgCapture.setEditable(false);
-                sendMessageButton.setVisible(false);
-            }
-            // Pseudo unique, connection autorisé
-            user.setFlag(Flag.CONNECTED);
-            // Met à jour l'interface
+            Main.getServerUDP().notifyPseudoOnNetwork();
             pseudoLabel.setText("Pseudo : "+user.pseudo);
-            sendPopUp("Pseudo successfully changed !");  
         }else {
             sendPopUp("Please enter a pseudo");
             pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
             msgCapture.setEditable(false);
             sendMessageButton.setVisible(false);
         }    
+    }
+
+    public void raisePseudoAlreadyUsed(){
+        changePseudoWindow("Pseudo already used, enter a new one : ");
     }
 
 

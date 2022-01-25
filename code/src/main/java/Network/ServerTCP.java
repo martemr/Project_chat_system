@@ -39,14 +39,16 @@ public class ServerTCP extends Thread {
 		} 
 	}
 
-	public void sendTCPMsg(Message msg){
-		try{
-			out.flush();
-			out.writeObject(msg);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public void sendMessage(Message msg) {     
+		try {
+		   out.flush();
+		   out.writeObject(msg);
+		} catch (IOException e) {
+		   System.out.println("[TCP Client] Error while sending message");
+		   e.printStackTrace();
+		   this.close();
 		}
-	}
+	 }
 
 	/** Run a server TCP, waiting messages for the client */
     public void run() {

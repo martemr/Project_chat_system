@@ -17,7 +17,7 @@ public class Main {
     static ServerTCP tcpServer;
     public static ClientTCP tcpClient; 
     static ServerUDP udpServer;
-    static ClientUDP udpClient;
+    //static ClientUDP udpClient;
 
     public static Vector<User> connectedUsers;
     public static String[] connectedPseudos;
@@ -44,9 +44,9 @@ public class Main {
         return udpServer;
     }
 
-    public static ClientUDP getClientUDP(){
-        return udpClient;
-    }
+    //public static ClientUDP getClientUDP(){
+    //    return udpClient;
+    //}
 
 
     /* METHODES */
@@ -179,7 +179,7 @@ public class Main {
         if (tcpClient!=null){
             tcpClient.sendMessage(msg);
         } else if (tcpServer!=null){
-            tcpServer.sendTCPMsg(msg);
+            tcpServer.sendMessage(msg);
         }
     }
 
@@ -190,7 +190,7 @@ public class Main {
     public static void closeSystem(){
         System.out.println("[Main] closing system");
         user.setFlag(User.Flag.DISCONNECTION);
-        udpClient.sendBroadcast();  // Send disconnection message
+        udpServer.sendBroadcast();  // Send disconnection message
         udpServer.closeServer();    // Close udp server 
         database.closeConnection(); // Close connection to database
         System.out.println("[Main] Godd bye !");
@@ -208,19 +208,21 @@ public class Main {
     public static void main(String[] args) {     
       
         // Lance le server udp pour attendre les broadcasts
-        System.out.println("[Main] Creating client UDP ");
-        try{
-            udpClient = new ClientUDP();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        //System.out.println("[Main] Creating client UDP ");
+        //try{
+        //    udpClient = new ClientUDP();
+        //} catch (Exception e){
+        //    e.printStackTrace();
+        //}
+
+
+        System.out.println("[Main] Starting server UDP ");
+        startUDPServer();
 
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();
 
-        System.out.println("[Main] Starting server UDP ");
-        startUDPServer();
 
         //System.out.println("[Main] Starting server TCP");
         //startTCPServer(3070);
