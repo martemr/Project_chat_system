@@ -144,7 +144,7 @@ public class Interface {
             //Add it to database
             Main.getMainDatabase().nouveau_message(message);
             // Send it
-            Main.tcpClient.sendMessage(message);
+            Main.sendMessage(message);
         }
     };
 
@@ -314,8 +314,11 @@ public class Interface {
             user.setFlag(Flag.PSEUDO_CHANGE);
              // Vérifie l'unicité
             while (!Main.getClientUDP().isUniquePseudoOnNetwork()){
-              newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
-              user.change_pseudo(newPseudo);
+                newPseudo = JOptionPane.showInputDialog(jFrame, "Pseudo already used, enter a new one : ");
+                user.change_pseudo(newPseudo);
+                pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
+                msgCapture.setEditable(false);
+                sendMessageButton.setVisible(false);
             }
             // Pseudo unique, connection autorisé
             user.setFlag(Flag.CONNECTED);
