@@ -48,7 +48,7 @@ public class ServerUDP extends Thread {
         } finally {
             if (sendSocket != null)
                 sendSocket.close();
-            System.out.println("[UDP Server] Answer message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort);
+            System.out.println("[UDP Server] Message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort + " User:" + userToSend.pseudo +" - FLAG:" + userToSend.flag);
         }
     }
      
@@ -72,6 +72,7 @@ public class ServerUDP extends Thread {
                 /* When broadcast received */
                 // Désencapsule le user
                 new_user = (User) is.readObject();
+                System.out.println("[UDP Server] Receive : " + new_user.pseudo + " - FLAG:" + new_user.flag);
                 // Vérifie que c'est pas soi même
                 if (new_user.id != main_user.id){
                     //Si c'est une connexion ou une demande de changement de pseudo
