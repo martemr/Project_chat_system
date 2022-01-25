@@ -17,7 +17,7 @@ public class ClientUDP {
 
     User user;
     final int sendPort=1400;
-    final int receivePort=1450;
+    final int receivePort=1400;
     DatagramSocket receiveSocket;
 
     /** Constructor */

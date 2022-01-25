@@ -16,7 +16,7 @@ public class ServerUDP extends Thread {
     //byte[] incomingData;
     //DatagramPacket incomingPacket;
 
-    final int sendPort=1450;
+    final int sendPort=1400;
     final int receivePort=1400;
 
     public ServerUDP() throws IOException {
