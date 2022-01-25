@@ -23,7 +23,7 @@ public class Interface {
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
     JTextField msgCapture, pseudoCapture; // Champs de texte
     static JTextArea displayMsg, connected;          // Zone de texte
-    JButton sendMessageButton, changePseudoButton, destinataireButton;  // Boutons 
+    JButton sendMessageButton, changePseudoButton, destinataireButton, quitButton;  // Boutons 
     static JLabel pseudoLabel, destLabel, messageLabel;     // Labels (= affichage)
     JScrollPane scroll, scroller;
     JList<String> liste;
@@ -53,6 +53,7 @@ public class Interface {
         destinataire_setup(); //ajoute les champs relatifs au destinataire
         message_setup(); //ajoute les champs relatifs au message à envoyer
         conversation_setup();//ajoute la zone d'affichage de la conversation
+        quit_conversation_setup();
         
         //Liste des utilisateurs connectés
         changePseudoWindow();
@@ -149,20 +150,22 @@ public class Interface {
 
     ActionListener destinataireListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
+            clear_window();
             changeDestinataireWindow();
         }
     };
 
+    ActionListener quitListener = new ActionListener(){
+        public void actionPerformed(ActionEvent e) {
+          clear_window();
+        }
+    };
+
+
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-            // Clear everything 
-            //if (Main.getServerTCP() != null) {
-            //    Main.getServerTCP().close();
-            //}
-            displayMsg.setText(null);
-            destLabel.setText("Recipient : ");
-            sendMessageButton.setVisible(false);
+            clear_window();
 
             // Write new
             String selection = liste.getSelectedValue();
@@ -260,6 +263,17 @@ public class Interface {
         interfaceFrame.add(scroll, c);
     }
 
+    public void quit_conversation_setup(){
+        GridBagConstraints c = new GridBagConstraints();
+        quitButton = new JButton("Quit Conversation");
+        quitButton.addActionListener(quitListener);
+        c.fill = GridBagConstraints.BOTH;
+	    c.weightx = 0.5;
+	    c.gridx = 0;
+	    c.gridy = 2;
+        interfaceFrame.add(quitButton, c);
+    }
+
     /** 
      * Permet d'afficher une liste de sélection des users
      * @param userList
@@ -280,8 +294,8 @@ public class Interface {
         c.weightx=0.0;
         c.gridx = 0;
 	    c.gridy = 0;
-        c.gridheight = 3;
-        c.gridheight = GridBagConstraints.REMAINDER;
+        c.gridheight = 2;
+       // c.gridheight = GridBagConstraints.REMAINDER;
         interfaceFrame.add(scroller, c);
     }
 
@@ -373,5 +387,14 @@ public class Interface {
         for(i=0; i<msgList.size(); i++){
             printMessage(msgList.remove());
         }
+    }
+
+    public void clear_window(){
+        if (Main.getServerTCP() != null) {
+            Main.getServerTCP().close();
+        }
+        displayMsg.setText(null);
+        destLabel.setText("Recipient : ");
+        sendMessageButton.setVisible(false);
     }
 }
