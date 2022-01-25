@@ -163,17 +163,21 @@ public class Interface {
     };
 
 
+    Boolean once = true;
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-            clear_window();
-
-            // Write new
-            String selection = liste.getSelectedValue();
-            if (selection != null) { // On a choisi un utilisateur
-                destUser = Main.getUserByPseudo(selection);
-                destinataireChanged();
+            if (once){
+                clear_window();
+                
+                // Write new
+                String selection = liste.getSelectedValue();
+                if (selection != null) { // On a choisi un utilisateur
+                    destUser = Main.getUserByPseudo(selection);
+                    destinataireChanged();
+                }
             }
+            once = !once;
         }    
     };
 
