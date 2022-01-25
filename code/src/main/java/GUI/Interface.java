@@ -359,8 +359,7 @@ public class Interface {
         if (Main.getServerTCP() != null)
             Main.startTCPServer(2051); //crée un serveur TCP prêt à acceuillir un msg de destUSer
         user.portTCP=2051; //pour que destUser recoive le port lors de l'unicast
-        user.flag=Flag.INIT_CONVERSATION;
-        Main.getServerUDP().sendUnicast(user, destUser);
+        Main.getServerUDP().sendUnicast(user, destUser, Flag.INIT_CONVERSATION);
         destLabel.setText("Recipient : "+destUser.pseudo);
         printHistory(user, destUser);
         msgCapture.setEditable(true);

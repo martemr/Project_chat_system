@@ -56,7 +56,8 @@ public class ServerUDP extends Thread {
         }
     }
 
-    public void sendUnicast(User userToSend, User recipient){
+    public void sendUnicast(User userToSend, User recipient, User.Flag flag){
+        userToSend.setFlag(flag);
         DatagramSocket sendSocket = null;
         try {
             sendSocket = new DatagramSocket();
@@ -111,8 +112,7 @@ public class ServerUDP extends Thread {
                             // Pseudo identique au sien = répond avec un signal d'erreur
                         if (new_user.pseudo.equals(main_user.pseudo)){
                             // Renvoie le même user avec le flag PSEUDO_ALREADY_USED
-                            new_user.setFlag(Flag.PSEUDO_NOT_AVAILABLE);
-                            sendUnicast(new_user, new_user);
+                            sendUnicast(new_user, new_user, Flag.PSEUDO_NOT_AVAILABLE);
                         // Pseudo différent = répond avec son user
                         } else {
                             System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
@@ -123,8 +123,7 @@ public class ServerUDP extends Thread {
                                 Main.addNewUser(new_user);
                             }
                             // Renvoie son user
-                            new_user.setFlag(Flag.CONNECTED);
-                            sendUnicast(main_user, new_user);
+                            sendUnicast(main_user, new_user, Flag.CONNECTED);
                         }
                     } else if (new_user.flag==User.Flag.CONNECTED){
                         if(Main.isNew(new_user)){ //si new_user n'est pas encore dans notre vecteur d'utilisateurs
@@ -143,8 +142,7 @@ public class ServerUDP extends Thread {
                                 Main.startTCPClient(new_user.IPAddress.getHostAddress(), 2051);
                                 break;
                             default :
-                                main_user.setFlag(User.Flag.REFUSE_CONVERSATION);
-                                sendUnicast(main_user, new_user);
+                                sendUnicast(main_user, new_user, Flag.REFUSE_CONVERSATION);
                                 break;
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
