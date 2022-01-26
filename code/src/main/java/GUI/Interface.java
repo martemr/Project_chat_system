@@ -22,9 +22,9 @@ public class Interface {
     // ELEMENTS INTERFACE
     JFrame interfaceFrame;
     JPanel mainPanel;                     // Panneau principal qui supportera les composants
-    JTextField msgCapture, pseudoCapture; // Champs de texte
-    static JTextArea displayMsg, connected;          // Zone de texte
-    JButton sendMessageButton, changePseudoButton, destinataireButton, quitButton;  // Boutons 
+    public JTextField msgCapture, pseudoCapture; // Champs de texte
+    public static JTextArea displayMsg, connected;          // Zone de texte
+    public JButton sendMessageButton, changePseudoButton, destinataireButton, quitButton;  // Boutons 
     static JLabel pseudoLabel, destLabel, messageLabel;     // Labels (= affichage)
     JScrollPane scroll, scroller;
     JList<String> liste;
@@ -399,6 +399,8 @@ public class Interface {
             Main.getServerTCP().close();
         }
         displayMsg.setText(null);
+        msgCapture.setText(null);
+        msgCapture.setEditable(false);
         destLabel.setText("Recipient : ");
         sendMessageButton.setVisible(false);
     }

@@ -146,7 +146,7 @@ public class ServerUDP extends Thread {
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
                         Main.mainWindow.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
-                        Main.getServerTCP().close();
+                        Main.mainWindow.clear_window();
                     }
                     receiveSocket.setSoTimeout(0); // Set as infinite
                 } else { // Case answer to my message
