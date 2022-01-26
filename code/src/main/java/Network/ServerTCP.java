@@ -44,7 +44,7 @@ public class ServerTCP extends Thread {
 		   out.flush();
 		   out.writeObject(msg);
 		} catch (IOException e) {
-		   System.out.println("[TCP Client] Error while sending message");
+		   System.out.println("[TCP Server] Error while sending message");
 		   e.printStackTrace();
 		   this.close();
 		}

@@ -208,24 +208,12 @@ public class Main {
     public static void main(String[] args) {     
       
         // Lance le server udp pour attendre les broadcasts
-        //System.out.println("[Main] Creating client UDP ");
-        //try{
-        //    udpClient = new ClientUDP();
-        //} catch (Exception e){
-        //    e.printStackTrace();
-        //}
-
-
         System.out.println("[Main] Starting server UDP ");
         startUDPServer();
 
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
         mainWindow = new Interface();
-
-
-        //System.out.println("[Main] Starting server TCP");
-        //startTCPServer(3070);
 
     }
 

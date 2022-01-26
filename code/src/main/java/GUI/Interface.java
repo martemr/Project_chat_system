@@ -163,22 +163,35 @@ public class Interface {
         }
     };
 
-
     Boolean once = true;
     ListSelectionListener connectedListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e)
         {
-            if (once){
-                clear_window();
-                
+            //if (once){
                 // Write new
                 String selection = liste.getSelectedValue();
                 if (selection != null) { // On a choisi un utilisateur
-                    destUser = Main.getUserByPseudo(selection);
-                    destinataireChanged();
+                    System.out.println("Selection : " + selection);
+                    if (destUser!=null){ // On est déjà en train de parler à quelqu'un
+                        long oldDestUserId=destUser.id;
+                        System.out.println("Old user : " + destUser.pseudo);
+                        destUser = Main.getUserByPseudo(selection);
+                        System.out.println("New user : " + destUser.pseudo);
+                        if (destUser.id != oldDestUserId){ // Est ce qu'on veut parler à la même personne ?
+                            clear_window();
+                            destinataireChanged();
+                        } else {
+                            activeConversation(destUser);
+                        }
+
+                    } else {
+                        destUser = Main.getUserByPseudo(selection);
+                        clear_window();
+                        destinataireChanged();
+                    }
                 }
-            }
-            once = !once;
+            //}
+            //once = !once;
         }    
     };
 
