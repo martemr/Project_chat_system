@@ -386,6 +386,7 @@ public class Interface {
     public void activeConversation(User to){
         this.destUser=to;
         destLabel.setText("Recipient : " + to.pseudo);
+        displayMsg.setText(null);
         printHistory(user, destUser);
         msgCapture.setEditable(true);
         sendMessageButton.setVisible(true);
