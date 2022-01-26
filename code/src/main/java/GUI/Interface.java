@@ -423,8 +423,8 @@ public class Interface {
             Main.getServerTCP().yield();
         }
         liste.clearSelection();
-        clear_window();
         destUser=null;
+        clear_window();
     }
 
 

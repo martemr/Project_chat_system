@@ -108,6 +108,30 @@ public class ServerUDP extends Thread {
                 // Vérifie que c'est pas soi même
                 if (new_user.id != main_user.id){ // Case message from an other user
                     //Si c'est une connexion ou une demande de changement de pseudo
+                    /*switch (new_user.flag) {
+                        case PSEUDO_CHANGE :
+                            if (new_user.pseudo.equals(main_user.pseudo)){ // Same pseudo
+                                sendUnicast(new_user, new_user, Flag.PSEUDO_NOT_AVAILABLE);
+                            } else { // Pseudo différent
+                                // Ajoute à ses données
+                                System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
+                                if (!Main.isNew(new_user)){ // Changement de pseudo d'un utilisateur existant
+                                    Main.changePseudoUser(new_user);
+                                    if (Main.mainWindow.isInConversation(new_user)){
+                                        Main.mainWindow.updateConversationPseudo(new_user);
+                                }
+                                } else { // Nouvel utilisateur 
+                                    Main.addNewUser(new_user);
+                                }
+                                // Répond en renvoyant son user
+                                sendUnicast(main_user, new_user, Flag.CONNECTED);
+                                if (!new_user.oldPseudo.equals(""))  {
+                                    Main.mainWindow.sendPopUp(new_user.oldPseudo+" is now "+new_user.pseudo);
+                                }
+                            }
+                            break;
+                        case 
+                    } */
                     if(new_user.flag==User.Flag.PSEUDO_CHANGE){ 
                             // Pseudo identique au sien = répond avec un signal d'erreur
                         if (new_user.pseudo.equals(main_user.pseudo)){
@@ -120,9 +144,7 @@ public class ServerUDP extends Thread {
                             // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
                             if (!Main.isNew(new_user)){// Changement de pseudo d'un utilisateur existant
                                 Main.changePseudoUser(new_user);
-                                System.out.println("Is new");
                                 if (Main.mainWindow.isInConversation(new_user)){
-                                    System.out.println("In conv");
                                     Main.mainWindow.updateConversationPseudo(new_user);
                                 }
                             } else {// Nouvel utilisateur 
@@ -172,21 +194,10 @@ public class ServerUDP extends Thread {
                             Main.clearListUser();
                             Main.mainWindow.raisePseudoAlreadyUsed();
                             break;
-                        case DISCONNECTION :
-                        
-                    }
-                    // Vérifie son flag pour savoir si il est déja utilisé
-                    if (new_user.flag==Flag.PSEUDO_CHANGE) {
-                        // That means that i'm triying to connect
-                        receiveSocket.setSoTimeout(100);
-                    } else if (new_user.flag==Flag.PSEUDO_NOT_AVAILABLE) {
-                        
-                    } else if (new_user.flag==Flag.DISCONNECTION) { // This is my message
-                        // I'm leaving
-                        break;
-                    } else {
-                        //receiveSocket.setSoTimeout(0); // Set as infinite
-                        System.out.println("[UDP Server] Unknow flag received : " + new_user.flag);
+                        case DISCONNECTION : // This is my message
+                            break;
+                        default :
+                            System.out.println("[UDP Server] Unknow flag received : " + new_user.flag);
                     }
                 }
             }
