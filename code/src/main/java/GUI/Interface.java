@@ -335,6 +335,9 @@ public class Interface {
             user.setFlag(Flag.PSEUDO_CHANGE);
             Main.getServerUDP().notifyPseudoOnNetwork();
             pseudoLabel.setText("Pseudo : "+user.pseudo);
+            if (destUser!=null){
+                activeConversation(destUser);
+            }
         }else {
             sendPopUp("Please enter a pseudo");
             pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
