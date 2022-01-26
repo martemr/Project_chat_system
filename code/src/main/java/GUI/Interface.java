@@ -160,7 +160,9 @@ public class Interface {
         public void actionPerformed(ActionEvent e) {
           clear_window();
           liste.clearSelection();
-          Main.getServerUDP().sendUnicast(destUser, user, CLOSE_CONVERSATION);
+          if (destUser!=null)
+            Main.getServerUDP().sendUnicast(user, destUser, Flag.CLOSE_CONVERSATION);
+          destUser=null;
         }
     };
 
@@ -182,6 +184,7 @@ public class Interface {
                         } else {
                             activeConversation(destUser);
                             liste.setSelectedValue(destUser.pseudo, true);
+
                         }
 
                     } else {
@@ -360,6 +363,9 @@ public class Interface {
 
     public void updateConnectedUserList(User new_user){
         userListToPrint.addElement(new_user.pseudo);
+        if (destUser != null && destUser.id==new_user.id){
+            activeConversation(new_user);
+        }
     }
 
     public void removeUserFromList(User user){
