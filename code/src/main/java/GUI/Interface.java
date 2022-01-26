@@ -420,6 +420,7 @@ public class Interface {
     public void close_conversation(){
         if (Main.getServerTCP() != null) {
             Main.getServerTCP().close();
+            Main.getServerTCP().yield();
         }
         liste.clearSelection();
         clear_window();
@@ -439,7 +440,8 @@ public class Interface {
         return (destUser.id==user.id);
     }
 
-    public void updateConversationPseudo(){
+    public void updateConversationPseudo(User new_user){
+        destUser=new_user;
         activeConversation(destUser);
         liste.setSelectedValue(destUser.pseudo, true);
     }

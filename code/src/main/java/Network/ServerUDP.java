@@ -120,11 +120,13 @@ public class ServerUDP extends Thread {
                             // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
                             if (!Main.isNew(new_user)){// Changement de pseudo d'un utilisateur existant
                                 Main.changePseudoUser(new_user);
+                                System.out.println("Is new");
+                                if (Main.mainWindow.isInConversation(new_user)){
+                                    System.out.println("In conv");
+                                    Main.mainWindow.updateConversationPseudo(new_user);
+                                }
                             } else {// Nouvel utilisateur 
                                 Main.addNewUser(new_user);
-                                if (Main.mainWindow.isInConversation(new_user)){
-                                    Main.mainWindow.updateConversationPseudo();
-                                }
                             }
                             // Renvoie son user
                             sendUnicast(main_user, new_user, Flag.CONNECTED);
