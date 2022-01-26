@@ -17,11 +17,8 @@ public class Main {
     static ServerTCP tcpServer;
     public static ClientTCP tcpClient; 
     static ServerUDP udpServer;
-    //static ClientUDP udpClient;
 
     public static Vector<User> connectedUsers;
-    public static String[] connectedPseudos;
-    public static double[] connectedId;
 
     /* GETTERS */
 
@@ -43,10 +40,6 @@ public class Main {
     public static ServerUDP getServerUDP(){
         return udpServer;
     }
-
-    //public static ClientUDP getClientUDP(){
-    //    return udpClient;
-    //}
 
 
     /* METHODES */
@@ -86,20 +79,34 @@ public class Main {
      * @param users
      * @return
      */
-    public static String[] get_pseudo(Vector<User> users){
-        String[] pseudos = new String[users.size()];
-        for(int i=0; i<users.size();i++){
-            pseudos[i]=users.get(i).pseudo;
+    public static String[] get_pseudos(){
+        String[] pseudos = new String[connectedUsers.size()];
+        for(int i=0; i<connectedUsers.size();i++){
+            pseudos[i]=connectedUsers.get(i).pseudo;
         }
         return pseudos;
     }
 
+    /**
+     * Permet de récupérer une liste de pseudos à partir du tableau de users
+     * @param users
+     * @return
+     */
+    public static double[] get_id(Vector<User> users){
+        double[] id = new double[users.size()];
+        for(int i=0; i<users.size();i++){
+            id[i]=users.get(i).id;
+        }
+        return id;
+    }
+    
     public static User getUserByPseudo(String pseudo){
         boolean trouve = false;
         int index = 0;
         while(!trouve && index<connectedUsers.size()){
             if(connectedUsers.get(index).pseudo.equals(pseudo)){
                 trouve=true;
+                break;
             } else {
                 index+=1;
             }
@@ -117,6 +124,7 @@ public class Main {
         while(!trouve && index<connectedUsers.size()){
             if(connectedUsers.get(index).IPAddress.equals(IP)){
                 trouve=true;
+                break;
             } else {
                 index+=1;
             }
@@ -128,42 +136,38 @@ public class Main {
         }
     }
 
-    /**
-     * Permet de récupérer une liste de pseudos à partir du tableau de users
-     * @param users
-     * @return
-     */
-    public static double[] get_id(Vector<User> users){
-        double[] id = new double[users.size()];
-        for(int i=0; i<users.size();i++){
-            id[i]=users.get(i).id;
-        }
-        return id;
-    }
+
 
     // USER ARRAY ACTIONS
-
-    public static void updateArrayConnectedUsers(){
-        connectedPseudos=get_pseudo(connectedUsers);     
-        connectedId=get_id(connectedUsers);
-    }    
     
     static public void addNewUser(User new_user){
         connectedUsers.add(new_user);
-        updateArrayConnectedUsers();
         if (mainWindow != null)
-            mainWindow.updateConnectedUserList(new_user);
+            mainWindow.addUserToList(new_user.pseudo);
+    }
+
+    static public void removeUser(User old_user){
+        connectedUsers.remove(old_user);
+        if (mainWindow != null)
+            mainWindow.removeUserFromList(old_user.pseudo);
+    }
+
+    static public void clearListUser(){
+        connectedUsers.clear();;
+        //if (mainWindow != null)
+        //    mainWindow.removeUserFromList(old_user.pseudo);
     }
     
+    
     static public void changePseudoUser(User new_user){
-        mainWindow.removeUserFromList(new_user);
-        connectedUsers.remove(new_user);
+        removeUser(getUserByIP(new_user.IPAddress));
         addNewUser(new_user);
     }
 
+    /** Search if the id is already in the array of connected users */
     static public boolean isNew(User new_user){
-        for (int i = 0; i <Main.connectedId.length; i++){
-            if (Main.connectedId[i]==new_user.id){
+        for (Double id : Main.get_id(connectedUsers)){
+            if (id==new_user.id){
                 return false;
             }
         }
@@ -200,7 +204,6 @@ public class Main {
         user = new User("Pseudo"); // Main user is declared once, here.
         Tools.lire_config_xml();   // Récupère les adresses IPs
         connectedUsers = new Vector<User>();
-        updateArrayConnectedUsers();
         database = new DatabaseManager(); // Démarre la base de données
     }
 

@@ -49,6 +49,17 @@ public class ServerTCP extends Thread {
 		   this.close();
 		}
 	 }
+	
+	 /** Closing function for the server */
+	public void close(){
+		try {
+			if (server != null)
+				server.close();
+		} catch (Exception e) {
+			System.out.println("[TCP Server] Error while closing server");
+			e.printStackTrace();
+		}
+	}
 
 	/** Run a server TCP, waiting messages for the client */
     public void run() {
@@ -81,16 +92,4 @@ public class ServerTCP extends Thread {
 			e.printStackTrace();
 		}
     }
-
-	/** Closing function for the server */
-	public void close(){
-		try {
-			if (server != null)
-				server.close();
-		} catch (Exception e) {
-			System.out.println("[TCP Server] Error while closing server");
-			e.printStackTrace();
-		}
-	}
-
 }

@@ -151,18 +151,16 @@ public class Interface {
 
     ActionListener destinataireListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
-            clear_window();
+            close_conversation();
             changeDestinataireWindow();
         }
     };
 
     ActionListener quitListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
-          clear_window();
-          liste.clearSelection();
-          if (destUser!=null)
-            Main.getServerUDP().sendUnicast(user, destUser, Flag.CLOSE_CONVERSATION);
-          destUser=null;
+            if (destUser!=null)
+                Main.getServerUDP().sendUnicast(user, destUser, Flag.CLOSE_CONVERSATION);
+            close_conversation();
         }
     };
 
@@ -179,15 +177,16 @@ public class Interface {
                         long oldDestUserId=destUser.id;
                         destUser = Main.getUserByPseudo(selection);
                         if (destUser.id != oldDestUserId){ // Est ce qu'on veut parler à la même personne ?
-                            clear_window();
+                            // Ferme la conversation et passe à une nouvelle    
+                            close_conversation();
                             destinataireChanged();
                         } else {
+                            // Met à jour juste les champs de l'interface mais pas le tcp
                             activeConversation(destUser);
                             liste.setSelectedValue(destUser.pseudo, true);
-
                         }
-
                     } else {
+                        // Demarre une conversation
                         destUser = Main.getUserByPseudo(selection);
                         clear_window();
                         destinataireChanged();
@@ -306,7 +305,7 @@ public class Interface {
         userListToPrint = new DefaultListModel();
         liste = new JList<>(userListToPrint);
         // Ajout de les utilisateurs connectés avant nous 
-        for (String userConnected : Main.connectedPseudos) {
+        for (String userConnected : Main.get_pseudos()) {
             userListToPrint.addElement(userConnected);
         }       
         liste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -330,7 +329,7 @@ public class Interface {
         // Lance la fenetre
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, message);
-        if(newPseudo!=null){
+        if(newPseudo!=null && !newPseudo.equals("")){
             user.change_pseudo(newPseudo);
             user.setFlag(Flag.PSEUDO_CHANGE);
             Main.getServerUDP().notifyPseudoOnNetwork();
@@ -364,19 +363,24 @@ public class Interface {
     }
 
 
-    public void updateConnectedUserList(User new_user){
-        userListToPrint.addElement(new_user.pseudo);
-        if (destUser != null && destUser.id==new_user.id){
-            activeConversation(new_user);
-        }
+    //public void updateConnectedUserList(User new_user){
+    //    userListToPrint.addElement(new_user.pseudo);
+    //    // Si une conversation est en cours on la garde
+    //    if (destUser != null && destUser.id==new_user.id){
+    //        activeConversation(new_user);
+    //    }
+    //}
+
+    public void addUserToList(String user_pseudo){
+        userListToPrint.addElement(user_pseudo);
     }
 
-    public void removeUserFromList(User user){
-        if(user.flag==User.Flag.PSEUDO_CHANGE){
-            userListToPrint.removeElement(user.oldPseudo);
-        } else if (user.flag==User.Flag.DISCONNECTION){
-            userListToPrint.removeElement(user.pseudo);
-        }
+    public void removeUserFromList(String user_pseudo){
+        userListToPrint.removeElement(user_pseudo);
+    }
+
+    public void clearUserFromList(){
+        userListToPrint.clear();
     }
 
     public void destinataireChanged(){
@@ -387,7 +391,7 @@ public class Interface {
     }
 
     public void activeConversation(User to){
-        this.destUser=to;
+        destUser=to;
         destLabel.setText("Recipient : " + to.pseudo);
         displayMsg.setText(null);
         printHistory(user, destUser);
@@ -409,22 +413,34 @@ public class Interface {
     /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
     public void printHistory(User from, User to){
         Queue<Message> msgList = database.history(from, to);
-        //int i;
         while (!msgList.isEmpty())
-        //for(i=0; i<msgList.size(); i++){
             printMessage(msgList.remove());
-        //}
-        //System.out.println("i="+i);
     }
 
-    public void clear_window(){
+    public void close_conversation(){
         if (Main.getServerTCP() != null) {
             Main.getServerTCP().close();
         }
+        liste.clearSelection();
+        clear_window();
+        destUser=null;
+    }
+
+
+    public void clear_window(){
         displayMsg.setText(null);
         msgCapture.setText(null);
         msgCapture.setEditable(false);
         destLabel.setText("Recipient : ");
         sendMessageButton.setVisible(false);
+    }
+
+    public boolean isInConversation(User user){
+        return (destUser.id==user.id);
+    }
+
+    public void updateConversationPseudo(){
+        activeConversation(destUser);
+        liste.setSelectedValue(destUser.pseudo, true);
     }
 }

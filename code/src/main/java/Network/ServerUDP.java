@@ -112,16 +112,19 @@ public class ServerUDP extends Thread {
                             // Pseudo identique au sien = répond avec un signal d'erreur
                         if (new_user.pseudo.equals(main_user.pseudo)){
                             // Renvoie le même user avec le flag PSEUDO_NOT_AVAILABLE
-                            Main.mainWindow.removeUserFromList(new_user);
+                            //Main.re(new_user);
                             sendUnicast(new_user, new_user, Flag.PSEUDO_NOT_AVAILABLE);
                         // Pseudo différent = répond avec son user
                         } else {
                             System.out.println("[UDP Server] " + new_user.pseudo + " just joined");
                             // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
-                            if (!Main.isNew(new_user)){// Nouvel utilisateur
+                            if (!Main.isNew(new_user)){// Changement de pseudo d'un utilisateur existant
                                 Main.changePseudoUser(new_user);
-                            } else {// Changement de pseudo d'un utilisateur existant
+                            } else {// Nouvel utilisateur 
                                 Main.addNewUser(new_user);
+                                if (Main.mainWindow.isInConversation(new_user)){
+                                    Main.mainWindow.updateConversationPseudo();
+                                }
                             }
                             // Renvoie son user
                             sendUnicast(main_user, new_user, Flag.CONNECTED);
@@ -134,7 +137,10 @@ public class ServerUDP extends Thread {
                             Main.addNewUser(new_user);
                         }
                     } else if (new_user.flag==User.Flag.DISCONNECTION){
-                        Main.mainWindow.removeUserFromList(new_user);
+                        //if (Main.mainWindow.destUser.id==new_user.id){ // We were talking to him
+                        //    
+                        //}
+                        Main.removeUser(new_user);
                         System.out.println("[UDP Server] " + new_user.pseudo + " just left");
                         Main.mainWindow.sendPopUp(new_user.pseudo + " left :(");
                     } else if (new_user.flag==User.Flag.INIT_CONVERSATION){
@@ -149,20 +155,30 @@ public class ServerUDP extends Thread {
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
                         Main.mainWindow.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
-                        Main.mainWindow.clear_window();
+                        Main.mainWindow.close_conversation();
                     } else if (new_user.flag==User.Flag.CLOSE_CONVERSATION){
-                        Main.mainWindow.sendPopUp(new_user.pseudo + " leave conversation");
-                        Main.mainWindow.clear_window();
+                        Main.mainWindow.sendPopUp(new_user.pseudo + " left conversation");
+                        Main.mainWindow.close_conversation();
                     }
                     receiveSocket.setSoTimeout(0); // Set as infinite
                 } else { // Case answer to my message
+                    switch (new_user.flag) {
+                        case PSEUDO_CHANGE : // This is my message, I'm triing to connect
+                            receiveSocket.setSoTimeout(100); // set a timeout for getting an answer
+                            break;
+                        case PSEUDO_NOT_AVAILABLE :
+                            Main.clearListUser();
+                            Main.mainWindow.raisePseudoAlreadyUsed();
+                            break;
+                        case DISCONNECTION :
+                        
+                    }
                     // Vérifie son flag pour savoir si il est déja utilisé
-                    if (new_user.flag==Flag.PSEUDO_CHANGE) { // This is my message
+                    if (new_user.flag==Flag.PSEUDO_CHANGE) {
                         // That means that i'm triying to connect
                         receiveSocket.setSoTimeout(100);
                     } else if (new_user.flag==Flag.PSEUDO_NOT_AVAILABLE) {
-                        Main.mainWindow.removeUserFromList(new_user);
-                        Main.mainWindow.raisePseudoAlreadyUsed();
+                        
                     } else if (new_user.flag==Flag.DISCONNECTION) { // This is my message
                         // I'm leaving
                         break;
