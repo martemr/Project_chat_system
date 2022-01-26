@@ -1,38 +1,29 @@
 package Network;
-
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-
 import javax.swing.JOptionPane;
-
 import Conversation.User;
 import Conversation.User.Flag;
 import Main.Main;
-
 public class ServerUDP extends Thread {
-
     DatagramSocket receiveSocket;
     //byte[] incomingData;
     //DatagramPacket incomingPacket;
-
     final int sendPort=1400;
     final int receivePort=1400;
-
     public ServerUDP() throws IOException {
         //receiveSocket = new DatagramSocket(receivePort);
         //incomingData = new byte[65535];
         //incomingPacket = null;
     }
-
     public void closeServer(){
         if (receiveSocket != null)
             this.receiveSocket.close();
             System.out.println("[UDP Server] : Fermeture serveur");
     }
-
         
     public void sendBroadcast() {
         DatagramSocket sendSocket = null;
@@ -55,7 +46,6 @@ public class ServerUDP extends Thread {
             System.out.println("[UDP Server] Broadcast message sent from " + user.pseudo + " on " + user.IPAddressBroadcast.toString() + ":" + sendPort);
         }
     }
-
     public void sendUnicast(User userToSend, User recipient, User.Flag flag){
         userToSend.setFlag(flag);
         DatagramSocket sendSocket = null;
@@ -77,7 +67,6 @@ public class ServerUDP extends Thread {
             System.out.println("[UDP Server] Message sent to " + recipient.pseudo + " on " + recipient.IPAddressBroadcast.toString() + ":" + sendPort + " User:" + userToSend.pseudo +" - FLAG:" + userToSend.flag);
         }
     }
-
     public void notifyPseudoOnNetwork(){
         System.out.println("[UDP Server] Sending broadcast");
         sendBroadcast(); // Send the broadcast 
@@ -99,7 +88,6 @@ public class ServerUDP extends Thread {
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);
-
                 /* When smth received */
                 // Désencapsule le user
                 new_user = (User) is.readObject();
@@ -144,7 +132,9 @@ public class ServerUDP extends Thread {
                             // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
                             if (!Main.isNew(new_user)){// Changement de pseudo d'un utilisateur existant
                                 Main.changePseudoUser(new_user);
+                                System.out.println("Is new");
                                 if (Main.mainWindow.isInConversation(new_user)){
+                                    System.out.println("In conv");
                                     Main.mainWindow.updateConversationPseudo(new_user);
                                 }
                             } else {// Nouvel utilisateur 
@@ -186,7 +176,7 @@ public class ServerUDP extends Thread {
                     }
                     receiveSocket.setSoTimeout(0); // Set as infinite
                 } else { // Case answer to my message
-                    switch (new_user.flag) {
+                    /*switch (new_user.flag) {
                         case PSEUDO_CHANGE : // This is my message, I'm triing to connect
                             receiveSocket.setSoTimeout(100); // set a timeout for getting an answer
                             break;
@@ -194,10 +184,21 @@ public class ServerUDP extends Thread {
                             Main.clearListUser();
                             Main.mainWindow.raisePseudoAlreadyUsed();
                             break;
-                        case DISCONNECTION : // This is my message
-                            break;
-                        default :
-                            System.out.println("[UDP Server] Unknow flag received : " + new_user.flag);
+                        case DISCONNECTION :
+
+                    }*/
+                    // Vérifie son flag pour savoir si il est déja utilisé
+                    if (new_user.flag==Flag.PSEUDO_CHANGE) {
+                        // That means that i'm triying to connect
+                        receiveSocket.setSoTimeout(100);
+                    } else if (new_user.flag==Flag.PSEUDO_NOT_AVAILABLE) {
+
+                    } else if (new_user.flag==Flag.DISCONNECTION) { // This is my message
+                        // I'm leaving
+                        break;
+                    } else {
+                        //receiveSocket.setSoTimeout(0); // Set as infinite
+                        System.out.println("[UDP Server] Unknow flag received : " + new_user.flag);
                     }
                 }
             }
