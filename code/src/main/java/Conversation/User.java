@@ -12,7 +12,8 @@ public class User implements Serializable{
         CONNECTED,              // Signale que l'utilisateur envoyé est connecté et a un pseudo unique
         DISCONNECTION,          // Signale qu'un utilisateur quitte le réseau
         INIT_CONVERSATION,      // Signale la volontée de démarrer une conversation
-        REFUSE_CONVERSATION     // Signale le refus de démarrer une conversation
+        REFUSE_CONVERSATION,     // Signale le refus de démarrer une conversation
+        CLOSE_CONVERSATION 
     }
     
     //Attributs

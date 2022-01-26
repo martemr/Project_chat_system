@@ -160,6 +160,7 @@ public class Interface {
         public void actionPerformed(ActionEvent e) {
           clear_window();
           liste.clearSelection();
+          Main.getServerUDP().sendUnicast(destUser, user, CLOSE_CONVERSATION);
         }
     };
 
@@ -174,14 +175,13 @@ public class Interface {
                     System.out.println("Selection : " + selection);
                     if (destUser!=null){ // On est déjà en train de parler à quelqu'un
                         long oldDestUserId=destUser.id;
-                        System.out.println("Old user : " + destUser.pseudo);
                         destUser = Main.getUserByPseudo(selection);
-                        System.out.println("New user : " + destUser.pseudo);
                         if (destUser.id != oldDestUserId){ // Est ce qu'on veut parler à la même personne ?
                             clear_window();
                             destinataireChanged();
                         } else {
                             activeConversation(destUser);
+                            liste.setSelectedValue(destUser.pseudo, true);
                         }
 
                     } else {
