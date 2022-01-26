@@ -437,7 +437,8 @@ public class Interface {
     }
 
     public boolean isInConversation(User user){
-        return (destUser.id==user.id);
+        if (destUser==null) return false;
+        else return (destUser.id==user.id);
     }
 
     public void updateConversationPseudo(User new_user){
