@@ -125,6 +125,9 @@ public class ServerUDP extends Thread {
                             }
                             // Renvoie son user
                             sendUnicast(main_user, new_user, Flag.CONNECTED);
+                            if (!new_user.oldPseudo.equals(""))  {
+                                Main.mainWindow.sendPopUp(new_user.oldPseudo+" is now "+new_user.pseudo);
+                            }
                         }
                     } else if (new_user.flag==User.Flag.CONNECTED){
                         if(Main.isNew(new_user)){ //si new_user n'est pas encore dans notre vecteur d'utilisateurs

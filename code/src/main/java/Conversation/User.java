@@ -37,7 +37,7 @@ public class User implements Serializable{
      *      id = existing id or new id created (an id is already existing if the program has already been executed on the machine)
      */
     public User(String pseudo){
-        this.pseudo=pseudo;
+        this.pseudo="";
         this.oldPseudo="";
         // Creating or getting the id
         this.id=0;
