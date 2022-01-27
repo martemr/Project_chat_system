@@ -1,6 +1,8 @@
 package GUI;
 
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -15,6 +17,7 @@ import Conversation.Message;
 import Conversation.User;
 import Conversation.User.Flag;
 import Network.ClientTCP;
+import Network.ServerTCP;
 
 
 public class Interface {
@@ -28,17 +31,19 @@ public class Interface {
     static JLabel pseudoLabel, destLabel, messageLabel;     // Labels (= affichage)
     JScrollPane scroll, scroller;
     JList<String> liste;
+    DefaultListModel userListToPrint;
     Vector<User> users;
     static final boolean shouldFill = true;
     static final boolean shouldWeightX = true;
     static final boolean RIGHT_TO_LEFT = false;
 
     // GET VARIABLES FROM MAIN 
-    static User user = Main.getMainUser();
     User destUser;
-    static DatabaseManager database = Main.getMainDatabase();
+    
+    // Network part
+    static ServerTCP tcpServer;
+    static public ClientTCP tcpClient;
 
-    DefaultListModel userListToPrint;
 
     // CONSTRUCTEUR
     // Appel des méthodes créées ci-dessus
@@ -75,7 +80,7 @@ public class Interface {
     /**
      * Créer la fenêtre
      */
-    public void createWindow(){
+    private void createWindow(){
         interfaceFrame = new JFrame("M&M's Chat System"); // Crée la fenetre qui supportera le panneau
         interfaceFrame.setVisible(true);
         interfaceFrame.addWindowListener(
@@ -101,7 +106,7 @@ public class Interface {
     /**
      * Créer un panel
      */
-    public void createPannels(){
+    private void createPannels(){
         // Create the main panel, there is only one
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0,0,0,0,0, 0};
@@ -138,14 +143,14 @@ public class Interface {
             // Capture text
             String texteSaisi=msgCapture.getText();
             // Create message and stamp it
-            Message message = new Message(user, destUser, texteSaisi);            
+            Message message = new Message(Main.getMainUser(), destUser, texteSaisi);            
             // Print message
             printMessage(message);
             //Add it to database
             Main.getMainDatabase().nouveau_message(message);
             // Send it
             System.out.println("Message sent " + message.to + ":" + message);
-            Main.sendMessage(message);
+            sendMessage(message);
             msgCapture.setText(null);
         }
     };
@@ -160,7 +165,7 @@ public class Interface {
     ActionListener quitListener = new ActionListener(){
         public void actionPerformed(ActionEvent e) {
             if (destUser!=null)
-                Main.getServerUDP().sendUnicast(user, destUser, Flag.CLOSE_CONVERSATION);
+                Main.getServerUDP().sendUnicast(Main.getMainUser(), destUser, Flag.CLOSE_CONVERSATION);
             close_conversation();
         }
     };
@@ -206,7 +211,7 @@ public class Interface {
     public void pseudo_setup(){
         GridBagConstraints c = new GridBagConstraints();
         // Pseudo label
-        pseudoLabel = new JLabel("Pseudo :"+user.pseudo); 
+        pseudoLabel = new JLabel("Pseudo :"+Main.getMainUser().pseudo); 
         if (shouldWeightX) {
             c.weightx = 0.5;
         }
@@ -331,10 +336,10 @@ public class Interface {
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, message);
         if(newPseudo!=null && !newPseudo.equals("")){
-            user.change_pseudo(newPseudo);
-            user.setFlag(Flag.PSEUDO_CHANGE);
+            Main.getMainUser().change_pseudo(newPseudo);
+            Main.getMainUser().setFlag(Flag.PSEUDO_CHANGE);
             Main.getServerUDP().notifyPseudoOnNetwork();
-            pseudoLabel.setText("Pseudo : "+user.pseudo);
+            pseudoLabel.setText("Pseudo : "+Main.getMainUser().pseudo);
             if (destUser!=null){
                 activeConversation(destUser);
             }
@@ -385,9 +390,17 @@ public class Interface {
     }
 
     public void destinataireChanged(){
-        if (Main.getServerTCP() == null)
-            Main.startTCPServer(2051); //crée un serveur TCP prêt à acceuillir un msg de destUSer
-        Main.getServerUDP().sendUnicast(user, destUser, Flag.INIT_CONVERSATION);
+        // Crée un serveur TCP prêt à acceuillir un msg de destUSer
+        if (tcpServer == null){
+            System.out.println("] Starting server TCP");
+            try {
+                tcpServer = new ServerTCP(2051); // Start a thread on given server, ready to wait for messages
+                tcpServer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Main.getServerUDP().sendUnicast(Main.getMainUser(), destUser, Flag.INIT_CONVERSATION);
         activeConversation(destUser);
     }
 
@@ -395,7 +408,7 @@ public class Interface {
         destUser=to;
         destLabel.setText("Recipient : " + to.pseudo);
         displayMsg.setText(null);
-        printHistory(user, destUser);
+        printHistory(Main.getMainUser(), destUser);
         msgCapture.setEditable(true);
         sendMessageButton.setVisible(true);
     }
@@ -413,15 +426,15 @@ public class Interface {
 
     /* Affiche l'historique sur l'interface : Liste des messages triés par date **/
     public void printHistory(User from, User to){
-        Queue<Message> msgList = database.history(from, to);
+        Queue<Message> msgList = Main.getMainDatabase().history(from, to);
         while (!msgList.isEmpty())
             printMessage(msgList.remove());
     }
 
     public void close_conversation(){
-        if (Main.getServerTCP() != null) {
-            Main.getServerTCP().close();
-            Main.getServerTCP().yield();
+        if (tcpServer != null) {
+            tcpServer.close();
+            tcpServer.yield();
         }
         liste.clearSelection();
         destUser=null;
@@ -446,5 +459,15 @@ public class Interface {
         destUser=new_user;
         activeConversation(destUser);
         liste.setSelectedValue(destUser.pseudo, true);
+    }
+
+    static public void sendMessage(Message msg){
+        if (tcpClient!=null){
+            System.out.println("client send message " + msg.to + ":" + msg);
+            tcpClient.sendMessage(msg);
+        } else if (tcpServer!=null){
+            System.out.println("server send message " + msg.to + ":" + msg);
+            tcpServer.sendMessage(msg);
+        }
     }
 }

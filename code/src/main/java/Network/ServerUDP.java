@@ -163,7 +163,9 @@ public class ServerUDP extends Thread {
                         int answer = JOptionPane.showConfirmDialog(null, new_user.pseudo + " wants to talk with you. Agree ? ");
                         if (answer==JOptionPane.YES_OPTION){
                             // Answer by starting a connection TCP
-                            Main.startTCPClient(new_user.IPAddress.getHostAddress(), 2051);
+                            System.out.println("[Main] Starting client TCP");
+                            Main.mainWindow.tcpClient = new ClientTCP(new_user.IPAddress.getHostAddress(), 2051);
+                            Main.mainWindow.tcpClient.start();
                             Main.mainWindow.activeConversation(new_user);
                         }else {
                             sendUnicast(main_user, new_user, Flag.REFUSE_CONVERSATION);

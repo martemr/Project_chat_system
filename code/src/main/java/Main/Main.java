@@ -14,9 +14,7 @@ public class Main {
     private static User user; // Main user, static for getting it everywhere
     public static Interface mainWindow;
     static DatabaseManager database;
-    static ServerTCP tcpServer;
-    public static ClientTCP tcpClient; 
-    static ServerUDP udpServer;
+    private static ServerUDP udpServer;
 
     public static Vector<User> connectedUsers;
 
@@ -28,51 +26,12 @@ public class Main {
     public static DatabaseManager getMainDatabase(){
         return database;
     }
-
-    public static ClientTCP getClientTCP(){
-        return tcpClient;
-    }
-
-    public static ServerTCP getServerTCP(){
-        return tcpServer;
-    }    
-    
     public static ServerUDP getServerUDP(){
         return udpServer;
     }
 
 
     /* METHODES */
-
-    public static void startUDPServer(){
-        try{
-            udpServer = new ServerUDP();
-            udpServer.start();
-        } catch (IOException e) {
-            System.out.println("[Main] Error while starting UDP");
-        }
-    }
-
-    public void closeServerTCP(){
-        udpServer.closeServer();
-        udpServer.currentThread().yield();
-    }
-
-    public static void startTCPServer(int port){
-        System.out.println("[Main] Starting server TCP");
-        try {
-            tcpServer = new ServerTCP(port); // Start a thread on given server, ready to wait for messages
-            tcpServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void startTCPClient(String host, int port){
-        System.out.println("[Main] Starting client TCP");
-        tcpClient = new ClientTCP(host, port);
-        tcpClient.start();
-    }
 
     /**
      * Permet de récupérer une liste de pseudos à partir du tableau de users
@@ -173,21 +132,7 @@ public class Main {
         }
         return true;
     }
-
-
-    public void messageReceived(Message msg){
-        this.mainWindow.printMessage(msg);
-    }
-
-    static public void sendMessage(Message msg){
-        if (tcpClient!=null){
-            System.out.println("client send message " + msg.to + ":" + msg);
-            tcpClient.sendMessage(msg);
-        } else if (tcpServer!=null){
-            System.out.println("server send message " + msg.to + ":" + msg);
-            tcpServer.sendMessage(msg);
-        }
-    }
+    
 
 
 
@@ -214,7 +159,12 @@ public class Main {
       
         // Lance le server udp pour attendre les broadcasts
         System.out.println("[Main] Starting server UDP ");
-        startUDPServer();
+        try{
+            udpServer = new ServerUDP();
+            udpServer.start();
+        } catch (IOException e) {
+            System.out.println("[Main] Error while starting UDP");
+        }
 
         // Ouvre l'interface
         System.out.println("[Main] Starting interface");
