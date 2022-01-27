@@ -195,7 +195,8 @@ public class ServerUDP extends Thread {
                         // That means that i'm triying to connect
                         receiveSocket.setSoTimeout(100);
                     } else if (new_user.flag==Flag.PSEUDO_NOT_AVAILABLE) {
-
+                        Main.clearListUser();
+                        Main.mainWindow.raisePseudoAlreadyUsed();
                     } else if (new_user.flag==Flag.DISCONNECTION) { // This is my message
                         // I'm leaving
                         break;
