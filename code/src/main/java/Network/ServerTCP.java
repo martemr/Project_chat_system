@@ -58,8 +58,8 @@ public class ServerTCP extends Thread {
 	public void close(){
 		try {
 			running.set(false);
-			if (server != null)
-				server.close();
+			//if (server != null)
+			//	server.close();
 		} catch (Exception e) {
 			System.out.println("[TCP Server] Error while closing server");
 			e.printStackTrace();
