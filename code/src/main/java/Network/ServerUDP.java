@@ -179,7 +179,8 @@ public class ServerUDP extends Thread {
                         Interface.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
                         if (Main.mainWindow.tcpServer != null) {
                             Main.mainWindow.tcpServer.close();
-                        } else if (Main.mainWindow.tcpClient != null) {
+                        }
+                        if (Main.mainWindow.tcpClient != null) {
                             Main.mainWindow.tcpClient.close();
                         }
                         //Main.mainWindow.close_conversation();
@@ -187,7 +188,8 @@ public class ServerUDP extends Thread {
                         Interface.sendPopUp(new_user.pseudo + " left conversation");
                         if (Main.mainWindow.tcpServer != null) {
                             Main.mainWindow.tcpServer.close();
-                        } else if (Main.mainWindow.tcpClient != null) {
+                        }
+                        if (Main.mainWindow.tcpClient != null) {
                             Main.mainWindow.tcpClient.close();
                         }
                         //Main.mainWindow.close_conversation();

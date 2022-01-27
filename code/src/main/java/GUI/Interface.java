@@ -439,7 +439,8 @@ public class Interface {
     public void close_conversation(){
         if (tcpServer != null) {
             tcpServer.close();
-        } else if (tcpClient != null) {
+        } 
+        if (tcpClient != null) {
             tcpClient.close();
         }
         liste.clearSelection();
