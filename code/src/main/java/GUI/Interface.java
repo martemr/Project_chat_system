@@ -331,7 +331,7 @@ public class Interface {
     /**
      * Affiche une fenetre pop-up pour changer le pseudo
      */
-    public void changePseudoWindow(String message) {
+    static public void changePseudoWindow(String message) {
         // Lance la fenetre
         JFrame jFrame = new JFrame();
         String newPseudo = JOptionPane.showInputDialog(jFrame, message);
@@ -340,21 +340,27 @@ public class Interface {
             Main.getMainUser().setFlag(Flag.PSEUDO_CHANGE);
             Main.getServerUDP().notifyPseudoOnNetwork();
             pseudoLabel.setText("Pseudo : "+Main.getMainUser().pseudo);
-            if (destUser!=null){
-                activeConversation(destUser);
+            if (Main.mainWindow!=null){
+                if (Main.mainWindow.destUser!=null){
+                    Main.mainWindow.activeConversation(Main.mainWindow.destUser);
+                }
             }
         }else {
             sendPopUp("Please enter a pseudo");
             pseudoLabel.setText("Pseudo : Enter a pseudo to chat");
-            msgCapture.setEditable(false);
-            sendMessageButton.setVisible(false);
+            if (Main.mainWindow!=null)
+                Main.mainWindow.authorizeCaptureMessages(false);
         }    
     }
 
-    public void raisePseudoAlreadyUsed(){
+    static public void raisePseudoAlreadyUsed(){
         changePseudoWindow("Pseudo already used, enter a new one : ");
     }
 
+    static public void sendPopUp(String message){
+        JFrame jFrame = new JFrame();
+        JOptionPane.showMessageDialog(jFrame, message);
+    }
 
     public void changeDestinataireWindow() {
         //displayMsg.removeAll();
@@ -413,14 +419,13 @@ public class Interface {
         sendMessageButton.setVisible(true);
     }
 
-
-    public void sendPopUp(String message){
-        JFrame jFrame = new JFrame();
-        JOptionPane.showMessageDialog(jFrame, message);
+    public void authorizeCaptureMessages(boolean b){
+        msgCapture.setEditable(b);
+        sendMessageButton.setVisible(b);
     }
 
     /* Affiche le message sur l'interface  **/
-    public static void printMessage(Message msg){
+    static public  void printMessage(Message msg){
         displayMsg.append(msg.date + "   " + msg.from.pseudo+" : "+ msg.msg +"\n"); // L'affiche 
     }
 

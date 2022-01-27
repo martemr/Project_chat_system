@@ -2,13 +2,13 @@ package Network;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JOptionPane;
 import Conversation.User;
 import Conversation.User.Flag;
+import GUI.Interface;
 import Main.Main;
 public class ServerUDP extends Thread {
 
@@ -148,7 +148,7 @@ public class ServerUDP extends Thread {
                             // Renvoie son user
                             sendUnicast(Main.getMainUser(), new_user, Flag.CONNECTED);
                             if (!new_user.oldPseudo.equals(""))  {
-                                Main.mainWindow.sendPopUp(new_user.oldPseudo+" is now "+new_user.pseudo);
+                                Interface.sendPopUp(new_user.oldPseudo+" is now "+new_user.pseudo);
                             }
                         }
                     } else if (new_user.flag==User.Flag.CONNECTED){
@@ -161,7 +161,7 @@ public class ServerUDP extends Thread {
                         //}
                         Main.removeUser(new_user);
                         System.out.println("[UDP Server] " + new_user.pseudo + " just left");
-                        Main.mainWindow.sendPopUp(new_user.pseudo + " left :(");
+                        Interface.sendPopUp(new_user.pseudo + " left :(");
                         Main.mainWindow.close_conversation();
                     } else if (new_user.flag==User.Flag.INIT_CONVERSATION){
                         // Ask to the user if he wants to start a conversation
@@ -176,10 +176,10 @@ public class ServerUDP extends Thread {
                             sendUnicast(Main.getMainUser(), new_user, Flag.REFUSE_CONVERSATION);
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
-                        Main.mainWindow.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
+                        Interface.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
                         Main.mainWindow.close_conversation();
                     } else if (new_user.flag==User.Flag.CLOSE_CONVERSATION){
-                        Main.mainWindow.sendPopUp(new_user.pseudo + " left conversation");
+                        Interface.sendPopUp(new_user.pseudo + " left conversation");
                         Main.mainWindow.close_conversation();
                     }
                     receiveSocket.setSoTimeout(0); // Set as infinite
@@ -201,7 +201,7 @@ public class ServerUDP extends Thread {
                         receiveSocket.setSoTimeout(100);
                     } else if (new_user.flag==Flag.PSEUDO_NOT_AVAILABLE) {
                         Main.clearListUser();
-                        Main.mainWindow.raisePseudoAlreadyUsed();
+                        Interface.raisePseudoAlreadyUsed();
                     } else if (new_user.flag==Flag.DISCONNECTION) { // This is my message
                         // I'm leaving
                         break;
