@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-01-27T23:04:21.545Z" agent="5.0 (X11)" etag="USTVVeAV1WII5FA0RWUt" version="16.4.11" type="github">
+<mxfile host="app.diagrams.net" modified="2022-01-27T23:04:31.250Z" agent="5.0 (X11)" etag="FKxj5v6ywv6p0HbkCpgY" version="16.4.11" type="github">
   <diagram id="xcK4-EyJc4wEiuTrpNLM" name="Page-1">
     <mxGraphModel dx="1212" dy="635" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -9,6 +9,9 @@
         </mxCell>
         <mxCell id="YQPyG1zgTYHU78s7Vjx9-18" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="YQPyG1zgTYHU78s7Vjx9-17">
           <mxGeometry x="56.25" y="100" width="10" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="YQPyG1zgTYHU78s7Vjx9-48" value="&lt;div&gt;[if conversation acepted]&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="YQPyG1zgTYHU78s7Vjx9-17">
+          <mxGeometry x="-84" y="240" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YQPyG1zgTYHU78s7Vjx9-1" value="Interface" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
           <mxGeometry x="314" y="40" width="100" height="400" as="geometry" />
@@ -114,7 +117,7 @@
           <mxGeometry x="24" y="230" width="50" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YQPyG1zgTYHU78s7Vjx9-26" value="&lt;div&gt;[if conversation refused]&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
-          <mxGeometry x="54" y="240" width="140" height="30" as="geometry" />
+          <mxGeometry x="60" y="230" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YQPyG1zgTYHU78s7Vjx9-42" value="Clique sur un pseudo" style="verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;shadow=0;strokeWidth=1;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
@@ -127,9 +130,6 @@
             <mxPoint x="24" y="230" as="sourcePoint" />
             <mxPoint x="810" y="230" as="targetPoint" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="YQPyG1zgTYHU78s7Vjx9-48" value="&lt;div&gt;[if conversation acepted]&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
-          <mxGeometry x="54" y="280" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="YQPyG1zgTYHU78s7Vjx9-57" value="" style="endArrow=none;html=1;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeWidth=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
