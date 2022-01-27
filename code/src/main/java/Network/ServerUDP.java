@@ -85,7 +85,7 @@ public class ServerUDP extends Thread {
         try{
             receiveSocket = new DatagramSocket(receivePort);
 			while(running.get()) {
-                
+
                 /* Wait a cast */
                 byte[] incomingData = new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
@@ -131,6 +131,7 @@ public class ServerUDP extends Thread {
                         if (new_user.pseudo.equals(Main.getMainUser().pseudo)){
                             // Renvoie le même user avec le flag PSEUDO_NOT_AVAILABLE
                             //Main.re(new_user);
+                            Main.removeUser(new_user);
                             sendUnicast(new_user, new_user, Flag.PSEUDO_NOT_AVAILABLE);
                         // Pseudo différent = répond avec son user
                         } else {
@@ -138,9 +139,7 @@ public class ServerUDP extends Thread {
                             // Met à jour les tableaux d'utilisateurs et affiche dans l'interface                            
                             if (!Main.isNew(new_user)){// Changement de pseudo d'un utilisateur existant
                                 Main.changePseudoUser(new_user);
-                                System.out.println("Is new");
                                 if (Main.mainWindow.isInConversation(new_user)){
-                                    System.out.println("In conv");
                                     Main.mainWindow.updateConversationPseudo(new_user);
                                 }
                             } else {// Nouvel utilisateur 
