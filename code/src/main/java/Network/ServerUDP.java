@@ -4,14 +4,18 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.swing.JOptionPane;
 import Conversation.User;
 import Conversation.User.Flag;
 import Main.Main;
 public class ServerUDP extends Thread {
+
+	private final AtomicBoolean running = new AtomicBoolean(false); // For stopping the thread
+
     DatagramSocket receiveSocket;
-    //byte[] incomingData;
-    //DatagramPacket incomingPacket;
+
     final int sendPort=1400;
     final int receivePort=1400;
     public ServerUDP() throws IOException {
@@ -20,9 +24,10 @@ public class ServerUDP extends Thread {
         //incomingPacket = null;
     }
     public void closeServer(){
+        System.out.println("[UDP Server] : Fermeture serveur");
+        running.set(false);
         if (receiveSocket != null)
             this.receiveSocket.close();
-            System.out.println("[UDP Server] : Fermeture serveur");
     }
         
     public void sendBroadcast() {
@@ -74,12 +79,13 @@ public class ServerUDP extends Thread {
      
     @Override
     public void run() {
-        User main_user=Main.getMainUser();
+        running.set(true);
+
         User new_user;
         try{
             receiveSocket = new DatagramSocket(receivePort);
-            while (true)
-            {
+			while(running.get()) {
+                
                 /* Wait a cast */
                 byte[] incomingData = new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
@@ -94,7 +100,7 @@ public class ServerUDP extends Thread {
                 System.out.println("[UDP Server] Receive : " + new_user.pseudo + " - FLAG:" + new_user.flag);
                 
                 // Vérifie que c'est pas soi même
-                if (new_user.id != main_user.id){ // Case message from an other user
+                if (new_user.id != Main.getMainUser().id){ // Case message from an other user
                     //Si c'est une connexion ou une demande de changement de pseudo
                     /*switch (new_user.flag) {
                         case PSEUDO_CHANGE :
@@ -122,7 +128,7 @@ public class ServerUDP extends Thread {
                     } */
                     if(new_user.flag==User.Flag.PSEUDO_CHANGE){ 
                             // Pseudo identique au sien = répond avec un signal d'erreur
-                        if (new_user.pseudo.equals(main_user.pseudo)){
+                        if (new_user.pseudo.equals(Main.getMainUser().pseudo)){
                             // Renvoie le même user avec le flag PSEUDO_NOT_AVAILABLE
                             //Main.re(new_user);
                             sendUnicast(new_user, new_user, Flag.PSEUDO_NOT_AVAILABLE);
@@ -141,7 +147,7 @@ public class ServerUDP extends Thread {
                                 Main.addNewUser(new_user);
                             }
                             // Renvoie son user
-                            sendUnicast(main_user, new_user, Flag.CONNECTED);
+                            sendUnicast(Main.getMainUser(), new_user, Flag.CONNECTED);
                             if (!new_user.oldPseudo.equals(""))  {
                                 Main.mainWindow.sendPopUp(new_user.oldPseudo+" is now "+new_user.pseudo);
                             }
@@ -168,7 +174,7 @@ public class ServerUDP extends Thread {
                             Main.mainWindow.tcpClient.start();
                             Main.mainWindow.activeConversation(new_user);
                         }else {
-                            sendUnicast(main_user, new_user, Flag.REFUSE_CONVERSATION);
+                            sendUnicast(Main.getMainUser(), new_user, Flag.REFUSE_CONVERSATION);
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
                         Main.mainWindow.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
