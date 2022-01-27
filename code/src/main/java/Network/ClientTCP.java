@@ -3,9 +3,12 @@ package Network;
 import Conversation.*;
 
 import java.net.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.io.*;
 
 public class ClientTCP extends Thread {
+
+	private final AtomicBoolean running = new AtomicBoolean(false); // For stopping the thread
 
 	protected int port;
    protected String serverName;
@@ -33,10 +36,12 @@ public class ClientTCP extends Thread {
    /** Thread qui tourne pour recevoir un message de la connexion établie */
    @Override
    public void run() {
+      running.set(true);
+
 	   ObjectInputStream in;
 		try {
 			in  = new ObjectInputStream(client.getInputStream());
-         while(true) {
+			while(running.get()) {		
             Message msg = (Message)in.readObject(); // Convert the object receive into Message
             System.out.println("[TCP Server] Received a message from " + msg.to + msg.msg);
             Main.Main.mainWindow.printMessage(msg); // Print it on interface
@@ -68,6 +73,7 @@ public class ClientTCP extends Thread {
    /** Closing function for the server */
 	public void close(){
 		try {
+         running.set(false);
 			client.close();
 		} catch (Exception e) {
 			System.out.println("[TCP Server] Error while closing server");

@@ -2,6 +2,7 @@ package Network;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import Conversation.Message;
 import GUI.*;
@@ -11,6 +12,8 @@ import GUI.*;
  */
 public class ServerTCP extends Thread {
    
+	private final AtomicBoolean running = new AtomicBoolean(false); // For stopping the thread
+
 	private ServerSocket serverSocket; // Socket Server
 	protected int port;
 	protected Socket server;
@@ -54,6 +57,7 @@ public class ServerTCP extends Thread {
 	 /** Closing function for the server */
 	public void close(){
 		try {
+			running.set(false);
 			if (server != null)
 				server.close();
 		} catch (Exception e) {
@@ -67,6 +71,7 @@ public class ServerTCP extends Thread {
 		// Initialise the server = attend une connection
 		try{
 			this.init();
+			running.set(true);
 		} catch (IOException e) {
 			System.out.println("Error on Server TCP init");
 			e.printStackTrace();
@@ -76,7 +81,7 @@ public class ServerTCP extends Thread {
 		// Receive and print the message
 		try {
 			in  = new ObjectInputStream(server.getInputStream());
-			while(true) {		
+			while(running.get()) {		
 				Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("[TCP Server] Received a message " + msg.msg);
 				Interface.printMessage(msg); // Print it on interface

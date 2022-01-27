@@ -434,7 +434,8 @@ public class Interface {
     public void close_conversation(){
         if (tcpServer != null) {
             tcpServer.close();
-            tcpServer.yield();
+        } else if (tcpClient != null) {
+            tcpServer.close();
         }
         liste.clearSelection();
         destUser=null;
