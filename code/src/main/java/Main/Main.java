@@ -181,8 +181,10 @@ public class Main {
 
     static public void sendMessage(Message msg){
         if (tcpClient!=null){
+            System.out.println("client send message " + msg.to + ":" + msg);
             tcpClient.sendMessage(msg);
         } else if (tcpServer!=null){
+            System.out.println("server send message " + msg.to + ":" + msg);
             tcpServer.sendMessage(msg);
         }
     }

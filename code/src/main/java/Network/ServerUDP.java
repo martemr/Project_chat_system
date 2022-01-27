@@ -157,6 +157,7 @@ public class ServerUDP extends Thread {
                         Main.removeUser(new_user);
                         System.out.println("[UDP Server] " + new_user.pseudo + " just left");
                         Main.mainWindow.sendPopUp(new_user.pseudo + " left :(");
+                        Main.mainWindow.close_conversation();
                     } else if (new_user.flag==User.Flag.INIT_CONVERSATION){
                         // Ask to the user if he wants to start a conversation
                         int answer = JOptionPane.showConfirmDialog(null, new_user.pseudo + " wants to talk with you. Agree ? ");

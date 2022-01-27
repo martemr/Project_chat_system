@@ -144,6 +144,7 @@ public class Interface {
             //Add it to database
             Main.getMainDatabase().nouveau_message(message);
             // Send it
+            System.out.println("Message sent " + message.to + ":" + message);
             Main.sendMessage(message);
             msgCapture.setText(null);
         }

@@ -38,7 +38,7 @@ public class ClientTCP extends Thread {
 			in  = new ObjectInputStream(client.getInputStream());
          while(true) {
             Message msg = (Message)in.readObject(); // Convert the object receive into Message
-            System.out.println("[TCP Server] Received a message " + msg.msg);
+            System.out.println("[TCP Server] Received a message from " + msg.to + msg.msg);
             Main.Main.mainWindow.printMessage(msg); // Print it on interface
          }
       } catch (EOFException e) {
@@ -54,6 +54,7 @@ public class ClientTCP extends Thread {
    /** Envoie un message */
 	public void sendMessage(Message msg) {     
       try {
+         System.out.println("send message Client" + msg.to + ":" + msg);
          out.flush();
          out.writeObject(msg);
       } catch (IOException e) {
