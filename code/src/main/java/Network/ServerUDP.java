@@ -177,10 +177,20 @@ public class ServerUDP extends Thread {
                         }
                     } else if (new_user.flag==User.Flag.REFUSE_CONVERSATION){
                         Interface.sendPopUp(new_user.pseudo + " doesn't want to talk with you :( Sorry");
-                        Main.mainWindow.close_conversation();
+                        if (Main.mainWindow.tcpServer != null) {
+                            Main.mainWindow.tcpServer.close();
+                        } else if (Main.mainWindow.tcpClient != null) {
+                            Main.mainWindow.tcpClient.close();
+                        }
+                        //Main.mainWindow.close_conversation();
                     } else if (new_user.flag==User.Flag.CLOSE_CONVERSATION){
                         Interface.sendPopUp(new_user.pseudo + " left conversation");
-                        Main.mainWindow.close_conversation();
+                        if (Main.mainWindow.tcpServer != null) {
+                            Main.mainWindow.tcpServer.close();
+                        } else if (Main.mainWindow.tcpClient != null) {
+                            Main.mainWindow.tcpClient.close();
+                        }
+                        //Main.mainWindow.close_conversation();
                     }
                     receiveSocket.setSoTimeout(0); // Set as infinite
                 } else { // Case answer to my message

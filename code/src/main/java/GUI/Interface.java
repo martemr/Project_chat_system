@@ -41,7 +41,7 @@ public class Interface {
     User destUser;
     
     // Network part
-    static ServerTCP tcpServer;
+    static public ServerTCP tcpServer;
     static public ClientTCP tcpClient;
 
 

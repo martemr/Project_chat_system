@@ -167,7 +167,7 @@ public class Main {
         }
 
         // Ouvre l'interface
-        System.out.println("[Main] Starting interface");
+        System.out.println("[MainM] Starting interface");
         mainWindow = new Interface();
 
     }
