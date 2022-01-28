@@ -2,6 +2,7 @@ package Network;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -22,7 +23,7 @@ public class ServerUDP extends Thread {
     public ServerUDP() throws IOException {}
 
     public void closeServer(){
-        System.out.println("[UDP Server] : Fermeture serveur");
+        System.out.println("[UDP Server] Closing server");
         running.set(false);
         if (receiveSocket != null)
             this.receiveSocket.close();
@@ -88,7 +89,11 @@ public class ServerUDP extends Thread {
                 byte[] incomingData = new byte[65535];
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
                 System.out.println("[UDP Server] Wait on port " + receiveSocket.getLocalPort());
-                receiveSocket.receive(incomingPacket);
+                try {
+                    receiveSocket.receive(incomingPacket);
+                } catch (SocketException e) {
+                    break;
+                }
                 byte[] data = incomingPacket.getData();
                 ByteArrayInputStream in = new ByteArrayInputStream(data);
                 ObjectInputStream is = new ObjectInputStream(in);

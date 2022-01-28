@@ -139,12 +139,13 @@ public class Main {
     /* STATIC PART */
 
     public static void closeSystem(){
-        System.out.println("[Main] closing system");
+        System.out.println("[Main] Closing system");
         user.setFlag(User.Flag.DISCONNECTION);
         udpServer.sendBroadcast();  // Send disconnection message
         udpServer.closeServer();    // Close udp server 
         database.closeConnection(); // Close connection to database
-        System.out.println("[Main] Good bye !");
+        System.out.println("[Main] Goodbye !");
+        System.exit(0);
     }
 
     static {

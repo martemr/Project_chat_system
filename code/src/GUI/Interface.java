@@ -86,10 +86,9 @@ public class Interface {
             new WindowAdapter() { // Crée l'operation de fermeture.
                 @Override
                 public void windowClosing(WindowEvent e) { 
-                    Main.closeSystem();
                     System.out.println("[Interface] Closing frame");
                     interfaceFrame.setVisible(false);
-                    System.exit(0);
+                    Main.closeSystem();
                 }
             }
         );
