@@ -112,9 +112,14 @@ public class Main {
     }
 
     static public void clearListUser(){
-        connectedUsers.clear();;
-        //if (mainWindow != null)
-        //    mainWindow.removeUserFromList(old_user.pseudo);
+        if (mainWindow != null){
+            while(!connectedUsers.isEmpty()){
+                User first = connectedUsers.firstElement();
+                mainWindow.removeUserFromList(first.pseudo);
+                connectedUsers.remove(first);   
+            }
+        }
+        connectedUsers.clear();
     }
     
     
