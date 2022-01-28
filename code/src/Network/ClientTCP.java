@@ -39,6 +39,10 @@ public class ClientTCP extends Thread {
          System.out.println("send message Client" + msg.to + ":" + msg);
          out.flush();
          out.writeObject(msg);
+      } catch (SocketException e){
+			this.close();
+		} catch (NullPointerException e){
+			this.close();
       } catch (IOException e) {
          System.out.println("[TCP Client] Error while sending message");
          e.printStackTrace();
