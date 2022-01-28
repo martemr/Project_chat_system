@@ -11,8 +11,8 @@ import Conversation.User;
  */
 public class DatabaseManager{
 
-    Connection con;
-    ResultSet resultats = null;
+    private Connection con;
+    private ResultSet resultats = null;
 
 
 //HANDLERS
@@ -67,7 +67,7 @@ public class DatabaseManager{
      * @param requete requete à envoyer à la base de données
      * @return nombre de mise à jour dans la table effectuées
      */
-    public int update(String requete){
+    private int update(String requete){
         int nbMaj =0;
         try {
             Statement stmt = con.createStatement();
@@ -84,7 +84,7 @@ public class DatabaseManager{
      * @param requete requete à envoyer à la base de données
      * @return résultat de la requete sous la forme ResultSet
      */
-    public ResultSet query(String requete){ 
+    private ResultSet query(String requete){ 
         try{
             Statement stmt = con.createStatement();
             resultats = stmt.executeQuery(requete);
@@ -99,7 +99,7 @@ public class DatabaseManager{
      * @param requete requete à envoyer à la base de données
      * @return true si la requete à bien été exécutée
      */
-    public Boolean execute(String requete){
+    private Boolean execute(String requete){
         Boolean res = true;
         try {
         Statement stmt = con.createStatement();

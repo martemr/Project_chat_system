@@ -144,7 +144,7 @@ public class Main {
         udpServer.sendBroadcast();  // Send disconnection message
         udpServer.closeServer();    // Close udp server 
         database.closeConnection(); // Close connection to database
-        System.out.println("[Main] Godd bye !");
+        System.out.println("[Main] Good bye !");
     }
 
     static {
@@ -167,7 +167,7 @@ public class Main {
         }
 
         // Ouvre l'interface
-        System.out.println("[MainM] Starting interface");
+        System.out.println("[Main] Starting interface");
         mainWindow = new Interface();
 
     }

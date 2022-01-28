@@ -12,7 +12,6 @@ import java.util.Queue;
 import java.util.Vector;
 
 import Main.Main;
-import Database.DatabaseManager;
 import Conversation.Message;
 import Conversation.User;
 import Conversation.User.Flag;
