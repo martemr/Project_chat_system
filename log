@@ -1,0 +1,28 @@
+[User] id successfully get 
+[Database] Connection...
+[Database] Connection established
+[Main] Starting server UDP 
+[Main] Starting interface
+[UDP Server] Wait on port 1400
+[UDP Server] Sending broadcast
+[UDP Server] Broadcast message sent from Martin on /10.1.255.255:1400
+[UDP Server] Receive : Martin - FLAG:PSEUDO_CHANGE
+[UDP Server] Wait on port 1400
+[UDP Server] Timeout : Nobody is on the network
+[UDP Server] Wait on port 1400
+[UDP Server] Receive : Marie - FLAG:PSEUDO_CHANGE
+[UDP Server] Marie just joined
+[UDP Server] Message sent to Marie on /10.1.255.255:1400 User:Martin - FLAG:CONNECTED
+[UDP Server] Wait on port 1400
+] Starting server TCP
+[TCP Server] Waiting for client on port 2051...
+[UDP Server] Message sent to Marie on /10.1.255.255:1400 User:Martin - FLAG:INIT_CONVERSATION
+[TCP Server] Successfully connected to /10.1.5.50:55120
+[TCP Server] Received a message hey
+[Interface] Closing frame
+[Main] Closing system
+[UDP Server] Broadcast message sent from Martin on /10.1.255.255:1400
+[UDP Server] Closing server
+[UDP Server] Receive : Martin - FLAG:DISCONNECTION
+[Database] Connection succesfully closed
+[Main] Goodbye !
