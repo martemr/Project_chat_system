@@ -57,9 +57,10 @@ public class ServerTCP extends Thread {
 	 /** Closing function for the server */
 	public void close(){
 		try {
+			System.out.println("[TCP Server] Closing server");
 			running.set(false);
-			//if (server != null)
-			//	server.close();
+			if (server != null)
+				server.close();
 		} catch (Exception e) {
 			System.out.println("[TCP Server] Error while closing server");
 			e.printStackTrace();
@@ -81,11 +82,13 @@ public class ServerTCP extends Thread {
 		// Receive and print the message
 		try {
 			in  = new ObjectInputStream(server.getInputStream());
-			while(running.get()) {		
+			while(running.get()) {
 				Message msg = (Message)in.readObject(); // Convert the object receive into Message
 				System.out.println("[TCP Server] Received a message " + msg.msg);
 				Interface.printMessage(msg); // Print it on interface
 			}
+		} catch (SocketException e) {
+			this.close();
 		} catch (ClassCastException e){
 			System.out.println("[TCP Server] Received something that is not a Message");
 			this.close();

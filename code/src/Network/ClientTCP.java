@@ -33,29 +33,6 @@ public class ClientTCP extends Thread {
       } 
    }
 
-   /** Thread qui tourne pour recevoir un message de la connexion établie */
-   @Override
-   public void run() {
-      running.set(true);
-
-	   ObjectInputStream in;
-		try {
-			in  = new ObjectInputStream(client.getInputStream());
-			while(running.get()) {		
-            Message msg = (Message)in.readObject(); // Convert the object receive into Message
-            System.out.println("[TCP Server] Received a message from " + msg.to + msg.msg);
-            Main.Main.mainWindow.printMessage(msg); // Print it on interface
-         }
-      } catch (EOFException e) {
-      } catch (SocketException e) {
-         this.close();
-         //Main.Main.mainWindow.removeUserFromList();
-      } catch (Exception e) {
-         e.printStackTrace();
-      } 
-      
-   }
-
    /** Envoie un message */
 	public void sendMessage(Message msg) {     
       try {
@@ -73,11 +50,36 @@ public class ClientTCP extends Thread {
    /** Closing function for the server */
 	public void close(){
 		try {
+			System.out.println("[TCP Client] Closing server");
          running.set(false);
-			client.close();
+         if (client != null)
+			   client.close();
 		} catch (Exception e) {
-			System.out.println("[TCP Server] Error while closing server");
+			System.out.println("[TCP Client] Error while closing server");
 			e.printStackTrace();
 		}
 	}
+
+   /** Thread qui tourne pour recevoir un message de la connexion établie */
+   @Override
+   public void run() {
+      running.set(true);
+
+	   ObjectInputStream in;
+		try {
+			in  = new ObjectInputStream(client.getInputStream());
+			while(running.get()) {		
+            Message msg = (Message)in.readObject(); // Convert the object receive into Message
+            System.out.println("[TCP Server] Received a message from " + msg.to + msg.msg);
+            Main.Main.mainWindow.printMessage(msg); // Print it on interface
+         }
+      } catch (SocketException e) {
+         this.close();
+         //Main.Main.mainWindow.removeUserFromList();
+      } catch (EOFException e) {
+      } catch (Exception e) {
+         e.printStackTrace();
+      } 
+      
+   }
 }
