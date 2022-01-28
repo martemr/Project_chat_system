@@ -44,7 +44,6 @@ public class ServerTCP extends Thread {
 
 	public void sendMessage(Message msg) {     
 		try {
-			System.out.println("send message Server" + msg.to + ":" + msg);
 		   out.flush();
 		   out.writeObject(msg);
 		} catch (SocketException e){

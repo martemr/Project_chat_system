@@ -147,7 +147,6 @@ public class Interface {
             //Add it to database
             Main.getMainDatabase().nouveau_message(message);
             // Send it
-            System.out.println("Message sent " + message.to + ":" + message);
             sendMessage(message);
             msgCapture.setText(null);
         }
@@ -176,7 +175,6 @@ public class Interface {
                 // Write new
                 String selection = liste.getSelectedValue();
                 if (selection != null) { // On a choisi un utilisateur
-                    System.out.println("Selection : " + selection);
                     if (destUser!=null){ // On est déjà en train de parler à quelqu'un
                         long oldDestUserId=destUser.id;
                         destUser = Main.getUserByPseudo(selection);
@@ -468,10 +466,9 @@ public class Interface {
 
     static public void sendMessage(Message msg){
         if (tcpClient!=null){
-            System.out.println("client send message " + msg.to + ":" + msg);
             tcpClient.sendMessage(msg);
-        } else if (tcpServer!=null){
-            System.out.println("server send message " + msg.to + ":" + msg);
+        }
+        if (tcpServer!=null){
             tcpServer.sendMessage(msg);
         }
     }

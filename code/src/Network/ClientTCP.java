@@ -36,7 +36,6 @@ public class ClientTCP extends Thread {
    /** Envoie un message */
 	public void sendMessage(Message msg) {     
       try {
-         System.out.println("send message Client" + msg.to + ":" + msg);
          out.flush();
          out.writeObject(msg);
       } catch (SocketException e){
