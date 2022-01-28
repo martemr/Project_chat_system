@@ -1,28 +1,39 @@
-<mxfile host="app.diagrams.net" modified="2022-01-28T09:09:41.918Z" agent="5.0 (X11)" etag="KiNwIONn_cMoqB4HSn-s" version="16.4.11" type="github">
+<mxfile host="app.diagrams.net" modified="2022-01-28T09:15:10.617Z" agent="5.0 (X11)" etag="YSohgItCyhyiEyKVc6iQ" version="16.4.11" type="github">
   <diagram id="lTktmKRkTmKI9LcrY_-9" name="Page-1">
     <mxGraphModel dx="858" dy="487" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="kC-yQo851bFsFaCe_y3G-1" value="TCP Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="571" y="40" width="100" height="290" as="geometry" />
+          <mxGeometry x="655" y="40" width="100" height="290" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-2" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="kC-yQo851bFsFaCe_y3G-1">
-          <mxGeometry x="45" y="181" width="10" height="29" as="geometry" />
+          <mxGeometry x="45" y="202" width="10" height="29" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-3" value="UDP Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="150" y="40" width="116" height="340" as="geometry" />
+          <mxGeometry x="233" y="40" width="116" height="340" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-4" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="kC-yQo851bFsFaCe_y3G-3">
-          <mxGeometry x="53" y="80" width="10" height="230" as="geometry" />
+          <mxGeometry x="53" y="70" width="10" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="kC-yQo851bFsFaCe_y3G-28" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="kC-yQo851bFsFaCe_y3G-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="205" y="128" as="sourcePoint" />
+            <mxPoint x="65" y="128" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kC-yQo851bFsFaCe_y3G-29" value="sendUnicast()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="kC-yQo851bFsFaCe_y3G-28">
+          <mxGeometry x="0.4902" relative="1" as="geometry">
+            <mxPoint x="44" y="-8" as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-5" value="Interface" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="314" y="40" width="100" height="340" as="geometry" />
+          <mxGeometry x="398" y="40" width="100" height="340" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-6" value="" style="endArrow=classic;html=1;rounded=0;entryX=-0.038;entryY=0.525;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="kC-yQo851bFsFaCe_y3G-5">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="55" y="159" as="sourcePoint" />
-            <mxPoint x="174.62000000000012" y="159.5000000000001" as="targetPoint" />
+            <mxPoint x="55" y="180" as="sourcePoint" />
+            <mxPoint x="174.62000000000012" y="180.5000000000001" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-7" value="close()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="kC-yQo851bFsFaCe_y3G-6">
@@ -31,23 +42,23 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-8" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="kC-yQo851bFsFaCe_y3G-5">
-          <mxGeometry x="45" y="80" width="10" height="230" as="geometry" />
+          <mxGeometry x="45" y="70" width="10" height="261" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-9" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="kC-yQo851bFsFaCe_y3G-5">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="40" y="110" as="sourcePoint" />
-            <mxPoint x="-100" y="110" as="targetPoint" />
+            <mxPoint x="46" y="99" as="sourcePoint" />
+            <mxPoint x="-240.33333333333348" y="99" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="kC-yQo851bFsFaCe_y3G-10" value="sendUnicast()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="kC-yQo851bFsFaCe_y3G-9">
+        <mxCell id="kC-yQo851bFsFaCe_y3G-10" value="setFlag(DECONNECTION)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="kC-yQo851bFsFaCe_y3G-9">
           <mxGeometry x="0.4902" relative="1" as="geometry">
             <mxPoint x="44" y="-8" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-11" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="kC-yQo851bFsFaCe_y3G-5">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="55" y="211" as="sourcePoint" />
-            <mxPoint x="306.5000000000002" y="211" as="targetPoint" />
+            <mxPoint x="55" y="232" as="sourcePoint" />
+            <mxPoint x="306.5000000000002" y="232" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-12" value="close()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="kC-yQo851bFsFaCe_y3G-11">
@@ -56,57 +67,57 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-15" value="TCP Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="444" y="40" width="100" height="340" as="geometry" />
+          <mxGeometry x="528" y="40" width="100" height="340" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-16" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="kC-yQo851bFsFaCe_y3G-15">
-          <mxGeometry x="45" y="131" width="10" height="29" as="geometry" />
+          <mxGeometry x="45" y="152" width="10" height="29" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-17" value="" style="endArrow=none;html=1;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeWidth=2;dashed=1;" edge="1" parent="kC-yQo851bFsFaCe_y3G-15">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-314" y="181" as="sourcePoint" />
-            <mxPoint x="256" y="181" as="targetPoint" />
+            <mxPoint x="-468" y="202" as="sourcePoint" />
+            <mxPoint x="256" y="202" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-18" value="" style="endArrow=none;html=1;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeWidth=2;" edge="1" parent="kC-yQo851bFsFaCe_y3G-15">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-314" y="231" as="sourcePoint" />
-            <mxPoint x="256" y="231" as="targetPoint" />
+            <mxPoint x="-468" y="252" as="sourcePoint" />
+            <mxPoint x="256" y="252" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-19" value="" style="endArrow=none;html=1;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeWidth=2;exitX=1;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="kC-yQo851bFsFaCe_y3G-15" source="kC-yQo851bFsFaCe_y3G-22">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="-420" y="131" as="sourcePoint" />
-            <mxPoint x="256" y="131" as="targetPoint" />
+            <mxPoint x="-420" y="152" as="sourcePoint" />
+            <mxPoint x="256" y="152" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-20" value="Clique sur un quit conversation" style="verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;shadow=0;strokeWidth=1;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="236.9999999999999" y="120" as="sourcePoint" />
-            <mxPoint x="357" y="120" as="targetPoint" />
+            <mxPoint x="320.9999999999999" y="111" as="sourcePoint" />
+            <mxPoint x="441" y="111" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-21" value="" style="endArrow=none;html=1;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeWidth=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="130" y="271" as="sourcePoint" />
-            <mxPoint x="130" y="171" as="targetPoint" />
+            <mxPoint x="60" y="292" as="sourcePoint" />
+            <mxPoint x="60" y="192" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-22" value="alt&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; " style="shape=card;whiteSpace=wrap;html=1;rounded=0;shadow=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeColor=default;strokeWidth=1;fillColor=default;gradientColor=none;flipV=1;flipH=1;" vertex="1" parent="1">
-          <mxGeometry x="130" y="171" width="50" height="30" as="geometry" />
+          <mxGeometry x="60" y="192" width="50" height="30" as="geometry" />
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-23" value="" style="endArrow=none;html=1;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;strokeWidth=2;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="700" y="271" as="sourcePoint" />
-            <mxPoint x="700" y="171" as="targetPoint" />
+            <mxPoint x="784" y="292" as="sourcePoint" />
+            <mxPoint x="784" y="192" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kC-yQo851bFsFaCe_y3G-24" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.893;exitY=0.064;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1.1;entryY=0.226;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="367.93000000000006" y="299.79999999999995" as="sourcePoint" />
-            <mxPoint x="370" y="332.19999999999993" as="targetPoint" />
+            <mxPoint x="451.93000000000006" y="320.79999999999995" as="sourcePoint" />
+            <mxPoint x="454" y="353.19999999999993" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="400" y="300" />
-              <mxPoint x="400" y="332" />
+              <mxPoint x="484" y="321" />
+              <mxPoint x="484" y="353" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -114,6 +125,12 @@
           <mxGeometry x="-0.4577" y="2" relative="1" as="geometry">
             <mxPoint x="21" y="-11" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="kC-yQo851bFsFaCe_y3G-26" value="User" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="94" y="40" width="116" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="kC-yQo851bFsFaCe_y3G-27" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="kC-yQo851bFsFaCe_y3G-26">
+          <mxGeometry x="53" y="70" width="10" height="261" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
