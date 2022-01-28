@@ -25,14 +25,6 @@
       <version>8.0.27</version>
     </dependency>
   </dependencies>
-  <distributionManagement>
-    <repository>
-      <id>corp1</id>
-      <name>Project Chat</name>
-      <url>scp://repo/maven2</url>
-      <layout>default</layout>
-    </repository>
-  </distributionManagement>
 
   <build>
       <sourceDirectory>${basedir}/src</sourceDirectory>
